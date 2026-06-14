@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Wisely's cybersecurity portfolio: computer science, CTF practice, pentesting, and security product ideas."
+    >
+    <title>Wisely | Cybersecurity Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html">About</a>
+        <a href="ctf.html">CTF</a>
+        <a href="pentest.html">Pentest</a>
+        <a href="projects.html">Projects</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Computer Science Student | Ex Product Manager | Cybersecurity</p>
+          <h1>Building from the problem outward.</h1>
+          <p class="hero-copy">
+            My name is Wisely. I am a Computer Science student exploring
+            cybersecurity, security products, and pentesting.
+          </p>
+          <p>
+            My product management background shapes how I choose what to build.
+            I usually start from the user problem, build a project based on it,
+            then use that project to learn cybersecurity: the system behavior,
+            the security risk, and how the concept applies in practice.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="projects.html">View Projects</a>
+            <a class="button secondary" href="pentest.html">See Pentest Notes</a>
+          </div>
+          <div class="social-links" aria-label="Profile links">
+            <a href="#" aria-label="Hack The Box profile">Hack The Box</a>
+            <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
+            <a href="#" aria-label="GitHub profile">GitHub</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="terminal-panel" aria-label="Portfolio terminal preview">
+            <div class="terminal-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="terminal-body">
+              <p><span class="prompt">$</span> whoami</p>
+              <p>Wisely</p>
+              <p><span class="prompt">$</span> background</p>
+              <p>computer science student, ex product manager</p>
+              <p><span class="prompt">$</span> current_focus</p>
+              <p>cybersecurity, security products, pentest</p>
+              <p><span class="prompt">$</span> thinking_style</p>
+              <p>user problem -> system behavior -> security risk</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section bridge-section">
+        <div class="section-heading">
+          <p class="eyebrow">How I Learn</p>
+          <h2>Curiosity becomes useful when it turns into experiments.</h2>
+          <blockquote>"Wait... how does this actually work?"</blockquote>
+          <p>
+            Most of my projects start from a small moment of confusion. I use
+            that as the entry point, then move through theory, lab work,
+            observation, and better notes until the topic becomes explainable.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <div class="process-step">
+            <span>01</span>
+            <h3>Ask the real question</h3>
+            <p>Not just what happened, but why the system behaves that way.</p>
+          </div>
+          <div class="process-step">
+            <span>02</span>
+            <h3>Test the assumption</h3>
+            <p>Use labs, CTFs, small tools, and notes to verify the idea.</p>
+          </div>
+          <div class="process-step">
+            <span>03</span>
+            <h3>Build the mental model</h3>
+            <p>Turn the result into something I can explain and reuse.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Explore</p>
+          <h2>Three areas I am building in public.</h2>
+        </div>
+
+        <div class="project-grid">
+          <a class="project-card link-card" href="ctf.html">
+            <p class="category">Exploring Cybersecurity</p>
+            <h3>Learning the fundamentals by testing them</h3>
+            <p>Networking, web behavior, CTF practice, and security concepts explained through labs.</p>
+            <span class="status">In Progress</span>
+          </a>
+
+          <a class="project-card link-card" href="projects.html">
+            <p class="category">Security Product</p>
+            <h3>Security product ideas</h3>
+            <p>Product concepts shaped by user problems, security workflows, and practical constraints.</p>
+            <span class="status">Planned</span>
+          </a>
+
+          <a class="project-card link-card" href="pentest.html">
+            <p class="category">Pentest</p>
+            <h3>Attack path fundamentals</h3>
+            <p>Recon, services, open ports, vulnerability validation, and reporting practice.</p>
+            <span class="status">Active</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Wisely's CTF practice notes and cybersecurity learning logs.">
+    <title>CTF | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html">About</a>
+        <a href="ctf.html">CTF</a>
+        <a href="pentest.html">Pentest</a>
+        <a href="projects.html">Projects</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="page-hero">
+        <p class="eyebrow">CTF</p>
+        <h1>Practice notes, writeups, and lessons from security labs.</h1>
+        <p>
+          This page documents my CTF learning process: how I enumerate, form
+          hypotheses, test attack paths, and turn each solve into a reusable
+          lesson.
+        </p>
+      </section>
+
+      <section class="section page-section">
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="category">Hack The Box</p>
+            <h3>Beginner Machine Notes</h3>
+            <p>Focused on enumeration flow, service discovery, and post-solve reflection.</p>
+            <span class="status">In Progress</span>
+          </article>
+
+          <article class="project-card">
+            <p class="category">Web</p>
+            <h3>Web Exploitation Basics</h3>
+            <p>Notes on HTTP behavior, input handling, auth mistakes, and common web risks.</p>
+            <span class="status">Planned</span>
+          </article>
+
+          <article class="project-card">
+            <p class="category">Linux</p>
+            <h3>Privilege Escalation Workflow</h3>
+            <p>A checklist-driven approach to finding misconfigurations after initial access.</p>
+            <span class="status">Planned</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Wisely's security projects, experiments, and product ideas.">
+    <title>Projects | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html">About</a>
+        <a href="ctf.html">CTF</a>
+        <a href="pentest.html">Pentest</a>
+        <a href="projects.html">Projects</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="page-hero">
+        <p class="eyebrow">Projects</p>
+        <h1>Most of these start from: "Wait... how does this actually work?"</h1>
+        <p>
+          Projects here combine security learning with product thinking. I care
+          about the technical problem, but also the user problem behind it.
+        </p>
+      </section>
+
+      <section class="section page-section">
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="category">Networking</p>
+            <h3>How Does The Internet Actually Work?</h3>
+            <p>A planned experiment about servers, DNS, ports, and packet routing.</p>
+            <span class="status">Planned</span>
+          </article>
+
+          <article class="project-card">
+            <p class="category">Security Basics</p>
+            <h3>Public WiFi Is Dangerous... But Why?</h3>
+            <p>A breakdown of what public WiFi exposes, what HTTPS protects, and what still matters.</p>
+            <span class="status">Planned</span>
+          </article>
+
+          <article class="project-card">
+            <p class="category">Product</p>
+            <h3>Security Product Ideas</h3>
+            <p>Early concepts for tools that solve real security learning or workflow problems.</p>
+            <span class="status">Coming Soon</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
