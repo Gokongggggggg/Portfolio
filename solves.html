@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Wisely's CTF practice notes and cybersecurity learning logs.">
-    <title>CTF | Wisely</title>
+    <meta name="description" content="Wisely's Hack The Box machine and challenge solve logs.">
+    <title>Solves | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -23,7 +23,7 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="index.html">About</a>
-        <a href="ctf.html">CTF</a>
+        <a href="solves.html">Solves</a>
         <a href="pentest.html">Pentest</a>
         <a href="projects.html">Projects</a>
       </nav>
@@ -31,10 +31,10 @@
 
     <main id="top">
       <section class="page-hero">
-        <p class="eyebrow">CTF</p>
+        <p class="eyebrow">Solves</p>
         <h1>Practice notes, writeups, and lessons from security labs.</h1>
         <p>
-          This page documents my CTF learning process: how I enumerate, form
+          This page documents my solve process across machines and CTF challenges: how I enumerate, form
           hypotheses, test attack paths, and turn each solve into a reusable
           lesson.
         </p>
@@ -45,7 +45,7 @@
           <p class="eyebrow">HTB Activity Tracker</p>
           <h2 id="htb-tracker-title">A public log of what I solve and what I learned from it.</h2>
           <p>
-            This tracker keeps my CTF practice visible: recent solves, categories I am touching,
+            This tracker keeps my HTB practice visible: recent solves, categories I am touching,
             and the small lessons I want to carry into the next box or challenge.
           </p>
         </div>
@@ -72,6 +72,16 @@
             <span class="metric-note">newest solve</span>
           </article>
         </div>
+
+        <section class="solve-controls" aria-label="Solve search and filters">
+          <label class="sr-only" for="htb-solve-search">Search solves</label>
+          <input id="htb-solve-search" class="solve-search" type="search" placeholder="Search name, tag, category, topic">
+          <div class="solve-filter" role="group" aria-label="Solve type filter">
+            <button type="button" class="is-active" data-solve-filter="all">All</button>
+            <button type="button" data-solve-filter="machine">Machines</button>
+            <button type="button" data-solve-filter="challenge">Challenges</button>
+          </div>
+        </section>
 
         <section class="activity-panel heatmap-panel" aria-labelledby="htb-heatmap-title">
           <div class="panel-heading heatmap-heading">

@@ -852,3 +852,74 @@ ul {
     justify-content: space-between;
   }
 }
+
+.solve-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 24px 0 18px;
+}
+
+.solve-search {
+  width: min(100%, 430px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  padding: 13px 14px;
+  outline: none;
+}
+
+.solve-search::placeholder {
+  color: var(--muted);
+}
+
+.solve-search:focus {
+  border-color: rgba(53, 212, 154, 0.5);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.solve-filter {
+  display: inline-flex;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 5px;
+}
+
+.solve-filter button {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  padding: 8px 11px;
+}
+
+.solve-filter button.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+@media (max-width: 680px) {
+  .solve-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .solve-search,
+  .solve-filter {
+    width: 100%;
+  }
+
+  .solve-filter button {
+    flex: 1;
+  }
+}

@@ -23,6 +23,7 @@ if (navToggle && siteNav) {
     }
   });
 }
+
 const htbSolves = [
   {
     date: "2026-07-04",
@@ -37,15 +38,24 @@ const htbSolves = [
   }
 ];
 
+let activeSolveFilter = "all";
+let htbControlsReady = false;
+
 function renderHtbTracker() {
   const feed = document.querySelector("#htb-activity-feed");
   const log = document.querySelector("#htb-solve-log");
   const heatmapGrid = document.querySelector("#htb-heatmap-grid");
   const heatmapMonths = document.querySelector("#htb-heatmap-months");
+  const searchInput = document.querySelector("#htb-solve-search");
+  const filterButtons = document.querySelectorAll("[data-solve-filter]");
 
   if (!feed || !log) return;
 
+  initHtbControls(searchInput, filterButtons);
+
+  const query = normalizeSearch(searchInput?.value || "");
   const sortedSolves = [...htbSolves].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const filteredSolves = filterSolves(sortedSolves, activeSolveFilter, query);
   const machineCount = sortedSolves.filter((solve) => solve.type === "machine").length;
   const challengeCount = sortedSolves.filter((solve) => solve.type === "challenge").length;
   const latestSolve = sortedSolves[0];
@@ -70,45 +80,91 @@ function renderHtbTracker() {
     return;
   }
 
-  feed.innerHTML = sortedSolves.slice(0, 4).map((solve) => `
+  if (!filteredSolves.length) {
+    feed.innerHTML = renderNoResults();
+    log.innerHTML = renderNoResults();
+    return;
+  }
+
+  feed.innerHTML = filteredSolves.slice(0, 4).map((solve) => `
     <article class="activity-item">
       <span class="activity-dot" aria-hidden="true"></span>
       <div>
-        <h4>${solve.name}</h4>
-        <p>${solve.category} / ${solve.type} / ${solve.solveType}</p>
+        <h4>${escapeHtml(solve.name)}</h4>
+        <p>${escapeHtml(solve.category)} / ${escapeHtml(solve.type)} / ${escapeHtml(solve.solveType)}</p>
         <span class="activity-meta">${formatActivityDate(solve.date)}</span>
       </div>
     </article>
   `).join("");
 
-  log.innerHTML = sortedSolves.map((solve) => `
+  log.innerHTML = filteredSolves.map((solve) => `
     <article class="solve-entry">
       <div class="solve-topline">
         <div>
-          <span class="solve-meta">${formatActivityDate(solve.date)} / ${solve.type}</span>
-          <h4>${solve.name}</h4>
+          <span class="solve-meta">${formatActivityDate(solve.date)} / ${escapeHtml(solve.type)}</span>
+          <h4>${escapeHtml(solve.name)}</h4>
         </div>
         <div class="solve-actions">
           ${renderWriteupBadge(solve)}
-          <a class="solve-link" href="${solve.link}" aria-label="Open ${solve.name} log">View</a>
+          <a class="solve-link" href="${escapeAttribute(solve.link)}" aria-label="Open ${escapeAttribute(solve.name)} log">View</a>
         </div>
       </div>
-      <p>${solve.lesson}</p>
-      <div class="solve-tags" aria-label="${solve.name} tags">
+      <p>${escapeHtml(solve.lesson)}</p>
+      <div class="solve-tags" aria-label="${escapeAttribute(solve.name)} tags">
         ${renderSolveTags(solve)}
       </div>
     </article>
   `).join("");
 }
 
+function initHtbControls(searchInput, filterButtons) {
+  if (htbControlsReady) return;
+  htbControlsReady = true;
+
+  searchInput?.addEventListener("input", renderHtbTracker);
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeSolveFilter = button.dataset.solveFilter || "all";
+      filterButtons.forEach((item) => {
+        item.classList.toggle("is-active", item === button);
+      });
+      renderHtbTracker();
+    });
+  });
+}
+
+function filterSolves(solves, typeFilter, query) {
+  return solves.filter((solve) => {
+    const matchesType = typeFilter === "all" || solve.type === typeFilter;
+    if (!matchesType) return false;
+    if (!query) return true;
+
+    const searchable = [
+      solve.name,
+      solve.type,
+      solve.solveType,
+      solve.category,
+      solve.lesson,
+      ...(solve.tags || [])
+    ].map(normalizeSearch).join(" ");
+
+    return searchable.includes(query);
+  });
+}
+
+function renderNoResults() {
+  return `<article class="solve-entry"><h4>No matching solves</h4><p>Try another keyword, tag, category, or filter.</p></article>`;
+}
+
 function renderSolveTags(solve) {
   const writeupTag = solve.writeupUrl ? "WU" : "No WU";
-  return [writeupTag, ...solve.tags].map((tag) => `<span>${tag}</span>`).join("");
+  return [writeupTag, ...(solve.tags || [])].map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
 }
 
 function renderWriteupBadge(solve) {
   if (solve.writeupUrl) {
-    return `<a class="writeup-badge has-writeup" href="${solve.writeupUrl}" aria-label="Open ${solve.name} writeup">WU</a>`;
+    return `<a class="writeup-badge has-writeup" href="${escapeAttribute(solve.writeupUrl)}" aria-label="Open ${escapeAttribute(solve.name)} writeup">WU</a>`;
   }
 
   return `<span class="writeup-badge no-writeup">No WU</span>`;
@@ -182,12 +238,30 @@ function toDateKey(date) {
     String(date.getDate()).padStart(2, "0")
   ].join("-");
 }
+
 function formatActivityDate(value) {
   return new Intl.DateTimeFormat("en", {
     month: "short",
     day: "numeric",
     year: "numeric"
   }).format(new Date(value));
+}
+
+function normalizeSearch(value) {
+  return String(value || "").toLowerCase().trim();
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value);
 }
 
 renderHtbTracker();
