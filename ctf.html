@@ -40,7 +40,63 @@
         </p>
       </section>
 
+      <section class="section page-section htb-dashboard" aria-labelledby="htb-tracker-title">
+        <div class="section-heading compact">
+          <p class="eyebrow">HTB Activity Tracker</p>
+          <h2 id="htb-tracker-title">A public log of what I solve and what I learned from it.</h2>
+          <p>
+            This tracker keeps my CTF practice visible: recent solves, categories I am touching,
+            and the small lessons I want to carry into the next box or challenge.
+          </p>
+        </div>
+
+        <div class="tracker-summary" aria-label="HTB activity summary">
+          <article class="metric-card">
+            <span class="metric-label">Total Solves</span>
+            <strong data-htb-stat="total">0</strong>
+            <span class="metric-note">logged activities</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Machines</span>
+            <strong data-htb-stat="machines">0</strong>
+            <span class="metric-note">owned boxes</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Challenges</span>
+            <strong data-htb-stat="challenges">0</strong>
+            <span class="metric-note">category practice</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Latest</span>
+            <strong data-htb-stat="latest">-</strong>
+            <span class="metric-note">newest solve</span>
+          </article>
+        </div>
+
+        <div class="activity-layout">
+          <section class="activity-panel" aria-labelledby="recent-activity-title">
+            <div class="panel-heading">
+              <p class="category">Recent Activity</p>
+              <h3 id="recent-activity-title">Latest HTB movement</h3>
+            </div>
+            <div class="activity-feed" id="htb-activity-feed"></div>
+          </section>
+
+          <section class="activity-panel" aria-labelledby="solve-log-title">
+            <div class="panel-heading">
+              <p class="category">Solve Log</p>
+              <h3 id="solve-log-title">Challenge and machine notes</h3>
+            </div>
+            <div class="solve-log" id="htb-solve-log"></div>
+          </section>
+        </div>
+      </section>
+
       <section class="section page-section">
+        <div class="section-heading compact">
+          <p class="eyebrow">Learning Tracks</p>
+          <h2>Notes I am turning into repeatable workflows.</h2>
+        </div>
         <div class="project-grid">
           <article class="project-card">
             <p class="category">Hack The Box</p>
