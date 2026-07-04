@@ -33,26 +33,6 @@ const htbSolves = [
     lesson: "Prototype pollution in Mongoose can change how backend trust checks behave.",
     link: "#",
     tags: ["Web", "Mongoose", "Prototype Pollution"]
-  },
-  {
-    date: "2026-07-04",
-    type: "challenge",
-    solveType: "own",
-    name: "HTB Activity Automation",
-    category: "Automation",
-    lesson: "Built a Google Sheets tracker that polls HTB activity and turns solves into a learning log.",
-    link: "#",
-    tags: ["Apps Script", "Google Sheets", "HTB"]
-  },
-  {
-    date: "2026-06-13",
-    type: "machine",
-    solveType: "user/root",
-    name: "Beginner Machine Notes",
-    category: "Enumeration",
-    lesson: "Practicing repeatable recon flow before jumping into exploitation.",
-    link: "#",
-    tags: ["Recon", "Linux", "Workflow"]
   }
 ];
 
@@ -78,6 +58,12 @@ function renderHtbTracker() {
     const node = document.querySelector(`[data-htb-stat="${key}"]`);
     if (node) node.textContent = value;
   });
+
+  if (!sortedSolves.length) {
+    feed.innerHTML = `<article class="activity-item"><span class="activity-dot" aria-hidden="true"></span><div><h4>No logged solves yet</h4><p>New HTB solves will show up here.</p></div></article>`;
+    log.innerHTML = `<article class="solve-entry"><h4>No solve notes yet</h4><p>Once a challenge or machine is logged, the lesson summary will appear here.</p></article>`;
+    return;
+  }
 
   feed.innerHTML = sortedSolves.slice(0, 4).map((solve) => `
     <article class="activity-item">
