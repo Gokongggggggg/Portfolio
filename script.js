@@ -24,7 +24,7 @@ if (navToggle && siteNav) {
   });
 }
 
-const htbSolves = [
+let htbSolves = [
   {
     date: "2026-07-04",
     type: "challenge",
@@ -264,4 +264,21 @@ function escapeAttribute(value) {
   return escapeHtml(value);
 }
 
-renderHtbTracker();
+loadHtbSolves().then(renderHtbTracker);
+
+async function loadHtbSolves() {
+  const tracker = document.querySelector("#htb-solve-log");
+  if (!tracker) return;
+
+  try {
+    const response = await fetch("data/htb-solves.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("HTB solves JSON not available");
+
+    const payload = await response.json();
+    if (Array.isArray(payload?.items)) {
+      htbSolves = payload.items;
+    }
+  } catch (error) {
+    // Keep the manual fallback data when the generated JSON is unavailable locally.
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-07-04T00:00:00.000Z",
+  "source": "manual-seed",
+  "items": [
+    {
+      "date": "2026-07-04",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Secure Notes",
+      "category": "Web",
+      "lesson": "Prototype pollution in Mongoose can change how backend trust checks behave.",
+      "link": "#",
+      "writeupUrl": "",
+      "tags": ["Web", "Mongoose", "Prototype Pollution"]
+    }
+  ]
+}

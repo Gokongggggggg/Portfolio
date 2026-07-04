@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "sync:htb": "node scripts/sync-htb-activity.js"
+  }
+}
