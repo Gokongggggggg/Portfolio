@@ -25,7 +25,7 @@ main().catch((error) => {
 
 async function main() {
   const rawItems = await fetchAllActivity();
-  const solves = rawItems.map(normalizeActivity).filter(Boolean);
+  const solves = dedupeSolves(rawItems.map(normalizeActivity).filter(Boolean));
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(rawOutputPath, JSON.stringify(rawItems, null, 2));
@@ -76,10 +76,10 @@ function normalizeActivity(item) {
   if (!name) return null;
 
   const rawType = String(pick(item, ["type", "object_type", "content_type", "category_name"]) || "").toLowerCase();
-  const type = rawType.includes("machine") ? "machine" : "challenge";
-  const date = normalizeDate(pick(item, ["date", "created_at", "completed_at", "owned_at", "time"]));
-  const category = pick(item, ["category", "category_name", "challenge_category", "difficulty"]) || (type === "machine" ? "Machine" : "Challenge");
-  const solveType = pick(item, ["solve_type", "ownership_type", "activity_type", "action"]) || "own";
+  const type = rawType.includes("machine") || rawType === "user" || rawType === "root" ? "machine" : "challenge";
+  const date = normalizeDate(pick(item, ["ownDate", "date", "created_at", "completed_at", "owned_at", "time"]));
+  const category = pick(item, ["categoryName", "category", "category_name", "challenge_category", "difficulty"]) || (type === "machine" ? "Machine" : "Challenge");
+  const solveType = type === "machine" && (rawType === "user" || rawType === "root") ? rawType : "own";
   const link = buildLink(item, type);
 
   return {
@@ -91,10 +91,32 @@ function normalizeActivity(item) {
     lesson: "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
     link,
     writeupUrl: "",
-    tags: uniqueTags([category, type, pick(item, ["difficulty", "os", "points"])]).filter(Boolean)
+    tags: uniqueTags([category, type, pick(item, ["difficulty", "os"])]).filter(Boolean)
   };
 }
 
+
+function dedupeSolves(solves) {
+  const priority = { root: 3, own: 2, user: 1 };
+  const byKey = new Map();
+
+  for (const solve of solves) {
+    const key = `${solve.type}:${solve.link || solve.name}`;
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, solve);
+      continue;
+    }
+
+    const currentPriority = priority[solve.solveType] || 0;
+    const existingPriority = priority[existing.solveType] || 0;
+    if (currentPriority > existingPriority || new Date(solve.date) > new Date(existing.date)) {
+      byKey.set(key, solve);
+    }
+  }
+
+  return [...byKey.values()].sort((a, b) => new Date(b.date) - new Date(a.date));
+}
 function pick(source, keys) {
   for (const key of keys) {
     if (source && source[key] !== undefined && source[key] !== null && source[key] !== "") return source[key];
