@@ -730,3 +730,125 @@ ul {
     grid-template-columns: 1fr;
   }
 }
+
+.heatmap-panel {
+  margin: 18px 0;
+}
+
+.heatmap-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.heatmap-legend i,
+.heatmap-cell {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: #172231;
+}
+
+.heatmap-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.heatmap-months {
+  display: grid;
+  grid-template-columns: repeat(53, 11px);
+  gap: 4px;
+  min-width: 791px;
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 11px);
+  grid-auto-columns: 11px;
+  gap: 4px;
+  min-width: max-content;
+}
+
+.heatmap-cell {
+  border: 1px solid rgba(255, 255, 255, 0.035);
+}
+
+.heatmap-cell.is-empty {
+  opacity: 0;
+}
+
+.heatmap-cell[data-level="1"],
+.heatmap-legend i[data-level="1"] {
+  background: rgba(53, 212, 154, 0.28);
+}
+
+.heatmap-cell[data-level="2"],
+.heatmap-legend i[data-level="2"] {
+  background: rgba(53, 212, 154, 0.48);
+}
+
+.heatmap-cell[data-level="3"],
+.heatmap-legend i[data-level="3"] {
+  background: rgba(53, 212, 154, 0.72);
+}
+
+.heatmap-cell[data-level="4"],
+.heatmap-legend i[data-level="4"] {
+  background: var(--accent);
+}
+
+.solve-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.writeup-badge {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  padding: 5px 8px;
+  white-space: nowrap;
+}
+
+.writeup-badge.has-writeup {
+  border-color: rgba(53, 212, 154, 0.42);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.writeup-badge.no-writeup {
+  border-color: rgba(168, 180, 195, 0.28);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+@media (max-width: 560px) {
+  .heatmap-heading,
+  .solve-topline {
+    flex-direction: column;
+  }
+
+  .solve-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

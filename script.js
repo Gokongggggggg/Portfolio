@@ -32,6 +32,7 @@ const htbSolves = [
     category: "Web",
     lesson: "Prototype pollution in Mongoose can change how backend trust checks behave.",
     link: "#",
+    writeupUrl: "",
     tags: ["Web", "Mongoose", "Prototype Pollution"]
   }
 ];
@@ -39,6 +40,8 @@ const htbSolves = [
 function renderHtbTracker() {
   const feed = document.querySelector("#htb-activity-feed");
   const log = document.querySelector("#htb-solve-log");
+  const heatmapGrid = document.querySelector("#htb-heatmap-grid");
+  const heatmapMonths = document.querySelector("#htb-heatmap-months");
 
   if (!feed || !log) return;
 
@@ -46,6 +49,8 @@ function renderHtbTracker() {
   const machineCount = sortedSolves.filter((solve) => solve.type === "machine").length;
   const challengeCount = sortedSolves.filter((solve) => solve.type === "challenge").length;
   const latestSolve = sortedSolves[0];
+
+  renderHtbHeatmap(sortedSolves, heatmapGrid, heatmapMonths);
 
   const statMap = {
     total: sortedSolves.length,
@@ -83,16 +88,100 @@ function renderHtbTracker() {
           <span class="solve-meta">${formatActivityDate(solve.date)} / ${solve.type}</span>
           <h4>${solve.name}</h4>
         </div>
-        <a class="solve-link" href="${solve.link}" aria-label="Open ${solve.name} log">View</a>
+        <div class="solve-actions">
+          ${renderWriteupBadge(solve)}
+          <a class="solve-link" href="${solve.link}" aria-label="Open ${solve.name} log">View</a>
+        </div>
       </div>
       <p>${solve.lesson}</p>
       <div class="solve-tags" aria-label="${solve.name} tags">
-        ${solve.tags.map((tag) => `<span>${tag}</span>`).join("")}
+        ${renderSolveTags(solve)}
       </div>
     </article>
   `).join("");
 }
 
+function renderSolveTags(solve) {
+  const writeupTag = solve.writeupUrl ? "WU" : "No WU";
+  return [writeupTag, ...solve.tags].map((tag) => `<span>${tag}</span>`).join("");
+}
+
+function renderWriteupBadge(solve) {
+  if (solve.writeupUrl) {
+    return `<a class="writeup-badge has-writeup" href="${solve.writeupUrl}" aria-label="Open ${solve.name} writeup">WU</a>`;
+  }
+
+  return `<span class="writeup-badge no-writeup">No WU</span>`;
+}
+
+function renderHtbHeatmap(solves, grid, months) {
+  if (!grid || !months) return;
+
+  const endDate = startOfDay(new Date());
+  const startDate = new Date(endDate);
+  startDate.setDate(startDate.getDate() - 364);
+
+  const solvesByDay = new Map();
+  solves.forEach((solve) => {
+    const key = toDateKey(new Date(solve.date));
+    solvesByDay.set(key, (solvesByDay.get(key) || 0) + 1);
+  });
+
+  const days = [];
+  for (let day = new Date(startDate); day <= endDate; day.setDate(day.getDate() + 1)) {
+    days.push(new Date(day));
+  }
+
+  const leadingBlanks = days[0].getDay();
+  const cells = [
+    ...Array.from({ length: leadingBlanks }, () => `<span class="heatmap-cell is-empty" aria-hidden="true"></span>`),
+    ...days.map((day) => {
+      const key = toDateKey(day);
+      const count = solvesByDay.get(key) || 0;
+      const level = heatmapLevel(count);
+      const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "solve" : "solves"}`;
+      return `<span class="heatmap-cell" data-level="${level}" title="${label}" aria-label="${label}"></span>`;
+    })
+  ];
+
+  grid.innerHTML = cells.join("");
+  months.innerHTML = buildHeatmapMonthLabels(days, leadingBlanks);
+}
+
+function buildHeatmapMonthLabels(days, leadingBlanks) {
+  const labels = [];
+  let lastMonth = "";
+
+  days.forEach((day, index) => {
+    const month = day.toLocaleString("en", { month: "short" });
+    if (month !== lastMonth) {
+      labels.push(`<span style="grid-column: ${Math.floor((index + leadingBlanks) / 7) + 1};">${month}</span>`);
+      lastMonth = month;
+    }
+  });
+
+  return labels.join("");
+}
+
+function heatmapLevel(count) {
+  if (count <= 0) return 0;
+  if (count === 1) return 1;
+  if (count === 2) return 2;
+  if (count === 3) return 3;
+  return 4;
+}
+
+function startOfDay(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function toDateKey(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
 function formatActivityDate(value) {
   return new Intl.DateTimeFormat("en", {
     month: "short",
