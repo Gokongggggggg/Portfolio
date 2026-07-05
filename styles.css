@@ -3364,3 +3364,116 @@ body:has(.wallpaper-hero) .site-nav a[aria-current="page"] {
     max-width: min(100%, 19rem);
   }
 }
+/* Stronger downward scroll cue */
+.scroll-cue {
+  display: grid;
+  width: auto;
+  height: auto;
+  min-width: 92px;
+  place-items: center;
+  gap: 10px;
+  border: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.scroll-cue span {
+  opacity: 0.82;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.72);
+}
+
+.scroll-cue i {
+  position: relative;
+  display: block;
+  width: 2px;
+  height: 46px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.scroll-cue i::before {
+  position: absolute;
+  top: -60%;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  border-radius: inherit;
+  background: #fff;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.78);
+  content: "";
+  animation: scrollCueDrop 1.55s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.scroll-cue::after {
+  width: 13px;
+  height: 13px;
+  border-right: 2px solid rgba(255, 255, 255, 0.86);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.86);
+  content: "";
+  transform: rotate(45deg);
+  animation: scrollCueBounce 1.55s ease-out infinite;
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  opacity: 0.82;
+  transform: translateX(-50%) translateY(4px);
+}
+
+@keyframes scrollCueDrop {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(170%);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollCueBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(45deg);
+    opacity: 0.62;
+  }
+  45% {
+    transform: translateY(7px) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue i::before,
+  .scroll-cue::after {
+    animation: none;
+  }
+}
+/* Scroll cue viewport fit */
+.scroll-cue {
+  bottom: 44px;
+  gap: 7px;
+}
+
+.scroll-cue i {
+  height: 34px;
+}
+
+.scroll-cue::after {
+  width: 10px;
+  height: 10px;
+}
+
+@media (max-width: 760px) {
+  .scroll-cue {
+    bottom: 38px;
+  }
+}
