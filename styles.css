@@ -3115,3 +3115,113 @@ h3,
 .archive-map .heatmap-grid {
   align-items: stretch;
 }
+/* Full wallpaper landing hero */
+body:has(.wallpaper-hero) .site-header {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  z-index: 20;
+  width: min(var(--max-page), calc(100% - 40px));
+  transform: translateX(-50%);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(2, 6, 23, 0.28);
+  backdrop-filter: blur(16px);
+}
+
+.wallpaper-hero {
+  position: relative;
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  background-image:
+    linear-gradient(180deg, rgba(2, 6, 23, 0.48), rgba(2, 6, 23, 0.18) 45%, rgba(2, 6, 23, 0.72)),
+    linear-gradient(90deg, rgba(2, 6, 23, 0.28), transparent 34%, rgba(2, 6, 23, 0.18)),
+    url("public/images/hero-wallpaper.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.wallpaper-hero::after {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 48%, transparent 0 28%, rgba(2, 6, 23, 0.28) 62%, rgba(2, 6, 23, 0.76) 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.wallpaper-hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(720px, calc(100% - 36px));
+  margin-top: 8vh;
+  text-align: center;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.62);
+}
+
+.wallpaper-hero-content .eyebrow {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.wallpaper-hero h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(3.2rem, 8vw, 7.6rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.wallpaper-hero p:not(.eyebrow) {
+  max-width: 42rem;
+  margin: 18px auto 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-right: 3px solid rgba(255, 255, 255, 0.86);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.86);
+  transform: translateX(-50%) rotate(45deg);
+  transition: transform 180ms var(--ease-out), opacity 180ms var(--ease-out);
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  opacity: 0.72;
+  transform: translateX(-50%) translateY(4px) rotate(45deg);
+}
+
+.recent-showcase {
+  min-height: auto;
+  padding-top: 58px;
+}
+
+.showcase-primary h2 {
+  max-width: 11ch;
+  margin-bottom: 22px;
+  color: var(--text);
+  font-size: clamp(2.4rem, 5.6vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+@media (max-width: 760px) {
+  body:has(.wallpaper-hero) .site-header {
+    top: 12px;
+    width: min(100% - 24px, var(--max-page));
+  }
+
+  .wallpaper-hero {
+    background-position: center top;
+  }
+
+  .wallpaper-hero-content {
+    margin-top: 12vh;
+  }
+}
