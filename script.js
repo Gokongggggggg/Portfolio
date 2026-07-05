@@ -1,6 +1,7 @@
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const currentPage = window.location.pathname.split("/").pop() || "index.html";
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 if (navToggle && siteNav) {
   siteNav.querySelectorAll("a").forEach((link) => {
@@ -118,6 +119,7 @@ function renderHtbTracker() {
   `).join("");
 
   renderPagination(totalPages, pagination);
+  registerRevealTargets(log.querySelectorAll(".archive-entry"));
 }
 
 function initHtbControls(searchInput, filterButtons) {
@@ -419,7 +421,50 @@ function escapeAttribute(value) {
   return escapeHtml(value);
 }
 
-loadHtbSolves().then(renderHtbTracker);
+loadHtbSolves().then(() => {
+  renderHtbTracker();
+  initRevealMotion();
+});
+let revealObserver;
+
+function initRevealMotion() {
+  const targets = document.querySelectorAll(".hero-content, .hero-visual, .section-heading, .process-step, .project-card, .page-hero, .archive-heading, .archive-dashboard article, .archive-map, .archive-main");
+  registerRevealTargets(targets);
+}
+
+function registerRevealTargets(targets) {
+  const items = Array.from(targets || []).filter((target) => !target.dataset.revealReady);
+  if (!items.length) return;
+
+  if (reducedMotionQuery.matches || !("IntersectionObserver" in window)) {
+    items.forEach((target) => {
+      target.dataset.revealReady = "true";
+      target.classList.add("is-visible");
+    });
+    return;
+  }
+
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -8% 0px"
+    });
+  }
+
+  items.forEach((target, index) => {
+    target.dataset.revealReady = "true";
+    target.style.setProperty("--reveal-delay", `${Math.min(index * 45, 180)}ms`);
+    revealObserver.observe(target);
+  });
+}
+
+initRevealMotion();
 
 async function loadHtbSolves() {
   const tracker = document.querySelector("#htb-solve-log");
