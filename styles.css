@@ -3072,3 +3072,46 @@ h3,
     min-width: 680px;
   }
 }
+/* Recent showcase and GitHub-like heatmap labels */
+.showcase-feature {
+  min-height: 520px;
+}
+
+.showcase-kind {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 18px;
+  border: 1px solid rgba(92, 255, 137, 0.36);
+  padding: 8px 10px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.recent-stack {
+  grid-template-rows: 1.12fr 0.94fr 0.94fr;
+}
+
+.recent-tile strong {
+  max-width: 14ch;
+}
+
+.archive-map .heatmap-months {
+  height: 14px;
+  overflow: visible;
+}
+
+.archive-map .heatmap-months span {
+  display: block;
+  min-width: max-content;
+  white-space: nowrap;
+  overflow: visible;
+  text-align: left;
+  color: var(--muted);
+}
+
+.archive-map .heatmap-grid {
+  align-items: stretch;
+}

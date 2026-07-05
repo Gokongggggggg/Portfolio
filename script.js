@@ -359,20 +359,25 @@ function createHeatmapTooltip() {
 }
 
 function buildHeatmapMonthLabels(days, leadingBlanks) {
-  const labels = [];
+  const monthStarts = [];
   let lastMonth = "";
 
   days.forEach((day, index) => {
     const month = day.toLocaleString("en", { month: "short" });
     if (month !== lastMonth) {
-      labels.push(`<span style="grid-column: ${Math.floor((index + leadingBlanks) / 7) + 1};">${month}</span>`);
+      monthStarts.push({
+        month,
+        column: Math.floor((index + leadingBlanks) / 7) + 1
+      });
       lastMonth = month;
     }
   });
 
-  return labels.join("");
+  return monthStarts.map((label, index) => {
+    const nextColumn = monthStarts[index + 1]?.column || "-1";
+    return `<span style="grid-column: ${label.column} / ${nextColumn};">${label.month}</span>`;
+  }).join("");
 }
-
 function heatmapLevel(count) {
   if (count <= 0) return 0;
   if (count === 1) return 1;
