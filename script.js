@@ -42,6 +42,7 @@ let activeSolveFilter = "all";
 let activeSolvePage = 1;
 const solvesPerPage = 8;
 let htbControlsReady = false;
+const counterAnimations = new WeakMap();
 
 function renderHtbTracker() {
   const log = document.querySelector("#htb-solve-log");
@@ -178,20 +179,45 @@ function animateCounter(node, target) {
   const current = Number(node.textContent) || 0;
   if (current === target) return;
 
-  const duration = 650;
+  const previousFrame = counterAnimations.get(node);
+  if (previousFrame) cancelAnimationFrame(previousFrame);
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    node.textContent = target;
+    return;
+  }
+
+  const duration = 1150 + Math.min(target * 14, 420);
   const start = performance.now();
+  node.classList.add("is-counting");
+
+  if (typeof node.animate === "function") {
+    node.animate([
+      { opacity: 0.55, transform: "translateY(9px) scale(0.98)", filter: "blur(1px)" },
+      { opacity: 1, transform: "translateY(0) scale(1)", filter: "blur(0)" }
+    ], {
+      duration: 520,
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)"
+    });
+  }
 
   function tick(now) {
     const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
+    const eased = 1 - Math.pow(1 - progress, 4);
     node.textContent = Math.round(current + (target - current) * eased);
 
     if (progress < 1) {
-      requestAnimationFrame(tick);
+      counterAnimations.set(node, requestAnimationFrame(tick));
+      return;
     }
+
+    node.textContent = target;
+    node.classList.remove("is-counting");
+    counterAnimations.delete(node);
   }
 
-  requestAnimationFrame(tick);
+  counterAnimations.set(node, requestAnimationFrame(tick));
 }
 
 function renderPagination(totalPages, node) {
@@ -255,13 +281,74 @@ function renderHtbHeatmap(solves, grid, months) {
       const key = toDateKey(day);
       const count = solvesByDay.get(key) || 0;
       const level = heatmapLevel(count);
-      const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "activity" : "activities"}`;
-      return `<span class="heatmap-cell" data-level="${level}" title="${label}" aria-label="${label}"></span>`;
+      const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "log" : "logs"}`;
+      return `<span class="heatmap-cell" data-level="${level}" data-tooltip="${escapeAttribute(label)}" title="${escapeAttribute(label)}" aria-label="${escapeAttribute(label)}"></span>`;
     })
   ];
 
   grid.innerHTML = cells.join("");
   months.innerHTML = buildHeatmapMonthLabels(days, leadingBlanks);
+  initHeatmapTooltip(grid);
+}
+
+function initHeatmapTooltip(grid) {
+  if (!grid || grid.dataset.tooltipReady === "true") return;
+  grid.dataset.tooltipReady = "true";
+
+  const tooltip = document.querySelector(".heatmap-tooltip") || createHeatmapTooltip();
+
+  function showTooltip(cell, event) {
+    const label = cell?.dataset?.tooltip;
+    if (!label) return;
+
+    tooltip.textContent = label;
+    tooltip.classList.add("is-visible");
+    tooltip.setAttribute("aria-hidden", "false");
+    moveTooltip(event);
+  }
+
+  function moveTooltip(event) {
+    if (!event || !tooltip.classList.contains("is-visible")) return;
+
+    const offset = 14;
+    const left = Math.min(event.clientX + offset, window.innerWidth - tooltip.offsetWidth - 12);
+    const top = Math.max(12, event.clientY - tooltip.offsetHeight - offset);
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove("is-visible");
+    tooltip.setAttribute("aria-hidden", "true");
+  }
+
+  grid.addEventListener("pointerover", (event) => {
+    const cell = event.target.closest(".heatmap-cell:not(.is-empty)");
+    showTooltip(cell, event);
+  });
+
+  grid.addEventListener("pointermove", (event) => {
+    const cell = event.target.closest(".heatmap-cell:not(.is-empty)");
+    if (!cell) {
+      hideTooltip();
+      return;
+    }
+
+    moveTooltip(event);
+  });
+  grid.addEventListener("pointerout", (event) => {
+    if (!grid.contains(event.relatedTarget)) hideTooltip();
+  });
+  grid.addEventListener("pointerleave", hideTooltip);
+}
+
+function createHeatmapTooltip() {
+  const tooltip = document.createElement("div");
+  tooltip.className = "heatmap-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.setAttribute("aria-hidden", "true");
+  document.body.appendChild(tooltip);
+  return tooltip;
 }
 
 function buildHeatmapMonthLabels(days, leadingBlanks) {
