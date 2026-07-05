@@ -1019,3 +1019,64 @@ ul {
     padding: 22px;
   }
 }
+
+.htb-dashboard .solve-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.htb-dashboard .solve-search {
+  width: 100%;
+  max-width: none;
+}
+
+.metric-card strong[data-htb-stat="latest"] {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.htb-dashboard .heatmap-panel {
+  padding-bottom: 24px;
+}
+
+.htb-dashboard .heatmap-scroll {
+  width: 100%;
+}
+
+.htb-dashboard .heatmap-months,
+.htb-dashboard .heatmap-grid {
+  width: 100%;
+  min-width: 720px;
+}
+
+.htb-dashboard .heatmap-months {
+  grid-template-columns: repeat(53, minmax(0, 1fr));
+}
+
+.htb-dashboard .heatmap-grid {
+  grid-template-rows: repeat(7, clamp(10px, 1.25vw, 16px));
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.htb-dashboard .heatmap-cell {
+  width: 100%;
+  height: 100%;
+}
+
+.htb-dashboard .heatmap-legend i {
+  width: 10px;
+  height: 10px;
+}
+
+@media (max-width: 680px) {
+  .htb-dashboard .solve-controls {
+    grid-template-columns: 1fr;
+  }
+}
