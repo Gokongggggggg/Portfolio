@@ -7,10 +7,7 @@
     <title>Projects | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -18,58 +15,45 @@
     <header class="site-header">
       <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="sr-only">Toggle navigation</span>
-        <span></span>
-        <span></span>
+        <span class="sr-only">Toggle navigation</span><span></span><span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="index.html">About</a>
-        <a href="solves.html">Solves</a>
-        <a href="pentest.html">Pentest</a>
-        <a href="projects.html">Projects</a>
+        <a href="index.html">About</a><a href="solves.html">Solves</a><a href="pentest.html">Pentest</a><a href="projects.html">Projects</a>
       </nav>
     </header>
 
     <main id="top">
-      <section class="page-hero">
-        <p class="eyebrow">Projects</p>
-        <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-        </p>
+      <section class="split-hero reveal-target">
+        <div>
+          <p class="eyebrow">Projects Lab</p>
+          <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
       </section>
 
-      <section class="section page-section">
-        <div class="project-grid">
-          <article class="project-card">
-            <p class="category">Networking</p>
-            <h3>Lorem Ipsum Dolor Sit</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <span class="status">Planned</span>
-          </article>
-
-          <article class="project-card">
-            <p class="category">Security Basics</p>
-            <h3>Dolor Sit Amet Consectetur</h3>
-            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <span class="status">Planned</span>
-          </article>
-
-          <article class="project-card">
-            <p class="category">Product</p>
-            <h3>Consectetur Adipiscing</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <span class="status">Coming Soon</span>
-          </article>
-        </div>
+      <section class="section page-board reveal-target" aria-label="Projects board">
+        <article class="board-card primary-card">
+          <p class="category">Networking</p>
+          <h2>Lorem ipsum dolor sit amet.</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero.</p>
+          <span class="status">Active</span>
+        </article>
+        <article class="board-card">
+          <p class="category">Security Basics</p>
+          <h3>Dolor sit amet consectetur</h3>
+          <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <span class="status">Planned</span>
+        </article>
+        <article class="board-card">
+          <p class="category">Product</p>
+          <h3>Consectetur adipiscing</h3>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          <span class="status">Queued</span>
+        </article>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <p>Wisely</p>
-      <a href="#top">Back to top</a>
-    </footer>
-
+    <footer class="site-footer"><p>Wisely</p><a href="#top">Back to top</a></footer>
     <script src="script.js"></script>
   </body>
 </html>

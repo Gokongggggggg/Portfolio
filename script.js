@@ -428,7 +428,7 @@ loadHtbSolves().then(() => {
 let revealObserver;
 
 function initRevealMotion() {
-  const targets = document.querySelectorAll(".hero-content, .hero-visual, .section-heading, .process-step, .project-card, .page-hero, .archive-heading, .archive-dashboard article, .archive-map, .archive-main");
+  const targets = document.querySelectorAll(".reveal-target, .hero-content, .hero-visual, .section-heading, .process-step, .project-card, .page-hero, .archive-heading, .archive-dashboard article, .archive-map, .archive-main, .bento-card, .board-card");
   registerRevealTargets(targets);
 }
 
