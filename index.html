@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
-    <title>Wisely | Cybersecurity Portfolio</title>
+    <title>Wisely | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -20,97 +20,68 @@
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="index.html">About</a>
-        <a href="solves.html">Solves</a>
-        <a href="pentest.html">Pentest</a>
-        <a href="projects.html">Projects</a>
+        <a href="index.html">Showcase</a>
+        <a href="solves.html">Archive</a>
+        <a href="pentest.html">Field Notes</a>
+        <a href="projects.html">Builds</a>
+        <a href="index.html#about">About</a>
       </nav>
     </header>
-
     <main id="top">
-      <section class="studio-hero reveal-target">
-        <div class="hero-copy-block">
-          <p class="eyebrow">Lorem Ipsum | Security Archive | Builder Mode</p>
-          <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-          <p class="hero-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+      <section class="showcase-hero reveal-target" aria-labelledby="showcase-title">
+        <article class="showcase-primary torn-panel">
+          <p class="eyebrow">Showcase / Draft Mode</p>
+          <h1 id="showcase-title">Lorem ipsum dolor sit amet.</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           <div class="hero-actions">
             <a class="button primary" href="solves.html">Open Archive</a>
-            <a class="button secondary" href="projects.html">View Projects</a>
+            <a class="button secondary" href="projects.html">View Builds</a>
           </div>
-          <div class="social-links" aria-label="Profile links">
-            <a href="#" aria-label="Hack The Box profile">Hack The Box</a>
-            <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
-            <a href="#" aria-label="GitHub profile">GitHub</a>
-          </div>
-        </div>
+        </article>
 
-        <aside class="hero-console" aria-label="Portfolio console preview">
-          <div class="console-bar">
-            <span>workspace</span>
-            <strong>active</strong>
-          </div>
-          <div class="console-grid">
-            <div>
-              <span>mode</span>
-              <strong>research</strong>
-            </div>
-            <div>
-              <span>focus</span>
-              <strong>web</strong>
-            </div>
-            <div>
-              <span>logs</span>
-              <strong>live</strong>
-            </div>
-            <div>
-              <span>notes</span>
-              <strong>draft</strong>
-            </div>
-          </div>
-          <div class="terminal-panel mini-terminal" aria-label="Terminal preview">
-            <div class="terminal-top"><span></span><span></span><span></span></div>
-            <div class="terminal-body">
-              <p><span class="prompt">$</span> whoami</p>
-              <p>Lorem Ipsum</p>
-              <p><span class="prompt">$</span> current_focus</p>
-              <p>lorem ipsum, dolor sit amet</p>
-              <p><span class="prompt">$</span> next</p>
-              <p>archive -> writeup -> project</p>
-            </div>
-          </div>
-        </aside>
+        <div class="showcase-stack" aria-label="Featured work areas">
+          <a class="showcase-tile" href="pentest.html">
+            <span>01 / Field Notes</span>
+            <strong>VDP thought process</strong>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </a>
+          <a class="showcase-tile" href="projects.html">
+            <span>02 / Builds</span>
+            <strong>AI tools & automation</strong>
+            <p>Sed do eiusmod tempor incididunt ut labore.</p>
+          </a>
+          <a class="showcase-tile" href="solves.html">
+            <span>03 / Archive</span>
+            <strong>CTF & HTB logs</strong>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
+          </a>
+        </div>
       </section>
 
-      <section class="section bento-overview reveal-target" aria-labelledby="overview-title">
-        <div class="section-heading compact">
-          <p class="eyebrow">Overview</p>
-          <h2 id="overview-title">Lorem ipsum dolor sit amet.</h2>
+      <section class="section evidence-strip reveal-target" aria-label="Activity overview">
+        <article>
+          <span>Activity</span>
+          <strong>Lorem ipsum</strong>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </article>
+        <article>
+          <span>Current Build</span>
+          <strong>Dolor sit amet</strong>
+          <p>Sed do eiusmod tempor incididunt ut labore.</p>
+        </article>
+        <article>
+          <span>Latest Note</span>
+          <strong>Consectetur</strong>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        </article>
+      </section>
+
+      <section class="section about-panel reveal-target" id="about" aria-labelledby="about-title">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">Lorem ipsum dolor sit amet, consectetur adipiscing.</h2>
         </div>
-        <div class="bento-grid">
-          <a class="bento-card tall" href="solves.html">
-            <p class="category">Solves</p>
-            <h3>Lorem ipsum dolor sit amet</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero.</p>
-            <span class="status">Active</span>
-          </a>
-          <a class="bento-card" href="projects.html">
-            <p class="category">Projects</p>
-            <h3>Dolor sit amet</h3>
-            <p>Sed do eiusmod tempor incididunt ut labore.</p>
-            <span class="status">Planned</span>
-          </a>
-          <a class="bento-card accent-card" href="pentest.html">
-            <p class="category">Pentest</p>
-            <h3>Consectetur adipiscing elit</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
-            <span class="status">Learning</span>
-          </a>
-          <article class="bento-card wide">
-            <p class="category">Workflow</p>
-            <h3>Lorem ipsum -> analyze -> document.</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent libero sed cursus ante dapibus diam.</p>
-          </article>
-        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.</p>
       </section>
     </main>
 

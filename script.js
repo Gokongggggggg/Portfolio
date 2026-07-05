@@ -277,22 +277,27 @@ function renderHtbHeatmap(solves, grid, months) {
   }
 
   const leadingBlanks = days[0].getDay();
+  const totalColumns = Math.ceil((leadingBlanks + days.length) / 7);
+  const trailingBlanks = totalColumns * 7 - leadingBlanks - days.length;
+  const blankCell = `<span class="heatmap-cell is-empty" aria-hidden="true"></span>`;
   const cells = [
-    ...Array.from({ length: leadingBlanks }, () => `<span class="heatmap-cell is-empty" aria-hidden="true"></span>`),
+    ...Array.from({ length: leadingBlanks }, () => blankCell),
     ...days.map((day) => {
       const key = toDateKey(day);
       const count = solvesByDay.get(key) || 0;
       const level = heatmapLevel(count);
       const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "log" : "logs"}`;
       return `<span class="heatmap-cell" data-level="${level}" data-tooltip="${escapeAttribute(label)}" title="${escapeAttribute(label)}" aria-label="${escapeAttribute(label)}"></span>`;
-    })
+    }),
+    ...Array.from({ length: trailingBlanks }, () => blankCell)
   ];
 
+  grid.style.setProperty("--heatmap-columns", totalColumns);
+  months.style.setProperty("--heatmap-columns", totalColumns);
   grid.innerHTML = cells.join("");
   months.innerHTML = buildHeatmapMonthLabels(days, leadingBlanks);
   initHeatmapTooltip(grid);
 }
-
 function initHeatmapTooltip(grid) {
   if (!grid || grid.dataset.tooltipReady === "true") return;
   grid.dataset.tooltipReady = "true";
@@ -428,7 +433,7 @@ loadHtbSolves().then(() => {
 let revealObserver;
 
 function initRevealMotion() {
-  const targets = document.querySelectorAll(".reveal-target, .hero-content, .hero-visual, .section-heading, .process-step, .project-card, .page-hero, .archive-heading, .archive-dashboard article, .archive-map, .archive-main, .bento-card, .board-card");
+  const targets = document.querySelectorAll(".reveal-target, .hero-content, .hero-visual, .section-heading, .process-step, .project-card, .page-hero, .archive-heading, .archive-dashboard article, .archive-map, .archive-main, .bento-card, .board-card, .rule-card, .lab-slip, .case-file, .build-file, .showcase-tile, .evidence-strip article, .about-panel");
   registerRevealTargets(targets);
 }
 

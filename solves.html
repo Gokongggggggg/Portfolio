@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
-    <title>Solves | Wisely</title>
+    <title>Archive | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -20,27 +20,27 @@
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="index.html">About</a>
-        <a href="solves.html">Solves</a>
-        <a href="pentest.html">Pentest</a>
-        <a href="projects.html">Projects</a>
+        <a href="index.html">Showcase</a>
+        <a href="solves.html">Archive</a>
+        <a href="pentest.html">Field Notes</a>
+        <a href="projects.html">Builds</a>
+        <a href="index.html#about">About</a>
       </nav>
     </header>
-
     <main id="top">
-      <section class="archive-hero reveal-target">
-        <div>
-          <p class="eyebrow">Solves Archive</p>
+      <section class="archive-hero rule-archive-hero reveal-target">
+        <div class="torn-panel">
+          <p class="eyebrow">Evidence Locker</p>
           <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
         </div>
-        <div class="archive-count" aria-label="Portfolio activity summary">
+        <div class="archive-count torn-panel" aria-label="Portfolio activity summary">
           <span data-htb-stat="total">0</span>
           <strong>entries logged</strong>
         </div>
       </section>
 
-      <section class="section solves-workspace reveal-target" aria-labelledby="solves-archive-title">
+      <section class="section solves-workspace rule-workspace reveal-target" aria-labelledby="solves-archive-title">
         <div class="archive-dashboard" aria-label="Archive recap">
           <article><span>HTB Machines</span><strong data-count-up data-htb-stat="machines">0</strong></article>
           <article><span>CTF Challenges</span><strong data-count-up data-htb-stat="challenges">0</strong></article>
@@ -48,9 +48,9 @@
           <article><span>Total Logs</span><strong data-count-up data-htb-stat="total">0</strong></article>
         </div>
 
-        <div class="archive-toolbar">
+        <div class="archive-toolbar torn-panel">
           <div>
-            <p class="eyebrow">Archive</p>
+            <p class="eyebrow">Search the mess</p>
             <h2 id="solves-archive-title">Lorem ipsum dolor sit amet.</h2>
           </div>
           <section class="solve-controls archive-controls" aria-label="Solve search and filters">
@@ -65,7 +65,7 @@
         </div>
 
         <div class="archive-grid-layout">
-          <section class="archive-panel heatmap-panel archive-map" aria-labelledby="htb-heatmap-title">
+          <section class="archive-panel heatmap-panel archive-map torn-panel" aria-labelledby="htb-heatmap-title">
             <div class="panel-heading heatmap-heading">
               <div><p class="category">Activity Map</p><h3 id="htb-heatmap-title">Lorem ipsum activity</h3></div>
               <div class="heatmap-legend" aria-label="Activity intensity legend">
@@ -78,21 +78,25 @@
             </div>
           </section>
 
-          <aside class="archive-side-note">
-            <p class="category">Signal</p>
+          <aside class="archive-side-note lab-slip slip-tilt">
+            <p class="category">Noisy signal</p>
             <h3>Lorem ipsum dolor sit amet.</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.</p>
           </aside>
         </div>
 
-        <section class="archive-panel archive-main" aria-label="Archive entries">
+        <section class="archive-panel archive-main torn-panel" aria-label="Archive entries">
           <div class="solve-log archive-list" id="htb-solve-log"></div>
           <nav class="archive-pagination" id="htb-pagination" aria-label="Archive pagination"></nav>
         </section>
       </section>
     </main>
 
-    <footer class="site-footer"><p>Wisely</p><a href="#top">Back to top</a></footer>
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
     <script src="script.js"></script>
   </body>
 </html>
