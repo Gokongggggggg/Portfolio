@@ -3,4 +3,7 @@
 !.env.example
 node_modules/
 data/htb-activity.raw.json
-public/
+
+public/*
+!public/images/
+!public/images/**
