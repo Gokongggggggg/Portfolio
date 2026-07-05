@@ -75,8 +75,8 @@ function renderHtbTracker() {
   });
 
   if (!sortedSolves.length) {
-    feed.innerHTML = `<article class="activity-item"><span class="activity-dot" aria-hidden="true"></span><div><h4>No logged solves yet</h4><p>New HTB solves will show up here.</p></div></article>`;
-    log.innerHTML = `<article class="solve-entry"><h4>No solve notes yet</h4><p>Once a challenge or machine is logged, the lesson summary will appear here.</p></article>`;
+    feed.innerHTML = `<article class="activity-item"><span class="activity-dot" aria-hidden="true"></span><div><h4>No logged solves yet</h4><p>New activity will show up here.</p></div></article>`;
+    log.innerHTML = `<article class="solve-entry"><h4>No solve notes yet</h4><p>Once an item is logged, the lesson summary will appear here.</p></article>`;
     return;
   }
 
@@ -195,7 +195,7 @@ function renderHtbHeatmap(solves, grid, months) {
       const key = toDateKey(day);
       const count = solvesByDay.get(key) || 0;
       const level = heatmapLevel(count);
-      const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "solve" : "solves"}`;
+      const label = `${formatActivityDate(key)} - ${count} ${count === 1 ? "activity" : "activities"}`;
       return `<span class="heatmap-cell" data-level="${level}" title="${label}" aria-label="${label}"></span>`;
     })
   ];
