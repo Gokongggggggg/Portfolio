@@ -30,100 +30,96 @@
     </header>
 
     <main id="top">
-      <section class="page-hero">
+      <section class="page-hero solves-hero">
         <p class="eyebrow">Solves</p>
-        <h1>Practice notes, writeups, and lessons from security labs.</h1>
+        <h1>Wisely hacks, builds, and documents security stuff.</h1>
         <p>
-          This page documents my solve process across machines and CTF challenges: how I enumerate, form
-          hypotheses, test attack paths, and turn each solve into a reusable
-          lesson.
+          A running archive of HTB solves, CTF challenges, project notes, tools, and the small lessons worth reusing.
         </p>
       </section>
 
-      <section class="section page-section htb-dashboard" aria-labelledby="htb-tracker-title">
-        <div class="section-heading compact">
-          <p class="eyebrow">Activity Tracker</p>
-          <h2 id="htb-tracker-title">A public log of what I solve and what I learned from it.</h2>
-          <p>
-            This tracker keeps my work visible across HTB solves, CTF challenges, and security projects:
-            what I shipped, what I practiced, and the lessons I want to reuse.
-          </p>
+      <section class="section page-section solves-archive" aria-labelledby="solves-archive-title">
+        <div class="archive-heading">
+          <div>
+            <p class="eyebrow">Archive</p>
+            <h2 id="solves-archive-title">Security notes, solves, and project logs.</h2>
+            <p>
+              A dense index of lab work, CTF challenges, machines, and security projects. Each entry is meant to be searchable by technique, category, and lesson.
+            </p>
+          </div>
+          <div class="archive-count" aria-label="Portfolio activity summary">
+            <span data-htb-stat="total">0</span>
+            <strong>entries logged</strong>
+          </div>
         </div>
 
-        <div class="tracker-summary" aria-label="Portfolio activity summary">
-          <article class="metric-card">
-            <span class="metric-label">Total Entries</span>
-            <strong data-htb-stat="total">0</strong>
-            <span class="metric-note">logged work</span>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Machines</span>
-            <strong data-htb-stat="machines">0</strong>
-            <span class="metric-note">owned boxes</span>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Challenges</span>
-            <strong data-htb-stat="challenges">0</strong>
-            <span class="metric-note">category practice</span>
-          </article>
-          <article class="metric-card">
-            <span class="metric-label">Latest</span>
-            <strong data-htb-stat="latest">-</strong>
-            <span class="metric-note">newest activity</span>
-          </article>
-        </div>
-
-        <section class="solve-controls" aria-label="Solve search and filters">
-          <label class="sr-only" for="htb-solve-search">Search solves</label>
-          <input id="htb-solve-search" class="solve-search" type="search" placeholder="Search name, tag, category, topic">
-          <div class="solve-filter" role="group" aria-label="Solve type filter">
+        <section class="solve-controls archive-controls" aria-label="Solve search and filters">
+          <label class="sr-only" for="htb-solve-search">Search archive</label>
+          <input id="htb-solve-search" class="solve-search" type="search" placeholder="Search titles, tags, categories, tools">
+          <div class="solve-filter" role="group" aria-label="Archive type filter">
             <button type="button" class="is-active" data-solve-filter="all">All</button>
             <button type="button" data-solve-filter="machine">Machines</button>
             <button type="button" data-solve-filter="challenge">Challenges</button>
           </div>
         </section>
 
-        <section class="activity-panel heatmap-panel" aria-labelledby="htb-heatmap-title">
-          <div class="panel-heading heatmap-heading">
-            <div>
-              <p class="category">Activity Map</p>
-              <h3 id="htb-heatmap-title">Labs, projects, and challenge activity</h3>
-            </div>
-            <div class="heatmap-legend" aria-label="Activity intensity legend">
-              <span>Less</span>
-              <i data-level="0"></i>
-              <i data-level="1"></i>
-              <i data-level="2"></i>
-              <i data-level="3"></i>
-              <i data-level="4"></i>
-              <span>More</span>
-            </div>
-          </div>
-          <div class="heatmap-scroll" aria-label="Portfolio activity in the last year">
-            <div class="heatmap-months" id="htb-heatmap-months" aria-hidden="true"></div>
-            <div class="heatmap-grid" id="htb-heatmap-grid"></div>
-          </div>
-        </section>
+        <div class="archive-layout">
+          <aside class="archive-sidebar" aria-label="Activity overview">
+            <section class="archive-panel compact-stats">
+              <p class="category">Snapshot</p>
+              <div class="mini-stat-grid">
+                <div>
+                  <span>Machines</span>
+                  <strong data-htb-stat="machines">0</strong>
+                </div>
+                <div>
+                  <span>Challenges</span>
+                  <strong data-htb-stat="challenges">0</strong>
+                </div>
+              </div>
+              <p class="latest-line">Latest: <strong data-htb-stat="latest">-</strong></p>
+            </section>
 
-        <div class="activity-layout">
-          <section class="activity-panel" aria-labelledby="recent-activity-title">
-            <div class="panel-heading">
-              <p class="category">Recent Activity</p>
-              <h3 id="recent-activity-title">Latest activity</h3>
-            </div>
-            <div class="activity-feed" id="htb-activity-feed"></div>
-          </section>
+            <section class="archive-panel heatmap-panel" aria-labelledby="htb-heatmap-title">
+              <div class="panel-heading heatmap-heading">
+                <div>
+                  <p class="category">Activity Map</p>
+                  <h3 id="htb-heatmap-title">One year of work</h3>
+                </div>
+                <div class="heatmap-legend" aria-label="Activity intensity legend">
+                  <span>Less</span>
+                  <i data-level="0"></i>
+                  <i data-level="1"></i>
+                  <i data-level="2"></i>
+                  <i data-level="3"></i>
+                  <i data-level="4"></i>
+                  <span>More</span>
+                </div>
+              </div>
+              <div class="heatmap-scroll" aria-label="Portfolio activity in the last year">
+                <div class="heatmap-months" id="htb-heatmap-months" aria-hidden="true"></div>
+                <div class="heatmap-grid" id="htb-heatmap-grid"></div>
+              </div>
+            </section>
 
-          <section class="activity-panel" aria-labelledby="solve-log-title">
-            <div class="panel-heading">
-              <p class="category">Solve Log</p>
-              <h3 id="solve-log-title">Machines, challenges, and project notes</h3>
+            <section class="archive-panel">
+              <p class="category">Tags</p>
+              <div class="tag-cloud" id="htb-tag-cloud"></div>
+            </section>
+          </aside>
+
+          <section class="archive-panel archive-main" aria-labelledby="solve-log-title">
+            <div class="archive-main-heading">
+              <div>
+                <p class="category">Posts</p>
+                <h3 id="solve-log-title">Writeup index</h3>
+              </div>
+              <div class="activity-feed" id="htb-activity-feed" aria-label="Latest activity"></div>
             </div>
-            <div class="solve-log" id="htb-solve-log"></div>
+            <div class="solve-log archive-list" id="htb-solve-log"></div>
           </section>
         </div>
       </section>
-
       <section class="section page-section">
         <div class="section-heading compact">
           <p class="eyebrow">Learning Tracks</p>

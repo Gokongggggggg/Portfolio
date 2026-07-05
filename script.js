@@ -48,6 +48,7 @@ function renderHtbTracker() {
   const heatmapMonths = document.querySelector("#htb-heatmap-months");
   const searchInput = document.querySelector("#htb-solve-search");
   const filterButtons = document.querySelectorAll("[data-solve-filter]");
+  const tagCloud = document.querySelector("#htb-tag-cloud");
 
   if (!feed || !log) return;
 
@@ -61,6 +62,7 @@ function renderHtbTracker() {
   const latestSolve = sortedSolves[0];
 
   renderHtbHeatmap(sortedSolves, heatmapGrid, heatmapMonths);
+  renderTagCloud(sortedSolves, tagCloud);
 
   const statMap = {
     total: sortedSolves.length,
@@ -86,32 +88,31 @@ function renderHtbTracker() {
     return;
   }
 
-  feed.innerHTML = filteredSolves.slice(0, 4).map((solve) => `
-    <article class="activity-item">
-      <span class="activity-dot" aria-hidden="true"></span>
-      <div>
-        <h4>${escapeHtml(solve.name)}</h4>
-        <p>${escapeHtml(solve.category)} / ${escapeHtml(solve.type)} / ${escapeHtml(solve.solveType)}</p>
-        <span class="activity-meta">${formatActivityDate(solve.date)}</span>
-      </div>
-    </article>
+  feed.innerHTML = filteredSolves.slice(0, 3).map((solve) => `
+    <a class="recent-link" href="${escapeAttribute(solve.link)}">
+      <span>${formatActivityDate(solve.date)}</span>
+      <strong>${escapeHtml(solve.name)}</strong>
+    </a>
   `).join("");
 
   log.innerHTML = filteredSolves.map((solve) => `
-    <article class="solve-entry">
-      <div class="solve-topline">
-        <div>
-          <span class="solve-meta">${formatActivityDate(solve.date)} / ${escapeHtml(solve.type)}</span>
-          <h4>${escapeHtml(solve.name)}</h4>
+    <article class="solve-entry archive-entry">
+      <time datetime="${escapeAttribute(solve.date)}">${formatArchiveDate(solve.date)}</time>
+      <div class="archive-entry-body">
+        <div class="solve-topline">
+          <div>
+            <span class="solve-meta">${escapeHtml(solve.category)} / ${escapeHtml(solve.type)} / ${escapeHtml(solve.solveType)}</span>
+            <h4>${escapeHtml(solve.name)}</h4>
+          </div>
+          <div class="solve-actions">
+            ${renderWriteupBadge(solve)}
+            <a class="solve-link" href="${escapeAttribute(solve.link)}" aria-label="Open ${escapeAttribute(solve.name)} log">View</a>
+          </div>
         </div>
-        <div class="solve-actions">
-          ${renderWriteupBadge(solve)}
-          <a class="solve-link" href="${escapeAttribute(solve.link)}" aria-label="Open ${escapeAttribute(solve.name)} log">View</a>
+        <div class="solve-tags" aria-label="${escapeAttribute(solve.name)} tags">
+          ${renderSolveTags(solve)}
         </div>
-      </div>
-      <p>${escapeHtml(solve.lesson)}</p>
-      <div class="solve-tags" aria-label="${escapeAttribute(solve.name)} tags">
-        ${renderSolveTags(solve)}
+        <p>${escapeHtml(solve.lesson)}</p>
       </div>
     </article>
   `).join("");
@@ -157,6 +158,24 @@ function renderNoResults() {
   return `<article class="solve-entry"><h4>No matching solves</h4><p>Try another keyword, tag, category, or filter.</p></article>`;
 }
 
+function renderTagCloud(solves, node) {
+  if (!node) return;
+
+  const counts = new Map();
+  solves.forEach((solve) => {
+    [solve.category, solve.type, ...(solve.tags || [])].forEach((tag) => {
+      const cleanTag = String(tag || "").trim();
+      if (!cleanTag) return;
+      counts.set(cleanTag, (counts.get(cleanTag) || 0) + 1);
+    });
+  });
+
+  const tags = [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 18);
+
+  node.innerHTML = tags.map(([tag, count]) => `<span>${escapeHtml(tag)} <strong>${count}</strong></span>`).join("");
+}
 function renderSolveTags(solve) {
   const writeupTag = solve.writeupUrl ? "WU" : "No WU";
   return [writeupTag, ...(solve.tags || [])].map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
@@ -239,6 +258,13 @@ function toDateKey(date) {
   ].join("-");
 }
 
+function formatArchiveDate(value) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value)).replace(",", "");
+}
 function formatActivityDate(value) {
   return new Intl.DateTimeFormat("en", {
     month: "short",
