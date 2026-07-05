@@ -39,18 +39,19 @@ let htbSolves = [
 ];
 
 let activeSolveFilter = "all";
+let activeSolvePage = 1;
+const solvesPerPage = 8;
 let htbControlsReady = false;
 
 function renderHtbTracker() {
-  const feed = document.querySelector("#htb-activity-feed");
   const log = document.querySelector("#htb-solve-log");
   const heatmapGrid = document.querySelector("#htb-heatmap-grid");
   const heatmapMonths = document.querySelector("#htb-heatmap-months");
   const searchInput = document.querySelector("#htb-solve-search");
   const filterButtons = document.querySelectorAll("[data-solve-filter]");
-  const tagCloud = document.querySelector("#htb-tag-cloud");
+  const pagination = document.querySelector("#htb-pagination");
 
-  if (!feed || !log) return;
+  if (!log) return;
 
   initHtbControls(searchInput, filterButtons);
 
@@ -59,43 +60,41 @@ function renderHtbTracker() {
   const filteredSolves = filterSolves(sortedSolves, activeSolveFilter, query);
   const machineCount = sortedSolves.filter((solve) => solve.type === "machine").length;
   const challengeCount = sortedSolves.filter((solve) => solve.type === "challenge").length;
-  const latestSolve = sortedSolves[0];
+  const writeupCount = sortedSolves.filter((solve) => Boolean(solve.writeupUrl)).length;
 
   renderHtbHeatmap(sortedSolves, heatmapGrid, heatmapMonths);
-  renderTagCloud(sortedSolves, tagCloud);
 
   const statMap = {
     total: sortedSolves.length,
     machines: machineCount,
     challenges: challengeCount,
-    latest: latestSolve ? latestSolve.name : "-"
+    writeups: writeupCount
   };
 
   Object.entries(statMap).forEach(([key, value]) => {
-    const node = document.querySelector(`[data-htb-stat="${key}"]`);
-    if (node) node.textContent = value;
+    document.querySelectorAll(`[data-htb-stat="${key}"]`).forEach((node) => {
+      setStatValue(node, value);
+    });
   });
 
   if (!sortedSolves.length) {
-    feed.innerHTML = `<article class="activity-item"><span class="activity-dot" aria-hidden="true"></span><div><h4>No logged solves yet</h4><p>New activity will show up here.</p></div></article>`;
-    log.innerHTML = `<article class="solve-entry"><h4>No solve notes yet</h4><p>Once an item is logged, the lesson summary will appear here.</p></article>`;
+    log.innerHTML = `<article class="solve-entry"><h4>No logged work yet</h4><p>New activity will show up here.</p></article>`;
+    renderPagination(0, pagination);
     return;
   }
 
   if (!filteredSolves.length) {
-    feed.innerHTML = renderNoResults();
     log.innerHTML = renderNoResults();
+    renderPagination(0, pagination);
     return;
   }
 
-  feed.innerHTML = filteredSolves.slice(0, 3).map((solve) => `
-    <a class="recent-link" href="${escapeAttribute(solve.link)}">
-      <span>${formatActivityDate(solve.date)}</span>
-      <strong>${escapeHtml(solve.name)}</strong>
-    </a>
-  `).join("");
+  const totalPages = Math.max(1, Math.ceil(filteredSolves.length / solvesPerPage));
+  activeSolvePage = Math.min(activeSolvePage, totalPages);
+  const pageStart = (activeSolvePage - 1) * solvesPerPage;
+  const pageSolves = filteredSolves.slice(pageStart, pageStart + solvesPerPage);
 
-  log.innerHTML = filteredSolves.map((solve) => `
+  log.innerHTML = pageSolves.map((solve) => `
     <article class="solve-entry archive-entry">
       <time datetime="${escapeAttribute(solve.date)}">${formatArchiveDate(solve.date)}</time>
       <div class="archive-entry-body">
@@ -116,17 +115,23 @@ function renderHtbTracker() {
       </div>
     </article>
   `).join("");
+
+  renderPagination(totalPages, pagination);
 }
 
 function initHtbControls(searchInput, filterButtons) {
   if (htbControlsReady) return;
   htbControlsReady = true;
 
-  searchInput?.addEventListener("input", renderHtbTracker);
+  searchInput?.addEventListener("input", () => {
+    activeSolvePage = 1;
+    renderHtbTracker();
+  });
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       activeSolveFilter = button.dataset.solveFilter || "all";
+      activeSolvePage = 1;
       filterButtons.forEach((item) => {
         item.classList.toggle("is-active", item === button);
       });
@@ -155,27 +160,63 @@ function filterSolves(solves, typeFilter, query) {
 }
 
 function renderNoResults() {
-  return `<article class="solve-entry"><h4>No matching solves</h4><p>Try another keyword, tag, category, or filter.</p></article>`;
+  return `<article class="solve-entry"><h4>No matching entries</h4><p>Try another keyword, tag, category, or filter.</p></article>`;
 }
 
-function renderTagCloud(solves, node) {
+function setStatValue(node, value) {
   if (!node) return;
 
-  const counts = new Map();
-  solves.forEach((solve) => {
-    [solve.category, solve.type, ...(solve.tags || [])].forEach((tag) => {
-      const cleanTag = String(tag || "").trim();
-      if (!cleanTag) return;
-      counts.set(cleanTag, (counts.get(cleanTag) || 0) + 1);
+  if (node.hasAttribute("data-count-up")) {
+    animateCounter(node, Number(value) || 0);
+    return;
+  }
+
+  node.textContent = value;
+}
+
+function animateCounter(node, target) {
+  const current = Number(node.textContent) || 0;
+  if (current === target) return;
+
+  const duration = 650;
+  const start = performance.now();
+
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    node.textContent = Math.round(current + (target - current) * eased);
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function renderPagination(totalPages, node) {
+  if (!node) return;
+
+  if (totalPages <= 1) {
+    node.innerHTML = "";
+    return;
+  }
+
+  const buttons = Array.from({ length: totalPages }, (_, index) => {
+    const page = index + 1;
+    return `<button type="button" class="${page === activeSolvePage ? "is-active" : ""}" data-page="${page}">${page}</button>`;
+  }).join("");
+
+  node.innerHTML = `<button type="button" data-page="${Math.max(1, activeSolvePage - 1)}" ${activeSolvePage === 1 ? "disabled" : ""}>Prev</button>${buttons}<button type="button" data-page="${Math.min(totalPages, activeSolvePage + 1)}" ${activeSolvePage === totalPages ? "disabled" : ""}>Next</button>`;
+
+  node.querySelectorAll("button[data-page]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeSolvePage = Number(button.dataset.page) || 1;
+      renderHtbTracker();
     });
   });
-
-  const tags = [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, 18);
-
-  node.innerHTML = tags.map(([tag, count]) => `<span>${escapeHtml(tag)} <strong>${count}</strong></span>`).join("");
 }
+
 function renderSolveTags(solve) {
   const writeupTag = solve.writeupUrl ? "WU" : "No WU";
   return [writeupTag, ...(solve.tags || [])].map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
@@ -265,6 +306,7 @@ function formatArchiveDate(value) {
     year: "numeric"
   }).format(new Date(value)).replace(",", "");
 }
+
 function formatActivityDate(value) {
   return new Intl.DateTimeFormat("en", {
     month: "short",

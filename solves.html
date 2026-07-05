@@ -53,6 +53,25 @@
           </div>
         </div>
 
+        <section class="archive-dashboard" aria-label="Archive recap">
+          <article>
+            <span>HTB Machines</span>
+            <strong data-count-up data-htb-stat="machines">0</strong>
+          </article>
+          <article>
+            <span>CTF Challenges</span>
+            <strong data-count-up data-htb-stat="challenges">0</strong>
+          </article>
+          <article>
+            <span>Writeups</span>
+            <strong data-count-up data-htb-stat="writeups">0</strong>
+          </article>
+          <article>
+            <span>Total Logs</span>
+            <strong data-count-up data-htb-stat="total">0</strong>
+          </article>
+        </section>
+
         <section class="solve-controls archive-controls" aria-label="Solve search and filters">
           <label class="sr-only" for="htb-solve-search">Search archive</label>
           <input id="htb-solve-search" class="solve-search" type="search" placeholder="Search titles, tags, categories, tools">
@@ -62,6 +81,7 @@
             <button type="button" data-solve-filter="challenge">Challenges</button>
           </div>
         </section>
+
         <section class="archive-panel heatmap-panel archive-map" aria-labelledby="htb-heatmap-title">
           <div class="panel-heading heatmap-heading">
             <div>
@@ -83,41 +103,11 @@
             <div class="heatmap-grid" id="htb-heatmap-grid"></div>
           </div>
         </section>
-        <div class="archive-layout">
-          <aside class="archive-sidebar" aria-label="Activity overview">
-            <section class="archive-panel compact-stats">
-              <p class="category">Snapshot</p>
-              <div class="mini-stat-grid">
-                <div>
-                  <span>Machines</span>
-                  <strong data-htb-stat="machines">0</strong>
-                </div>
-                <div>
-                  <span>Challenges</span>
-                  <strong data-htb-stat="challenges">0</strong>
-                </div>
-              </div>
-              <p class="latest-line">Latest: <strong data-htb-stat="latest">-</strong></p>
-            </section>
 
-
-            <section class="archive-panel">
-              <p class="category">Tags</p>
-              <div class="tag-cloud" id="htb-tag-cloud"></div>
-            </section>
-          </aside>
-
-          <section class="archive-panel archive-main" aria-labelledby="solve-log-title">
-            <div class="archive-main-heading">
-              <div>
-                <p class="category">Posts</p>
-                <h3 id="solve-log-title">Writeup index</h3>
-              </div>
-              <div class="activity-feed" id="htb-activity-feed" aria-label="Latest activity"></div>
-            </div>
-            <div class="solve-log archive-list" id="htb-solve-log"></div>
-          </section>
-        </div>
+        <section class="archive-panel archive-main" aria-label="Archive entries">
+          <div class="solve-log archive-list" id="htb-solve-log"></div>
+          <nav class="archive-pagination" id="htb-pagination" aria-label="Archive pagination"></nav>
+        </section>
       </section>
       <section class="section page-section">
         <div class="section-heading compact">
