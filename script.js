@@ -3,6 +3,20 @@ const siteNav = document.querySelector(".site-nav");
 const currentPage = window.location.pathname.split("/").pop() || "index.html";
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+
+const wallpaperHero = document.querySelector(".wallpaper-hero");
+if (wallpaperHero) {
+  window.setTimeout(() => {
+    document.body.classList.add("is-scroll-nudge");
+
+    if (!reducedMotionQuery.matches && window.scrollY < 24) {
+      window.scrollBy({
+        top: Math.min(window.innerHeight * 0.14, 120),
+        behavior: "smooth"
+      });
+    }
+  }, 3000);
+}
 if (navToggle && siteNav) {
   siteNav.querySelectorAll("a").forEach((link) => {
     const linkPage = link.getAttribute("href");

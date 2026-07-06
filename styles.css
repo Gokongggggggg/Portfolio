@@ -70,7 +70,7 @@ a {
   color: var(--muted);
   font-size: 0.92rem;
   font-weight: 600;
-  padding: 8px 12px;
+  padding: 6px 10px;
 }
 
 .site-nav a:hover,
@@ -3475,5 +3475,360 @@ body:has(.wallpaper-hero) .site-nav a[aria-current="page"] {
 @media (max-width: 760px) {
   .scroll-cue {
     bottom: 38px;
+  }
+}
+/* Blue wallpaper tone system */
+:root {
+  --bg: #020712;
+  --bg-soft: #07111f;
+  --panel: #081523;
+  --panel-strong: #0d2033;
+  --text: #f4f8ff;
+  --muted: #a8bad1;
+  --line: rgba(169, 202, 255, 0.24);
+  --accent: #72d6ff;
+  --accent-2: #9bbcff;
+  --accent-3: #ffd166;
+  --accent-soft: rgba(114, 214, 255, 0.14);
+  --surface-glass: rgba(5, 14, 28, 0.86);
+}
+
+body {
+  background:
+    linear-gradient(rgba(114, 214, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 188, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 12% 8%, rgba(114, 214, 255, 0.13), transparent 30rem),
+    radial-gradient(circle at 88% 4%, rgba(155, 188, 255, 0.12), transparent 28rem),
+    #020712;
+}
+
+body::before {
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 5px),
+    linear-gradient(90deg, rgba(114, 214, 255, 0.06), transparent 34%, rgba(155, 188, 255, 0.055));
+}
+
+.brand::before {
+  background: var(--accent);
+  box-shadow: 0 0 22px rgba(114, 214, 255, 0.74);
+}
+
+.button.primary,
+.solve-filter button.is-active,
+.archive-pagination button.is-active {
+  background: var(--accent);
+  color: #06101e;
+}
+
+.button.secondary,
+.showcase-kind,
+.writeup-badge.has-writeup,
+.solve-tags span,
+.status {
+  border-color: rgba(114, 214, 255, 0.42);
+}
+
+.showcase-tile:hover,
+.showcase-tile:focus-visible,
+.rule-card:hover,
+.rule-card:focus-visible,
+.case-file:hover,
+.build-file:hover {
+  border-color: rgba(114, 214, 255, 0.62);
+  box-shadow: 16px 16px 0 rgba(114, 214, 255, 0.07), 0 30px 100px rgba(0, 0, 0, 0.46);
+}
+
+.heatmap-cell[data-level="1"],
+.heatmap-legend i[data-level="1"] {
+  background: rgba(114, 214, 255, 0.28);
+}
+
+.heatmap-cell[data-level="2"],
+.heatmap-legend i[data-level="2"] {
+  background: rgba(114, 214, 255, 0.48);
+}
+
+.heatmap-cell[data-level="3"],
+.heatmap-legend i[data-level="3"] {
+  background: rgba(114, 214, 255, 0.72);
+}
+
+body:has(.wallpaper-hero) .site-header {
+  background: linear-gradient(180deg, rgba(4, 11, 24, 0.76), rgba(4, 11, 24, 0.26));
+}
+
+.wallpaper-hero {
+  background-image:
+    linear-gradient(180deg, rgba(2, 7, 18, 0.38), rgba(3, 13, 29, 0.12) 43%, rgba(2, 7, 18, 0.74)),
+    linear-gradient(90deg, rgba(2, 7, 18, 0.26), transparent 36%, rgba(4, 16, 34, 0.2)),
+    url("public/images/hero-wallpaper.jpg");
+}
+
+.wallpaper-hero::after {
+  background: radial-gradient(circle at 50% 48%, transparent 0 30%, rgba(7, 20, 39, 0.2) 62%, rgba(2, 7, 18, 0.78) 100%);
+}
+
+/* Stronger below-the-fold CTA */
+.scroll-cue {
+  min-width: 188px;
+  bottom: 66px;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(4, 13, 28, 0.36);
+  padding: 10px 14px 12px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.32), 0 0 24px rgba(114, 214, 255, 0.12);
+}
+
+.scroll-cue span {
+  opacity: 1;
+  color: #fff;
+}
+
+.scroll-cue i {
+  height: 28px;
+  background: rgba(114, 214, 255, 0.24);
+}
+
+.scroll-cue i::before {
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(114, 214, 255, 0.9);
+}
+
+.scroll-cue::after {
+  border-color: var(--accent);
+}
+
+.scroll-cue::before {
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(114, 214, 255, 0.16);
+  content: "";
+  opacity: 0;
+  animation: scrollCueRing 1.9s ease-out infinite;
+}
+
+@keyframes scrollCueRing {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue::before {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .scroll-cue {
+    min-width: min(82vw, 188px);
+    bottom: 48px;
+  }
+}
+/* Directed scroll trail and cleaner hero nav */
+body:has(.wallpaper-hero) .site-header {
+  justify-content: flex-end;
+}
+
+body:has(.wallpaper-hero) .brand {
+  display: none;
+}
+
+.scroll-cue {
+  min-width: 0;
+  bottom: 72px;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.scroll-cue::before {
+  display: none;
+}
+
+.scroll-cue span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.68rem;
+}
+
+.scroll-cue i {
+  width: 1px;
+  height: 86px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(114, 214, 255, 0.78), rgba(255, 255, 255, 0.08));
+  box-shadow: 0 0 28px rgba(114, 214, 255, 0.35);
+}
+
+.scroll-cue i::before {
+  height: 34%;
+  animation-duration: 1.35s;
+}
+
+.scroll-cue::after {
+  width: 12px;
+  height: 12px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  transform: translateX(-50%) translateY(3px);
+}
+
+.wallpaper-hero-content::after {
+  display: block;
+  width: 1px;
+  height: clamp(44px, 9vh, 92px);
+  margin: 28px auto 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(114, 214, 255, 0.58), rgba(255, 255, 255, 0));
+  box-shadow: 0 0 26px rgba(114, 214, 255, 0.34);
+  content: "";
+  animation: heroGuidePulse 1.55s ease-in-out infinite;
+}
+
+@keyframes heroGuidePulse {
+  0%, 100% {
+    opacity: 0.34;
+    transform: scaleY(0.72);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallpaper-hero-content::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  body:has(.wallpaper-hero) .site-header {
+    justify-content: space-between;
+  }
+
+  body:has(.wallpaper-hero) .brand {
+    display: none;
+  }
+
+  .scroll-cue {
+    bottom: 58px;
+  }
+
+  .scroll-cue i {
+    height: 62px;
+  }
+}
+/* Compact full-width hero nav */
+body:has(.wallpaper-hero) .site-header {
+  padding: 6px clamp(14px, 3vw, 34px);
+  background: linear-gradient(180deg, rgba(4, 11, 24, 0.54), rgba(4, 11, 24, 0.12));
+  backdrop-filter: blur(10px);
+}
+
+body:has(.wallpaper-hero) .site-nav {
+  gap: 8px;
+}
+
+body:has(.wallpaper-hero) .site-nav a {
+  min-height: 30px;
+  padding: 6px 10px;
+  font-size: 0.68rem;
+}
+
+@media (max-width: 760px) {
+  body:has(.wallpaper-hero) .site-header {
+    padding: 8px 12px;
+  }
+}
+/* Remove legacy header min-height on wallpaper hero */
+body:has(.wallpaper-hero) .site-header {
+  min-height: 0;
+}
+/* Delayed scroll nudge state */
+.scroll-cue {
+  opacity: 0.34;
+  transition: opacity 220ms ease, transform 220ms ease, filter 220ms ease;
+}
+
+.wallpaper-hero-content::after {
+  opacity: 0.28;
+  transition: opacity 260ms ease, height 260ms ease, transform 260ms ease;
+}
+
+body.is-scroll-nudge .scroll-cue {
+  opacity: 1;
+  filter: drop-shadow(0 0 22px rgba(114, 214, 255, 0.38));
+  animation: delayedScrollNudge 1.6s ease-in-out infinite;
+}
+
+body.is-scroll-nudge .scroll-cue i {
+  height: 104px;
+}
+
+body.is-scroll-nudge .scroll-cue span {
+  color: #fff;
+}
+
+body.is-scroll-nudge .wallpaper-hero-content::after {
+  height: clamp(74px, 13vh, 126px);
+  opacity: 0.9;
+  transform: translateY(8px);
+}
+
+@keyframes delayedScrollNudge {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.is-scroll-nudge .scroll-cue {
+    animation: none;
+  }
+}
+/* Auto-scroll nudge refinement */
+.scroll-cue span {
+  font-size: 0.78rem;
+}
+
+.scroll-cue i {
+  height: 48px;
+}
+
+body.is-scroll-nudge .scroll-cue i {
+  height: 58px;
+}
+
+.scroll-cue::after {
+  width: 9px;
+  height: 9px;
+}
+
+body.is-scroll-nudge .wallpaper-hero-content::after {
+  height: clamp(42px, 8vh, 78px);
+}
+
+@media (max-width: 760px) {
+  .scroll-cue span {
+    font-size: 0.74rem;
+  }
+
+  .scroll-cue i,
+  body.is-scroll-nudge .scroll-cue i {
+    height: 42px;
   }
 }
