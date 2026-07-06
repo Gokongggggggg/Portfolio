@@ -22,16 +22,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Prepare static site
         run: |
-          rm -rf public
-          mkdir -p public/data
-          cp index.html solves.html pentest.html projects.html script.js styles.css README.md public/
-          cp data/htb-solves.json public/data/htb-solves.json
+          rm -rf dist
+          mkdir -p dist/data dist/public
+          cp index.html solves.html pentest.html projects.html script.js styles.css README.md dist/
+          cp data/htb-solves.json dist/data/htb-solves.json
+          cp -R writeups dist/writeups
+          cp -R public/images dist/public/images
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: dist
 
   deploy:
     environment:
