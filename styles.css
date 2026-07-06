@@ -3960,6 +3960,15 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   font-size: 0.95em;
 }
 
+.writeup-section a {
+    color: #4f8cff;
+    text-decoration: underline;
+}
+
+.writeup-section a:hover {
+    text-decoration: none;
+}
+
 .writeup-facts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
