@@ -3,6 +3,22 @@
   "source": "hackthebox-activity-api",
   "items": [
     {
+      "date": "2026-07-06",
+      "type": "challenge",
+      "solveType": "ctf",
+      "name": "Admin Fury",
+      "category": "OSINT",
+      "lesson": "Tracked the event from visual clues, confirmed Comifuro 22 from wristband/context, then mapped the RGB Team booth to derive the nearest row range.",
+      "link": "writeups/admin-fury.html",
+      "writeupUrl": "writeups/admin-fury.html",
+      "tags": [
+        "OSINT",
+        "FIT",
+        "Comifuro",
+        "CTF"
+      ]
+    },
+    {
       "date": "2026-07-04",
       "type": "challenge",
       "solveType": "challenge",

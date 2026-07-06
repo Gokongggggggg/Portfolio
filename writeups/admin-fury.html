@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FIT Competition Admin Fury OSINT writeup.">
+    <title>Admin Fury Writeup | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#top">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html">Showcase</a>
+        <a href="../solves.html">Archive</a>
+        <a href="../pentest.html">Field Notes</a>
+        <a href="../projects.html">Builds</a>
+        <a href="../index.html#about">About</a>
+      </nav>
+    </header>
+
+    <main id="top" class="writeup-page">
+      <article class="writeup-shell reveal-target">
+        <header class="writeup-hero torn-panel">
+          <p class="eyebrow">FIT Competition / OSINT</p>
+          <h1>Admin Fury</h1>
+          <p>Writeup singkat untuk challenge OSINT: identifikasi event dari clue visual, validasi event lewat gelang/postingan, lalu mapping posisi booth untuk dapetin range baris terdekat.</p>
+          <div class="writeup-meta-row">
+            <span>2026-07-06</span>
+            <span>OSINT</span>
+            <span>Comifuro 22</span>
+          </div>
+        </header>
+
+        <section class="writeup-section">
+          <h2>Challenge</h2>
+          <p>Format flag meminta nama event full dan range baris terdekat. Clue utamanya ada di foto admin dan detail visual di sekitar event.</p>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-01.png" alt="Admin Fury challenge prompt">
+            <figcaption>Prompt challenge: cari nama event dan range baris terdekat.</figcaption>
+          </figure>
+        </section>
+
+        <section class="writeup-section">
+          <h2>1. Identify Event</h2>
+          <p>Langkah awal: cari nama event dari visual yang kelihatan. Dari clue yang ada, event mengarah ke <strong>Comifuro</strong>. Setelah itu, pembeda pentingnya adalah versi event yang dipakai.</p>
+          <p>Gelang event punya pola warna yang cukup unik, jadi gue cari post/reels dengan hashtag <code>#comifuro</code> dan nyari orang yang pakai gelang dengan corak sama.</p>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-07.png" alt="Instagram evidence mentioning CF22 and matching wristband context">
+            <figcaption>Post/reels yang mention <code>#cf22</code>, lalu dikonfirmasi lagi dengan post resmi Comifuro 22.</figcaption>
+          </figure>
+        </section>
+
+        <section class="writeup-section">
+          <h2>2. Find The Map</h2>
+          <p>Setelah event confirm sebagai <strong>Comic Frontier 22</strong>, next step adalah cari floor map. Query yang dipakai sederhana: <code>comifuro 22 map pdf</code>.</p>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-08.png" alt="Search result for Comifuro 22 map PDF">
+            <figcaption>Map Comifuro 22 ketemu dari hasil pencarian.</figcaption>
+          </figure>
+        </section>
+
+        <section class="writeup-section">
+          <h2>3. Match Booth Clue</h2>
+          <p>Balik ke foto challenge, di background dekat admin ada booth dengan logo/teks yang bisa diarahkan ke <strong>RGB</strong>. Jadi di map yang sudah ditemukan, tinggal cari keyword <code>RGB</code>.</p>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-09.png" alt="Original admin photo with RGB booth clue circled">
+            <figcaption>Clue booth RGB di background foto admin.</figcaption>
+          </figure>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-10.png" alt="RGB Team booth found in map/search result">
+            <figcaption>RGB Team muncul di map/list booth dan logonya cocok dengan clue visual.</figcaption>
+          </figure>
+        </section>
+
+        <section class="writeup-section">
+          <h2>4. Derive The Range</h2>
+          <p>Booth RGB Team ada di <code>B-25ab</code>. Dari posisi di map dan foto admin yang berada di area baris sekitar situ, range baris terdekat yang masuk adalah <code>b24-b30</code>.</p>
+          <figure class="writeup-figure">
+            <img src="../public/images/writeups/admin-fury/page-11.png" alt="Final booth position reasoning">
+            <figcaption>RGB Team di B25ab, lalu range terdekat diarahkan ke B24-B30.</figcaption>
+          </figure>
+        </section>
+
+        <section class="writeup-section writeup-flag torn-panel">
+          <p class="eyebrow">Flag</p>
+          <code>ctffit{Comic Frontier 22_b24-b30}</code>
+          <figure class="writeup-figure compact">
+            <img src="../public/images/writeups/admin-fury/page-12.png" alt="Final Admin Fury flag screenshot">
+          </figure>
+        </section>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+</html>
