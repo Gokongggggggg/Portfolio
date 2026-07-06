@@ -48,7 +48,7 @@
           <header class="writeup-title-block">
             <p class="eyebrow">V1T 2026 / Web</p>
             <h1>HVL</h1>
-            <p>Writeup singkat tentang challenge web yang menyembunyikan flag lewat custom font: HTML berisi emoji, tapi glyph yang dirender browser berubah menjadi karakter flag.</p>
+            <p>A short writeup of a web challenge where the flag is hidden using a custom font. Although the HTML only contains emoji, the browser renders them as flag characters through custom glyph mapping.</p>
             <div class="writeup-meta-row">
               <span>2026-07-06</span>
               <span>Web</span>
@@ -58,7 +58,7 @@
 
           <section id="summary" class="writeup-section writeup-section--plain">
             <h2>Summary</h2>
-            <p>Source halaman dan tampilan browser menunjukkan teks yang berbeda. Setelah dicek, tidak ada logic decoding di JavaScript. Penyebabnya adalah font custom yang disamarkan sebagai <code>NotoSans-Regular.ttf</code>, padahal metadata aslinya <code>Emoji To AZ Regular</code>.</p>
+            <p>The page source and the rendered output display completely different text. After inspecting the JavaScript, there was no decoding logic involved. The actual trick was a custom font disguised as <code>NotoSans-Regular.ttf</code>, whose internal metadata revealed its real name: <code>Emoji To AZ Regular</code>.</p>
             <ul class="writeup-facts">
               <li><span>Vector</span><strong>Custom font</strong></li>
               <li><span>Table</span><strong>CMAP</strong></li>
@@ -69,49 +69,49 @@
 
           <section id="source" class="writeup-section">
             <h2>Reading The Source</h2>
-            <p>Langkah awal adalah membuka source dan DevTools. Dari sini kelihatan challenge menggunakan visualizer lyric, dan data lyric dikirim ke browser sebagai string. Karena payload sudah ada di client, fokusnya pindah ke bagaimana browser menampilkan teks tersebut.</p>
+            <p>The first step was inspecting the page source and opening DevTools. The challenge uses a lyric visualizer, with the entire lyric already embedded in the client as a string. Since the payload was already available, the focus shifted from retrieving data to understanding how the browser rendered it.</p>
             <div class="writeup-grid-images">
               <figure class="writeup-figure">
                 <img src="../public/images/writeups/hvl/source-entry.png" alt="Initial source view for the HVL challenge" loading="lazy">
-                <figcaption>Mulai dari source dan asset yang dimuat halaman.</figcaption>
+                <figcaption>Started by inspecting the page source and loaded assets.</figcaption>
               </figure>
               <figure class="writeup-figure">
                 <img src="../public/images/writeups/hvl/sources-panel.png" alt="Browser Sources panel showing challenge resources" loading="lazy">
-                <figcaption>Panel Sources dipakai untuk mencari script dan asset penting.</figcaption>
+                <figcaption>The Sources panel helped identify the relevant scripts and assets.</figcaption>
               </figure>
             </div>
           </section>
 
           <section id="dynamic" class="writeup-section">
             <h2>Dynamic Analysis</h2>
-            <p>Di inspector, teks HTML di sisi kanan dan tampilan user di sisi kiri tidak sama. Ini tanda kuat bahwa transformasinya bukan sekadar string biasa. Kalau JavaScript tidak melakukan decode, kandidat berikutnya adalah CSS/font rendering.</p>
+            <p>While inspecting the DOM, I noticed that the HTML content did not match the text rendered on the page. At first, I expected the JavaScript to contain some sort of decoding routine. After tracing the relevant functions, however, nothing modified the original string. That shifted my attention away from JavaScript and toward the browser's rendering layer, specifically CSS and custom fonts.</p>
             <figure class="writeup-figure">
               <img src="../public/images/writeups/hvl/dynamic-analysis.png" alt="Inspector showing a mismatch between HTML text and rendered user view" loading="lazy">
-              <figcaption>HTML dan rendered text berbeda, jadi rendering layer perlu dicurigai.</figcaption>
+              <figcaption>The HTML and rendered output do not match, pointing to the rendering layer rather than the source itself.</figcaption>
             </figure>
           </section>
 
           <section id="payload" class="writeup-section">
             <h2>Finding The Payload</h2>
-            <p>Full lyric bisa dicari dari data yang sudah ada di browser. Bagian yang menarik adalah beberapa cue terakhir yang berisi emoji. Saat bagian emoji muncul, rendered text mulai terlihat seperti format flag.</p>
+            <p>The complete lyric could be extracted directly from the client-side data. The interesting part appeared near the end, where several cues consisted entirely of emoji. Once rendered, those emoji began to resemble a typical CTF flag format.</p>
             <figure class="writeup-figure">
               <img src="../public/images/writeups/hvl/lyric-search.png" alt="Searching the page source for the embedded lyric data" loading="lazy">
-              <figcaption>Full lyric ditemukan dari data client-side.</figcaption>
+              <figcaption>The full lyric was already available in the client-side data.</figcaption>
             </figure>
             <figure class="writeup-figure">
               <img src="../public/images/writeups/hvl/emoji-render.png" alt="Rendered emoji lyric looking like a flag fragment" loading="lazy">
-              <figcaption>Emoji di lyric menjadi kandidat payload karena render-nya menyerupai flag.</figcaption>
+              <figcaption>The emoji sequence became the primary payload once its rendered output resembled a flag.</figcaption>
             </figure>
           </section>
 
           <section id="font" class="writeup-section">
             <h2>Custom Font</h2>
-            <p>CSS memuat font lokal bernama <code>NotoSans-Regular.ttf</code>. Nama file ini misleading: setelah font dibaca, metadata aslinya adalah <code>Emoji To AZ Regular</code>. CMAP font tersebut memetakan emoji ke glyph name yang readable seperti <code>v</code>, <code>one</code>, <code>braceleft</code>, dan <code>underscore</code>.</p>
+            <p>The stylesheet loads a local font named <code>NotoSans-Regular.ttf</code>. The filename is intentionally misleading: its internal metadata identifies it as <code>Emoji To AZ Regular</code>. Inspecting the font's CMAP table reveals that emoji code points are mapped to readable glyph names such as <code>v</code>, <code>one</code>, <code>braceleft</code>, and <code>underscore</code>.</p>
             <figure class="writeup-figure">
               <img src="../public/images/writeups/hvl/font-face.png" alt="CSS font-face rule loading NotoSans-Regular.ttf" loading="lazy">
-              <figcaption><code>@font-face</code> adalah clue utama untuk mengambil font custom.</figcaption>
+              <figcaption>The <code>@font-face</code> rule provides the key clue: extract the custom font and inspect its mapping.</figcaption>
             </figure>
-            <p>Contoh mapping dari font:</p>
+            <p>Example glyph mappings:</p>
             <ul class="writeup-facts">
               <li><span>U+1F600</span><strong>v</strong></li>
               <li><span>U+1F603</span><strong>one</strong></li>
@@ -122,11 +122,11 @@
 
           <section id="tooling" class="writeup-section">
             <h2>Tooling</h2>
-            <p>Karena case seperti ini cukup repetitive, aku bikin tool kecil untuk upload font, paste text, lalu langsung melihat output dan mapping CMAP. Tool ini berguna kalau ketemu CTF challenge yang encode pesan lewat custom font.</p>
+            <p>Since this technique is fairly repetitive, I built a small utility that lets me upload a font, paste the encoded text, and immediately inspect both the rendered output and the CMAP mapping. It is useful for CTF challenges that hide messages through custom font glyph substitution.</p>
             <p>Simple web tool: <a href="https://gokongggggggg.github.io/ctf-font-decode/" rel="noreferrer">ctf-font-decode</a>.</p>
             <figure class="writeup-figure">
               <img src="../public/images/writeups/hvl/final-flag.png" alt="CTF font decode result showing the final flag" loading="lazy">
-              <figcaption>Font + emoji payload menghasilkan flag lewat glyph-name mapping.</figcaption>
+              <figcaption>Combining the custom font with the emoji payload reveals the flag through glyph-name mapping.</figcaption>
             </figure>
           </section>
 
