@@ -28,77 +28,116 @@
       </nav>
     </header>
 
-    <main id="top" class="writeup-page">
-      <article class="writeup-shell reveal-target">
-        <header class="writeup-hero torn-panel">
-          <p class="eyebrow">FIT Competition / OSINT</p>
-          <h1>Admin Fury</h1>
-          <p>Writeup singkat untuk challenge OSINT: identifikasi event dari clue visual, validasi event lewat gelang/postingan, lalu mapping posisi booth untuk dapetin range baris terdekat.</p>
-          <div class="writeup-meta-row">
-            <span>2026-07-06</span>
-            <span>OSINT</span>
-            <span>Comifuro 22</span>
-          </div>
-        </header>
+    <main id="top" class="writeup-page writeup-page--toc">
+      <div class="writeup-layout reveal-target">
+        <aside class="writeup-toc" aria-label="Writeup navigation">
+          <a class="writeup-back" href="../solves.html">Archive</a>
+          <p>Admin Fury</p>
+          <nav>
+            <a href="#summary">Summary</a>
+            <a href="#challenge">Challenge</a>
+            <a href="#event">Event</a>
+            <a href="#map">Map</a>
+            <a href="#booth">Booth</a>
+            <a href="#range">Range</a>
+            <a href="#flag">Flag</a>
+          </nav>
+        </aside>
 
-        <section class="writeup-section">
-          <h2>Challenge</h2>
-          <p>Format flag meminta nama event full dan range baris terdekat. Clue utamanya ada di foto admin dan detail visual di sekitar event.</p>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-01.png" alt="Admin Fury challenge prompt">
-            <figcaption>Prompt challenge: cari nama event dan range baris terdekat.</figcaption>
-          </figure>
-        </section>
+        <article class="writeup-article">
+          <header class="writeup-title-block">
+            <p class="eyebrow">FIT Competition / OSINT</p>
+            <h1>Admin Fury</h1>
+            <p>Writeup OSINT untuk mencari nama event full dan range baris terdekat dari satu foto challenge.</p>
+            <div class="writeup-meta-row">
+              <span>2026-07-06</span>
+              <span>OSINT</span>
+              <span>Comifuro 22</span>
+            </div>
+          </header>
 
-        <section class="writeup-section">
-          <h2>1. Identify Event</h2>
-          <p>Langkah awal: cari nama event dari visual yang kelihatan. Dari clue yang ada, event mengarah ke <strong>Comifuro</strong>. Setelah itu, pembeda pentingnya adalah versi event yang dipakai.</p>
-          <p>Gelang event punya pola warna yang cukup unik, jadi gue cari post/reels dengan hashtag <code>#comifuro</code> dan nyari orang yang pakai gelang dengan corak sama.</p>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-07.png" alt="Instagram evidence mentioning CF22 and matching wristband context">
-            <figcaption>Post/reels yang mention <code>#cf22</code>, lalu dikonfirmasi lagi dengan post resmi Comifuro 22.</figcaption>
-          </figure>
-        </section>
+          <section id="summary" class="writeup-section writeup-section--plain">
+            <h2>Summary</h2>
+            <p>Clue visual mengarah ke event Comifuro. Setelah versi event terkunci sebagai Comic Frontier 22, map venue dipakai untuk mencocokkan booth RGB Team dan menurunkan range baris yang diminta flag.</p>
+            <ul class="writeup-facts">
+              <li><span>Event</span><strong>Comic Frontier 22</strong></li>
+              <li><span>Booth clue</span><strong>RGB Team</strong></li>
+              <li><span>Position</span><strong>B-25ab</strong></li>
+              <li><span>Range</span><strong>B24-B30</strong></li>
+            </ul>
+          </section>
 
-        <section class="writeup-section">
-          <h2>2. Find The Map</h2>
-          <p>Setelah event confirm sebagai <strong>Comic Frontier 22</strong>, next step adalah cari floor map. Query yang dipakai sederhana: <code>comifuro 22 map pdf</code>.</p>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-08.png" alt="Search result for Comifuro 22 map PDF">
-            <figcaption>Map Comifuro 22 ketemu dari hasil pencarian.</figcaption>
-          </figure>
-        </section>
+          <section id="challenge" class="writeup-section">
+            <h2>Challenge</h2>
+            <p>Prompt-nya minta nama event full dan range baris terdekat. Dari sini target utamanya bukan cuma tahu event apa, tapi juga bisa menentukan posisi di map event.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/admin-fury/challenge-prompt.png" alt="Admin Fury challenge prompt asking for full event name and nearest row range" loading="lazy">
+              <figcaption>Challenge prompt yang menentukan format flag.</figcaption>
+            </figure>
+          </section>
 
-        <section class="writeup-section">
-          <h2>3. Match Booth Clue</h2>
-          <p>Balik ke foto challenge, di background dekat admin ada booth dengan logo/teks yang bisa diarahkan ke <strong>RGB</strong>. Jadi di map yang sudah ditemukan, tinggal cari keyword <code>RGB</code>.</p>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-09.png" alt="Original admin photo with RGB booth clue circled">
-            <figcaption>Clue booth RGB di background foto admin.</figcaption>
-          </figure>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-10.png" alt="RGB Team booth found in map/search result">
-            <figcaption>RGB Team muncul di map/list booth dan logonya cocok dengan clue visual.</figcaption>
-          </figure>
-        </section>
+          <section id="event" class="writeup-section">
+            <h2>Identifying The Event</h2>
+            <p>Nama event pertama kali mengarah ke Comifuro. Tapi karena flag minta full event name, versi event-nya harus dipastikan. Clue paling useful adalah gelang event dan postingan yang menyebut <code>#cf22</code>.</p>
+            <div class="writeup-grid-images">
+              <figure class="writeup-figure">
+                <img src="../public/images/writeups/admin-fury/cf22-reel.png" alt="Social media reel showing matching wristband context" loading="lazy">
+                <figcaption>Visual gelang yang dipakai buat nyambungin clue ke event.</figcaption>
+              </figure>
+              <figure class="writeup-figure">
+                <img src="../public/images/writeups/admin-fury/cf22-tag.png" alt="Social media caption containing cf22 and comifuro hashtags" loading="lazy">
+                <figcaption>Hashtag <code>#cf22</code> jadi indikator versi event.</figcaption>
+              </figure>
+            </div>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/admin-fury/comifuro-official.png" alt="Official Comifuro 22 post confirming the event name" loading="lazy">
+              <figcaption>Post resmi mengunci nama event sebagai Comic Frontier 22.</figcaption>
+            </figure>
+          </section>
 
-        <section class="writeup-section">
-          <h2>4. Derive The Range</h2>
-          <p>Booth RGB Team ada di <code>B-25ab</code>. Dari posisi di map dan foto admin yang berada di area baris sekitar situ, range baris terdekat yang masuk adalah <code>b24-b30</code>.</p>
-          <figure class="writeup-figure">
-            <img src="../public/images/writeups/admin-fury/page-11.png" alt="Final booth position reasoning">
-            <figcaption>RGB Team di B25ab, lalu range terdekat diarahkan ke B24-B30.</figcaption>
-          </figure>
-        </section>
+          <section id="map" class="writeup-section">
+            <h2>Finding The Map</h2>
+            <p>Setelah event confirm, next move adalah cari floor map. Query <code>comifuro 22 map pdf</code> langsung ngarah ke file map/list booth Comifuro 22.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/admin-fury/map-search.png" alt="Search result for Comifuro 22 floor map PDF" loading="lazy">
+              <figcaption>Floor map Comifuro 22 ketemu dari hasil pencarian.</figcaption>
+            </figure>
+          </section>
 
-        <section class="writeup-section writeup-flag torn-panel">
-          <p class="eyebrow">Flag</p>
-          <code>ctffit{Comic Frontier 22_b24-b30}</code>
-          <figure class="writeup-figure compact">
-            <img src="../public/images/writeups/admin-fury/page-12.png" alt="Final Admin Fury flag screenshot">
-          </figure>
-        </section>
-      </article>
+          <section id="booth" class="writeup-section">
+            <h2>Matching The Booth</h2>
+            <p>Di foto challenge ada clue booth yang kebaca sebagai RGB. Dari list booth/map, keyword itu match ke <strong>RGB Team</strong>, dan posisinya tercatat di <code>B-25ab</code>.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/admin-fury/admin-rgb-clue.png" alt="Admin photo with booth clue visible in the background" loading="lazy">
+              <figcaption>Foto challenge dengan clue booth di background.</figcaption>
+            </figure>
+            <div class="writeup-grid-images writeup-grid-images--narrow">
+              <figure class="writeup-figure">
+                <img src="../public/images/writeups/admin-fury/rgb-map-search.png" alt="RGB Team found in booth list and search result" loading="lazy">
+                <figcaption>RGB Team muncul di list booth dan hasil pencarian.</figcaption>
+              </figure>
+              <figure class="writeup-figure">
+                <img src="../public/images/writeups/admin-fury/rgb-profile.png" alt="RGB Team profile/logo evidence" loading="lazy">
+                <figcaption>Profil/logo dipakai buat validasi clue visual.</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section id="range" class="writeup-section">
+            <h2>Deriving The Range</h2>
+            <p>Booth RGB Team ada di <code>B-25ab</code>. Area foto admin masih masuk baris sekitarnya, jadi range terdekat yang masuk adalah <code>B24-B30</code>.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/admin-fury/range-map.png" alt="Comifuro map area showing the B24 to B30 range" loading="lazy">
+              <figcaption>Range baris yang relevan di area B24 sampai B30.</figcaption>
+            </figure>
+          </section>
+
+          <section id="flag" class="writeup-section writeup-flag">
+            <p class="eyebrow">Flag</p>
+            <code>ctffit{Comic Frontier 22_b24-b30}</code>
+          </section>
+        </article>
+      </div>
     </main>
 
     <footer class="site-footer">
