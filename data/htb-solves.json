@@ -1,7 +1,24 @@
 {
-  "generatedAt": "2026-07-04T14:20:28.457Z",
+  "generatedAt": "2026-07-06T13:08:18.671Z",
   "source": "hackthebox-activity-api",
   "items": [
+    {
+      "date": "2026-07-06",
+      "type": "challenge",
+      "solveType": "ctf",
+      "name": "HVL",
+      "category": "Web",
+      "lesson": "Solved a custom-font rendering trick by extracting the challenge font, reading its CMAP table, and mapping emoji code points to readable glyph names.",
+      "link": "writeups/hvl.html",
+      "writeupUrl": "writeups/hvl.html",
+      "tags": [
+        "Web",
+        "V1T 2026",
+        "Custom Font",
+        "Unicode",
+        "CTF"
+      ]
+    },
     {
       "date": "2026-07-06",
       "type": "challenge",
