@@ -11,7 +11,7 @@ loadEnv(envPath);
 const token = process.env.HTB_TOKEN;
 const userId = process.env.HTB_USER_ID || "2885938";
 const perPage = Number(process.env.HTB_ACTIVITY_PER_PAGE || 100);
-const maxPages = Number(process.env.HTB_ACTIVITY_MAX_PAGES || 5);
+const maxPages = Number(process.env.HTB_ACTIVITY_MAX_PAGES || 10);
 
 if (!token || token === "PASTE_YOUR_HTB_TOKEN_HERE") {
   console.error("Missing HTB_TOKEN. Copy .env.example to .env, then paste your HTB token.");
@@ -24,18 +24,28 @@ main().catch((error) => {
 });
 
 async function main() {
+  const existingArchive = readExistingArchive();
+  const existingItems = existingArchive.items;
   const rawItems = await fetchAllActivity();
-  const solves = dedupeSolves(rawItems.map(normalizeActivity).filter(Boolean));
+  if (!rawItems.length) {
+    throw new Error("HTB returned no activity. Refusing to replace the existing archive.");
+  }
+
+  const remoteSolves = dedupeSolves(rawItems.map(normalizeActivity).filter(Boolean));
+  const solves = mergeWithExisting(remoteSolves, existingItems);
+  const itemsChanged = JSON.stringify(solves) !== JSON.stringify(existingItems);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(rawOutputPath, JSON.stringify(rawItems, null, 2));
   fs.writeFileSync(outputPath, JSON.stringify({
-    generatedAt: new Date().toISOString(),
-    source: "hackthebox-activity-api",
+    generatedAt: itemsChanged ? new Date().toISOString() : existingArchive.generatedAt || new Date().toISOString(),
+    source: "hackthebox-activity-api-v5",
     items: solves
   }, null, 2));
 
-  console.log(`Synced ${solves.length} HTB activities to ${path.relative(rootDir, outputPath)}.`);
+  console.log(`Fetched ${rawItems.length} HTB activities across the available history pages.`);
+  console.log(`Wrote ${solves.length} archive entries, including preserved manual writeups.`);
+  if (!itemsChanged) console.log("No archive item changes were detected.");
 }
 
 async function fetchAllActivity() {
@@ -46,13 +56,7 @@ async function fetchAllActivity() {
     url.searchParams.set("page", String(page));
     url.searchParams.set("per_page", String(perPage));
 
-    const response = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        "X-Requested-With": "XMLHttpRequest"
-      }
-    });
+    const response = await fetchWithRetry(url);
 
     if (!response.ok) {
       const body = await response.text();
@@ -63,12 +67,37 @@ async function fetchAllActivity() {
     const items = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload?.info?.activity) ? payload.info.activity : [];
     allItems.push(...items);
 
-    const currentPage = Number(payload?.meta?.current_page || page);
-    const lastPage = Number(payload?.meta?.last_page || page);
+    const meta = payload?.meta || {};
+    const currentPage = Number(meta.current_page ?? meta.currentPage ?? meta.page ?? page);
+    const totalItems = Number(meta.total ?? meta.totalItems ?? 0);
+    const inferredLastPage = totalItems && items.length ? Math.ceil(totalItems / items.length) : page;
+    const lastPage = Number(meta.last_page ?? meta.lastPage ?? inferredLastPage);
     if (!items.length || currentPage >= lastPage) break;
   }
 
   return allItems;
+}
+
+async function fetchWithRetry(url, attempts = 3) {
+  let lastResponse;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    lastResponse = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "X-Requested-With": "XMLHttpRequest"
+      }
+    });
+
+    if (lastResponse.ok || ![404, 429, 500, 502, 503, 504].includes(lastResponse.status) || attempt === attempts) {
+      return lastResponse;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 750 * attempt));
+  }
+
+  return lastResponse;
 }
 
 function normalizeActivity(item) {
@@ -122,6 +151,71 @@ function pick(source, keys) {
     if (source && source[key] !== undefined && source[key] !== null && source[key] !== "") return source[key];
   }
   return "";
+}
+
+function mergeWithExisting(remoteSolves, existingItems) {
+  const existingRemoteByKey = new Map();
+  const existingRemoteByName = new Map();
+  const manualItems = [];
+
+  for (const item of existingItems) {
+    if (isManualItem(item)) {
+      manualItems.push(item);
+      continue;
+    }
+
+    existingRemoteByKey.set(solveKey(item), item);
+    existingRemoteByName.set(`${item.type}:${String(item.name).toLowerCase()}`, item);
+  }
+
+  const mergedRemote = remoteSolves.map((solve) => {
+    const existing = existingRemoteByKey.get(solveKey(solve))
+      || existingRemoteByName.get(`${solve.type}:${solve.name.toLowerCase()}`);
+    if (!existing) return solve;
+
+    return {
+      ...solve,
+      category: isGenericCategory(existing.category) ? solve.category : existing.category,
+      lesson: isImportedLesson(existing.lesson) ? solve.lesson : existing.lesson,
+      writeupUrl: existing.writeupUrl || solve.writeupUrl,
+      tags: uniqueTags([...(solve.tags || []), ...(existing.tags || [])])
+    };
+  });
+
+  return dedupeSolves([...manualItems, ...mergedRemote]);
+}
+
+function readExistingArchive() {
+  if (!fs.existsSync(outputPath)) return { generatedAt: "", items: [] };
+
+  try {
+    const payload = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    return {
+      generatedAt: String(payload?.generatedAt || ""),
+      items: Array.isArray(payload?.items) ? payload.items : []
+    };
+  } catch (error) {
+    throw new Error(`Could not read the existing archive: ${error.message}`);
+  }
+}
+
+function isManualItem(item) {
+  const link = String(item?.link || "");
+  return item?.solveType === "ctf"
+    || Boolean(item?.writeupUrl)
+    || (link && !/^https?:\/\//i.test(link));
+}
+
+function solveKey(solve) {
+  return `${solve.type}:${solve.link || String(solve.name).toLowerCase()}`;
+}
+
+function isImportedLesson(lesson) {
+  return !lesson || String(lesson).startsWith("Imported from Hack The Box activity.");
+}
+
+function isGenericCategory(category) {
+  return !category || ["challenge", "machine"].includes(String(category).toLowerCase());
 }
 
 function normalizeDate(value) {

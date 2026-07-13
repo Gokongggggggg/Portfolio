@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BroncoCTF QR Reconstruction misc writeup about manually rebuilding a fragmented QR code after automated approaches failed.">
+    <title>QR Reconstruction Writeup | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#top">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html">Showcase</a>
+        <a href="../solves.html">Archive</a>
+        <a href="../pentest.html">Field Notes</a>
+        <a href="../projects.html">Builds</a>
+        <a href="../index.html#about">About</a>
+      </nav>
+    </header>
+
+    <main id="top" class="writeup-page writeup-page--toc">
+      <div class="writeup-layout reveal-target">
+        <aside class="writeup-toc" aria-label="Writeup navigation">
+          <a class="writeup-back" href="../solves.html">Archive</a>
+          <p>QR Reconstruction</p>
+          <nav>
+            <a href="#preface">Preface</a>
+            <a href="#summary">Summary</a>
+            <a href="#dead-ends">Dead Ends</a>
+            <a href="#observation">Observation</a>
+            <a href="#reconstruction">Rebuild</a>
+            <a href="#scan">Scan</a>
+            <a href="#flag">Flag</a>
+          </nav>
+        </aside>
+
+        <article class="writeup-article">
+          <header class="writeup-title-block">
+            <p class="eyebrow">BroncoCTF / Misc</p>
+            <h1>QR Reconstruction</h1>
+            <p>A short writeup on rebuilding a fragmented QR code by recognizing the spatial clue that automated recovery tools missed.</p>
+            <div class="writeup-meta-row">
+              <span>2026-07-13</span>
+              <span>Misc</span>
+              <span>Manual Reconstruction</span>
+            </div>
+          </header>
+
+          <section id="preface" class="writeup-section writeup-section--plain">
+            <h2>Preface</h2>
+            <p>Well, this challenge was really interesting to me. It looked easy, yet it ended up as the second-least-solved challenge in the event. I think the reason is that it is almost an anti-LLM problem: the winning move was not a clever prompt or a sophisticated reconstruction algorithm, but simply looking at the image carefully and moving the pieces by hand.</p>
+          </section>
+
+          <section id="summary" class="writeup-section writeup-section--plain">
+            <h2>Summary</h2>
+            <p>The QR code had been split into fragments and pulled apart. The pieces were not randomly shuffled: neighboring regions still remained close to one another. Once that detail became clear, the challenge stopped being an algorithmic reconstruction problem and became a straightforward visual alignment task.</p>
+            <ul class="writeup-facts">
+              <li><span>Event</span><strong>BroncoCTF</strong></li>
+              <li><span>Category</span><strong>Misc</strong></li>
+              <li><span>Failed path</span><strong>Automation</strong></li>
+              <li><span>Solution</span><strong>Manual alignment</strong></li>
+            </ul>
+          </section>
+
+          <section id="dead-ends" class="writeup-section">
+            <h2>Dead Ends</h2>
+            <p>My first instinct was to automate the recovery. I tried several online QR repair tools, but none of them could read the image. I also brainstormed with an LLM and experimented with multiple reconstruction algorithms. Those attempts produced no usable QR code because they treated the fragments as a general puzzle instead of paying attention to how the challenge image had been arranged.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/bronco-qr/fragmented-qr.png" alt="Fragmented QR code with two groups of neighboring pieces highlighted in red" width="1280" height="713">
+              <figcaption>The original challenge image. The highlighted regions show pieces that still preserve their local neighborhood.</figcaption>
+            </figure>
+          </section>
+
+          <section id="observation" class="writeup-section">
+            <h2>The Key Observation</h2>
+            <p>Looking at the image more carefully revealed the actual rule: the fragments had been pulled away from their original locations, not randomly permuted. Their relative positions were largely preserved. Finder-pattern corners, continuous black modules, and nearby fragment boundaries therefore provided enough information to restore the layout visually.</p>
+            <p>This was the turning point. Instead of trying to infer a complex global arrangement, I only needed to move each local group back toward the center and align obvious neighboring edges.</p>
+          </section>
+
+          <section id="reconstruction" class="writeup-section">
+            <h2>Manual Reconstruction</h2>
+            <p>I opened the image in Microsoft Paint and moved the fragments into place. I used the three QR finder patterns as anchors, then adjusted the remaining pieces until the module grid became continuous enough for a scanner to recognize it. The result did not need to be pixel-perfect; QR error correction handled the small gaps and overlaps.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/bronco-qr/manual-reconstruction.png" alt="Microsoft Paint showing the QR fragments manually aligned into a readable square" width="1392" height="757" loading="lazy">
+              <figcaption>The reconstructed QR code in Microsoft Paint. Careful alignment was enough to make it readable.</figcaption>
+            </figure>
+          </section>
+
+          <section id="scan" class="writeup-section">
+            <h2>Scanning The Result</h2>
+            <p>After the manual reconstruction, an online QR scanner successfully decoded the image and returned a Canva link. Opening the recovered page and inspecting the rendered content revealed the flag.</p>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/bronco-qr/qr-scan-result.png" alt="Online QR scanner successfully decoding the reconstructed image into a Canva URL" width="1309" height="1021" loading="lazy">
+              <figcaption>The same type of online tool that failed on the fragmented input worked immediately after manual alignment.</figcaption>
+            </figure>
+            <figure class="writeup-figure">
+              <img src="../public/images/writeups/bronco-qr/recovered-flag.png" alt="Browser developer tools revealing the BroncoCTF flag over the reconstructed QR code" width="1812" height="880" loading="lazy">
+              <figcaption>The recovered page contained the final flag in its rendered text.</figcaption>
+            </figure>
+          </section>
+
+          <section id="flag" class="writeup-section writeup-flag">
+            <p class="eyebrow">Flag</p>
+            <code>bronco{th3_h1dd3n_cu3}</code>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+</html>
