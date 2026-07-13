@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T09:49:54.342Z",
+  "generatedAt": "2026-07-13T15:14:38.718Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
     {
@@ -22,6 +22,48 @@
         "QR Code",
         "Manual Reconstruction",
         "CTF"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Trapped Source",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/491",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Unholy Union",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/809",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Phantom Script",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/810",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
       ]
     },
     {
