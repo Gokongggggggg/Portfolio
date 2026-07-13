@@ -3833,6 +3833,25 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   }
 }
 /* Writeup article pages */
+.writeup-body {
+  background-color: #020712;
+  background-image:
+    linear-gradient(rgba(114, 214, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 188, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(2, 7, 18, 0.78), rgba(2, 7, 18, 0.94)),
+    linear-gradient(90deg, rgba(2, 7, 18, 0.9), rgba(2, 7, 18, 0.6) 54%, rgba(2, 7, 18, 0.88)),
+    url("public/images/hero-wallpaper.jpg");
+  background-position: 0 0, 0 0, center, center, center 24%;
+  background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 42px 42px, 42px 42px, cover, cover, cover;
+  background-attachment: fixed;
+}
+
+.writeup-body .site-header,
+.writeup-body .writeup-toc {
+  backdrop-filter: blur(12px);
+}
+
 .writeup-page {
   padding: 34px 0 76px;
 }
@@ -4088,6 +4107,11 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 }
 
 @media (max-width: 700px) {
+  .writeup-body {
+    background-attachment: scroll;
+    background-position: 0 0, 0 0, center, center, 58% top;
+  }
+
   .writeup-title-block h1 {
     font-size: clamp(2.45rem, 13vw, 4rem);
   }
