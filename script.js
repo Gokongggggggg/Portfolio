@@ -57,6 +57,10 @@ let activeSolveFilter = "all";
 let activeSolvePage = 1;
 const solvesPerPage = 8;
 let htbControlsReady = false;
+let activeWriteupCategory = "all";
+let writeupControlsReady = false;
+let writeupShelfReady = false;
+let activeWriteupHero = 0;
 const counterAnimations = new WeakMap();
 
 function renderHtbTracker() {
@@ -121,7 +125,7 @@ function renderHtbTracker() {
           </div>
           <div class="solve-actions">
             ${renderWriteupBadge(solve)}
-            <a class="solve-link" href="${escapeAttribute(solve.link)}" aria-label="Open ${escapeAttribute(solve.name)} log">View</a>
+            ${renderSolveSource(solve)}
           </div>
         </div>
         <div class="solve-tags" aria-label="${escapeAttribute(solve.name)} tags">
@@ -260,16 +264,317 @@ function renderPagination(totalPages, node) {
 }
 
 function renderSolveTags(solve) {
-  const writeupTag = solve.writeupUrl ? "WU" : "No WU";
-  return [writeupTag, ...(solve.tags || [])].map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
+  return (solve.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
 }
 
 function renderWriteupBadge(solve) {
   if (solve.writeupUrl) {
-    return `<a class="writeup-badge has-writeup" href="${escapeAttribute(solve.writeupUrl)}" aria-label="Open ${escapeAttribute(solve.name)} writeup">WU</a>`;
+    return `<a class="writeup-badge has-writeup" href="${escapeAttribute(solve.writeupUrl)}" aria-label="Read ${escapeAttribute(solve.name)} writeup">Read WU</a>`;
   }
 
-  return `<span class="writeup-badge no-writeup">No WU</span>`;
+  return "";
+}
+
+function renderSolveSource(solve) {
+  if (!solve.link || solve.link === solve.writeupUrl || solve.link === "#") return "";
+  return `<a class="solve-link" href="${escapeAttribute(solve.link)}" aria-label="Open ${escapeAttribute(solve.name)} source">Source</a>`;
+}
+
+function renderWriteupLibrary() {
+  const catalog = document.querySelector("#writeup-rows");
+  if (catalog) {
+    const writeups = [...htbSolves]
+      .filter((solve) => Boolean(solve.writeupUrl))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    renderWriteupHero(writeups);
+    renderWriteupRows(catalog, writeups);
+    return;
+  }
+
+  const library = document.querySelector("#writeup-library");
+  if (!library) return;
+
+  const searchInput = document.querySelector("#writeup-search");
+  const filterNode = document.querySelector("#writeup-category-filter");
+  const writeups = [...htbSolves]
+    .filter((solve) => Boolean(solve.writeupUrl))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  renderWriteupHero(writeups);
+  renderWriteupShelf(writeups);
+  initWriteupControls(searchInput, filterNode, writeups);
+
+  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
+  const latest = writeups[0];
+  const query = normalizeSearch(searchInput?.value || "");
+  const visibleWriteups = writeups.filter((writeup) => {
+    const matchesCategory = activeWriteupCategory === "all" || writeup.category === activeWriteupCategory;
+    if (!matchesCategory) return false;
+    if (!query) return true;
+
+    return [
+      writeup.name,
+      writeup.event,
+      writeup.category,
+      writeup.summary,
+      writeup.lesson,
+      ...(writeup.tags || [])
+    ].map(normalizeSearch).join(" ").includes(query);
+  });
+
+  document.querySelectorAll('[data-writeup-stat="total"]').forEach((node) => {
+    node.textContent = writeups.length;
+  });
+  document.querySelectorAll('[data-writeup-stat="categories"]').forEach((node) => {
+    node.textContent = categories.length;
+  });
+  document.querySelectorAll('[data-writeup-stat="latest"]').forEach((node) => {
+    node.textContent = latest?.name || "—";
+  });
+
+  if (!visibleWriteups.length) {
+    library.innerHTML = `<article class="writeup-library-empty torn-panel"><p class="category">No match</p><h3>No writeups found.</h3><p>Try another title, event, category, or technique.</p></article>`;
+    return;
+  }
+
+  library.innerHTML = visibleWriteups.map((writeup, index) => `
+    <a class="writeup-library-card torn-panel${index === 0 && !query && activeWriteupCategory === "all" ? " is-featured" : ""}" href="${escapeAttribute(writeup.writeupUrl)}">
+      <div class="writeup-card-media${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}">
+        ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
+        ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
+        <span>${index === 0 && !query && activeWriteupCategory === "all" ? "Latest release" : "Published writeup"}</span>
+      </div>
+      <div class="writeup-card-copy">
+        <div class="writeup-card-meta">
+          <span>${escapeHtml(writeup.event || "CTF")}</span>
+          <span>${escapeHtml(writeup.category)}</span>
+          <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
+        </div>
+        <h3>${escapeHtml(writeup.name)}</h3>
+        <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
+        <div class="writeup-card-tags">${(writeup.tags || []).slice(0, 4).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
+        <strong>Read writeup <span aria-hidden="true">→</span></strong>
+      </div>
+    </a>
+  `).join("");
+
+  registerRevealTargets(library.querySelectorAll(".writeup-library-card"));
+}
+
+function renderWriteupRows(catalog, writeups) {
+  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
+  const rows = [
+    { id: "new", title: "New releases", items: writeups },
+    ...categories.map((category) => ({
+      id: `category-${normalizeSearch(category).replace(/\s+/g, "-")}`,
+      title: category,
+      items: writeups.filter((writeup) => writeup.category === category)
+    }))
+  ];
+
+  catalog.innerHTML = rows.map((row) => `
+    <section class="catalog-row" aria-labelledby="${escapeAttribute(row.id)}-title">
+      <div class="catalog-row-heading">
+        <h2 id="${escapeAttribute(row.id)}-title">${escapeHtml(row.title)}</h2>
+        <div class="catalog-row-controls" aria-label="${escapeAttribute(`${row.title} controls`)}">
+          <button type="button" data-catalog-direction="-1" aria-label="Scroll ${escapeAttribute(row.title)} left">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button type="button" data-catalog-direction="1" aria-label="Scroll ${escapeAttribute(row.title)} right">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="catalog-track" tabindex="0" aria-label="${escapeAttribute(row.title)} writeups">
+        ${row.items.map((writeup, index) => renderWriteupRowCard(writeup, index)).join("")}
+      </div>
+    </section>
+  `).join("");
+
+  catalog.querySelectorAll(".catalog-row").forEach((row) => initCatalogRow(row));
+}
+
+function renderWriteupRowCard(writeup, index) {
+  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+  return `
+    <a class="catalog-card" href="${escapeAttribute(writeup.writeupUrl)}">
+      <div class="catalog-card-media${mediaClass}">
+        ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
+        ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
+        <span class="catalog-card-category">${escapeHtml(writeup.category)}</span>
+      </div>
+      <div class="catalog-card-copy">
+        <h3>${escapeHtml(writeup.name)}</h3>
+        <p><span>${escapeHtml(writeup.event || "CTF")}</span><time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time></p>
+      </div>
+    </a>
+  `;
+}
+
+function initCatalogRow(row) {
+  const track = row.querySelector(".catalog-track");
+  const buttons = row.querySelectorAll("[data-catalog-direction]");
+  if (!track) return;
+
+  const updateButtons = () => {
+    const atStart = track.scrollLeft <= 4;
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    buttons.forEach((button) => {
+      button.disabled = Number(button.dataset.catalogDirection) < 0 ? atStart : atEnd;
+    });
+  };
+
+  const scrollTrack = (direction) => {
+    track.scrollBy({
+      left: direction * Math.max(track.clientWidth * 0.82, 280),
+      behavior: reducedMotionQuery.matches ? "auto" : "smooth"
+    });
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => scrollTrack(Number(button.dataset.catalogDirection) || 1));
+  });
+  track.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    scrollTrack(event.key === "ArrowLeft" ? -1 : 1);
+  });
+  track.addEventListener("scroll", updateButtons, { passive: true });
+  window.addEventListener("resize", updateButtons);
+  updateButtons();
+}
+
+function renderWriteupHero(writeups) {
+  const hero = document.querySelector("#writeup-cinematic-hero");
+  if (!hero || !writeups.length) return;
+
+  activeWriteupHero = Math.min(activeWriteupHero, writeups.length - 1);
+  const writeup = writeups[activeWriteupHero];
+  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+
+  hero.innerHTML = `
+    <div class="writeup-cinematic-media${mediaClass}" aria-hidden="true">
+      ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="">` : ""}
+      ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
+    </div>
+    <div class="writeup-cinematic-shade"></div>
+    <div class="writeup-cinematic-copy">
+      <div class="writeup-cinematic-kicker">
+        <span>Featured writeup</span>
+        <span>${escapeHtml(writeup.event || "CTF")}</span>
+      </div>
+      <h1>${String(writeup.name || "Writeup").split(/\s+/).map((word) => `<span>${escapeHtml(word)}</span>`).join("")}</h1>
+      <div class="writeup-cinematic-meta">
+        <strong>${escapeHtml(writeup.category)}</strong>
+        <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
+        ${(writeup.tags || []).slice(0, 2).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
+      </div>
+      <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
+      <div class="hero-actions">
+        <a class="button primary" href="${escapeAttribute(writeup.writeupUrl)}">Read writeup</a>
+        <a class="button secondary" href="#writeup-catalog">Browse catalog</a>
+      </div>
+      <div class="writeup-cinematic-dots" role="group" aria-label="Choose featured writeup">
+        ${writeups.map((item, index) => `<button type="button" class="${index === activeWriteupHero ? "is-active" : ""}" data-writeup-hero="${index}" aria-label="Show ${escapeAttribute(item.name)}" aria-pressed="${index === activeWriteupHero}"></button>`).join("")}
+      </div>
+    </div>
+  `;
+
+  hero.querySelectorAll("[data-writeup-hero]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeWriteupHero = Number(button.dataset.writeupHero) || 0;
+      renderWriteupHero(writeups);
+    });
+  });
+}
+
+function renderWriteupShelf(writeups) {
+  const shelf = document.querySelector("#writeup-featured-shelf");
+  if (!shelf) return;
+
+  shelf.innerHTML = writeups.map((writeup, index) => `
+    <a class="writeup-shelf-card torn-panel" href="${escapeAttribute(writeup.writeupUrl)}">
+      <div class="writeup-card-media${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}">
+        ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
+        ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
+        <span>${index === 0 ? "Latest release" : "Featured"}</span>
+      </div>
+      <div class="writeup-shelf-copy">
+        <div class="writeup-card-meta">
+          <span>${escapeHtml(writeup.event || "CTF")}</span>
+          <span>${escapeHtml(writeup.category)}</span>
+          <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
+        </div>
+        <h3>${escapeHtml(writeup.name)}</h3>
+        <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
+        <strong>Read writeup <span aria-hidden="true">&rarr;</span></strong>
+      </div>
+    </a>
+  `).join("");
+
+  initWriteupShelfControls(shelf);
+  updateWriteupShelfControls(shelf);
+}
+
+function initWriteupShelfControls(shelf) {
+  if (writeupShelfReady) return;
+  writeupShelfReady = true;
+
+  const scrollShelf = (direction) => {
+    const distance = Math.max(shelf.clientWidth * 0.78, 280);
+    shelf.scrollBy({
+      left: direction * distance,
+      behavior: reducedMotionQuery.matches ? "auto" : "smooth"
+    });
+  };
+
+  document.querySelectorAll("[data-shelf-scroll]").forEach((button) => {
+    button.addEventListener("click", () => scrollShelf(Number(button.dataset.shelfScroll) || 1));
+  });
+
+  shelf.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    scrollShelf(event.key === "ArrowLeft" ? -1 : 1);
+  });
+  shelf.addEventListener("scroll", () => updateWriteupShelfControls(shelf), { passive: true });
+  window.addEventListener("resize", () => updateWriteupShelfControls(shelf));
+}
+
+function updateWriteupShelfControls(shelf) {
+  const atStart = shelf.scrollLeft <= 4;
+  const atEnd = shelf.scrollLeft + shelf.clientWidth >= shelf.scrollWidth - 4;
+  document.querySelectorAll("[data-shelf-scroll]").forEach((button) => {
+    const direction = Number(button.dataset.shelfScroll);
+    button.disabled = direction < 0 ? atStart : atEnd;
+  });
+}
+
+function initWriteupControls(searchInput, filterNode, writeups) {
+  if (writeupControlsReady) return;
+  writeupControlsReady = true;
+
+  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
+  if (filterNode) {
+    filterNode.innerHTML = ["all", ...categories].map((category) => `
+      <button type="button" class="${category === "all" ? "is-active" : ""}" data-writeup-category="${escapeAttribute(category)}">
+        ${category === "all" ? "All" : escapeHtml(category)}
+      </button>
+    `).join("");
+
+    filterNode.querySelectorAll("[data-writeup-category]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeWriteupCategory = button.dataset.writeupCategory || "all";
+        filterNode.querySelectorAll("[data-writeup-category]").forEach((item) => {
+          item.classList.toggle("is-active", item === button);
+        });
+        renderWriteupLibrary();
+      });
+    });
+  }
+
+  searchInput?.addEventListener("input", renderWriteupLibrary);
 }
 
 function renderHtbHeatmap(solves, grid, months) {
@@ -447,6 +752,7 @@ function escapeAttribute(value) {
 
 loadHtbSolves().then(() => {
   renderHtbTracker();
+  renderWriteupLibrary();
   initRevealMotion();
 });
 let revealObserver;
@@ -492,7 +798,8 @@ initRevealMotion();
 
 async function loadHtbSolves() {
   const tracker = document.querySelector("#htb-solve-log");
-  if (!tracker) return;
+  const library = document.querySelector("#writeup-library, #writeup-rows");
+  if (!tracker && !library) return;
 
   try {
     const response = await fetch("data/htb-solves.json", { cache: "no-store" });

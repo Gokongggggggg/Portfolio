@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
-    <title>Archive | Wisely</title>
+    <meta name="description" content="A complete activity log of CTF challenges and Hack The Box machines solved by Wisely.">
+    <title>Activity Log | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
@@ -21,22 +21,22 @@
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="index.html">Showcase</a>
-        <a href="solves.html">Archive</a>
+        <a href="writeups.html">Writeups</a>
+        <a href="solves.html">Activity</a>
         <a href="pentest.html">Field Notes</a>
         <a href="projects.html">Builds</a>
-        <a href="index.html#about">About</a>
       </nav>
     </header>
     <main id="top">
       <section class="archive-hero rule-archive-hero reveal-target">
         <div class="torn-panel">
-          <p class="eyebrow">Evidence Locker</p>
-          <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+          <p class="eyebrow">Activity Log</p>
+          <h1>Every solve leaves a trace.</h1>
+          <p>This is the complete running record: machines, challenges, and practice. A log means I was active—not that a writeup is planned.</p>
         </div>
         <div class="archive-count torn-panel" aria-label="Portfolio activity summary">
           <span data-htb-stat="total">0</span>
-          <strong>entries logged</strong>
+          <strong>solves logged</strong>
         </div>
       </section>
 
@@ -44,14 +44,14 @@
         <div class="archive-dashboard" aria-label="Archive recap">
           <article><span>HTB Machines</span><strong data-count-up data-htb-stat="machines">0</strong></article>
           <article><span>CTF Challenges</span><strong data-count-up data-htb-stat="challenges">0</strong></article>
-          <article><span>Writeups</span><strong data-count-up data-htb-stat="writeups">0</strong></article>
+          <article><span>Published Writeups</span><strong data-count-up data-htb-stat="writeups">0</strong></article>
           <article><span>Total Logs</span><strong data-count-up data-htb-stat="total">0</strong></article>
         </div>
 
         <div class="archive-toolbar torn-panel">
           <div>
-            <p class="eyebrow">Search the mess</p>
-            <h2 id="solves-archive-title">Lorem ipsum dolor sit amet.</h2>
+            <p class="eyebrow">Search activity</p>
+            <h2 id="solves-archive-title">The complete practice trail.</h2>
           </div>
           <section class="solve-controls archive-controls" aria-label="Solve search and filters">
             <label class="sr-only" for="htb-solve-search">Search archive</label>
@@ -67,7 +67,7 @@
         <div class="archive-grid-layout">
           <section class="archive-panel heatmap-panel archive-map torn-panel" aria-labelledby="htb-heatmap-title">
             <div class="panel-heading heatmap-heading">
-              <div><p class="category">Activity Map</p><h3 id="htb-heatmap-title">Lorem ipsum activity</h3></div>
+            <div><p class="category">Activity Map</p><h3 id="htb-heatmap-title">One year of logged work</h3></div>
               <div class="heatmap-legend" aria-label="Activity intensity legend">
                 <span>Less</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span>More</span>
               </div>
@@ -79,9 +79,10 @@
           </section>
 
           <aside class="archive-side-note lab-slip slip-tilt">
-            <p class="category">Noisy signal</p>
-            <h3>Lorem ipsum dolor sit amet.</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.</p>
+            <p class="category">Logs are not drafts</p>
+            <h3>Most solves stay right here.</h3>
+            <p>Writeups are intentionally selective. If you want complete articles, the curated library contains only work that is ready to read.</p>
+            <a class="button secondary" href="writeups.html">Browse writeups</a>
           </aside>
         </div>
 

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A curated collection of CTF writeups covering the challenges worth unpacking.">
+    <title>Writeups | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="writeup-body writeup-library-body">
+    <a class="skip-link" href="#top">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="index.html">Showcase</a>
+        <a href="writeups.html">Writeups</a>
+        <a href="solves.html">Activity</a>
+        <a href="pentest.html">Field Notes</a>
+        <a href="projects.html">Builds</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="writeup-cinematic-hero reveal-target" id="writeup-cinematic-hero" aria-live="polite"></section>
+
+      <section class="writeup-library-hero reveal-target" aria-labelledby="writeup-library-title">
+        <div class="writeup-library-intro torn-panel">
+          <p class="eyebrow">Curated Writeups</p>
+          <h1 id="writeup-library-title">Only the challenges worth unpacking.</h1>
+          <p>I log every solve as proof of active practice. This shelf is different: it only contains challenges with an interesting idea, unusual technique, or lesson worth sharing.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#featured-writeups">Browse writeups</a>
+            <a class="button secondary" href="solves.html">View activity log</a>
+          </div>
+        </div>
+
+        <aside class="writeup-library-manifest torn-panel" aria-label="Writeup collection summary">
+          <p class="category">Published shelf</p>
+          <div>
+            <strong data-writeup-stat="total">0</strong>
+            <span>writeups available</span>
+          </div>
+          <dl>
+            <div><dt>Categories</dt><dd data-writeup-stat="categories">0</dd></div>
+            <div><dt>Latest</dt><dd data-writeup-stat="latest">—</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="writeup-catalog reveal-target" id="writeup-catalog" aria-label="Writeup catalog">
+        <div id="writeup-rows" aria-live="polite"></div>
+      </section>
+
+      <section class="section library-activity-note reveal-target" aria-labelledby="activity-note-title" hidden>
+        <div>
+          <p class="eyebrow">Looking for everything?</p>
+          <h2 id="activity-note-title">The full grind lives in the activity log.</h2>
+        </div>
+        <p>Machines, challenges, practice sessions, and recent solves are tracked separately—even when they do not have a writeup.</p>
+        <a class="button secondary" href="solves.html">Open activity log</a>
+      </section>
+    </main>
+
+    <footer class="site-footer" hidden>
+      <p>Wisely</p>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
