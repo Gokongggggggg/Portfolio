@@ -5413,3 +5413,42 @@ html body:not(:has(.wallpaper-hero)):not(.writeup-library-body) main {
     padding-top: 60px;
   }
 }
+
+/* Seamless handoff from the cinematic hero into the catalog wallpaper */
+.writeup-library-body {
+  overflow-x: hidden;
+}
+
+html:has(.writeup-library-body) {
+  overflow-x: hidden;
+}
+
+.writeup-catalog {
+  position: relative;
+  isolation: isolate;
+}
+
+.writeup-catalog::before {
+  position: absolute;
+  z-index: 0;
+  top: -170px;
+  left: 50%;
+  width: 100vw;
+  height: 270px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 7, 18, 0) 0%,
+    rgba(2, 7, 18, 0.72) 38%,
+    #020712 62%,
+    rgba(2, 7, 18, 0.92) 72%,
+    rgba(2, 7, 18, 0) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.writeup-catalog > * {
+  position: relative;
+  z-index: 1;
+}
