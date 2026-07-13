@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T04:54:43.284Z",
+  "generatedAt": "2026-07-13T09:49:54.342Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
     {
@@ -22,6 +22,48 @@
         "QR Code",
         "Manual Reconstruction",
         "CTF"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "KORP Terminal",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/647",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Void Whispers",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/808",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "WayWitch",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/807",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
       ]
     },
     {
