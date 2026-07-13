@@ -1,0 +1,45 @@
+name: Sync HTB activity
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-htb-activity
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out portfolio
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch complete HTB history
+        run: npm run sync:htb
+        env:
+          HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
+          HTB_USER_ID: ${{ vars.HTB_USER_ID || '2885938' }}
+          HTB_ACTIVITY_PER_PAGE: 100
+          HTB_ACTIVITY_MAX_PAGES: 10
+
+      - name: Commit updated archive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/htb-solves.json
+          if git diff --cached --quiet; then
+            echo "No HTB activity changes."
+            exit 0
+          fi
+          git commit -m "Sync HTB activity"
+          git push

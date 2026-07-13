@@ -1,7 +1,136 @@
 {
-  "generatedAt": "2026-07-06T13:08:18.671Z",
-  "source": "hackthebox-activity-api",
+  "generatedAt": "2026-07-13T04:54:43.284Z",
+  "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-13",
+      "type": "challenge",
+      "solveType": "ctf",
+      "name": "QR Reconstruction",
+      "category": "Misc",
+      "lesson": "Recognized that the QR fragments preserved their relative positions, then rebuilt the code manually after online tools, LLM prompting, and automated reconstruction attempts failed.",
+      "link": "writeups/bronco-qr-reconstruction.html",
+      "writeupUrl": "writeups/bronco-qr-reconstruction.html",
+      "tags": [
+        "Misc",
+        "BroncoCTF",
+        "QR Code",
+        "Manual Reconstruction",
+        "CTF"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "type": "machine",
+      "solveType": "root",
+      "name": "Paperwork",
+      "category": "Machine",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/machines/921",
+      "writeupUrl": "",
+      "tags": [
+        "Machine",
+        "machine"
+      ]
+    },
+    {
+      "date": "2026-07-11",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Armaxis",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/845",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "ReactOOPS",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/1081",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "type": "machine",
+      "solveType": "root",
+      "name": "Reactor",
+      "category": "Machine",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/machines/900",
+      "writeupUrl": "",
+      "tags": [
+        "Machine",
+        "machine"
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Criticalops",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/965",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "JinjaCare",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/961",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-09",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "NeoVault",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/960",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-09",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Magical Palindrome",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/1042",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-06",
       "type": "challenge",
@@ -38,7 +167,7 @@
     {
       "date": "2026-07-04",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Secure Notes",
       "category": "Web",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -52,7 +181,7 @@
     {
       "date": "2026-06-16",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "TimeKORP",
       "category": "Web",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -66,7 +195,7 @@
     {
       "date": "2026-06-15",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "OpenSecret",
       "category": "Web",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -80,7 +209,7 @@
     {
       "date": "2026-06-14",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Flag Command",
       "category": "Web",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -94,7 +223,7 @@
     {
       "date": "2026-06-04",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Laconic",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -108,7 +237,7 @@
     {
       "date": "2026-06-03",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Crossbow",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -122,7 +251,7 @@
     {
       "date": "2026-05-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "r0bob1rd",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -136,7 +265,7 @@
     {
       "date": "2026-05-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Abyss",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -150,7 +279,7 @@
     {
       "date": "2026-05-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "LiteServe",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -164,7 +293,7 @@
     {
       "date": "2026-05-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Assemblers Avenge",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -192,7 +321,7 @@
     {
       "date": "2026-03-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Quack Quack",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -206,7 +335,7 @@
     {
       "date": "2026-03-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Blessing",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -220,7 +349,7 @@
     {
       "date": "2026-03-29",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Mathematricks",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -234,7 +363,7 @@
     {
       "date": "2026-03-27",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Regularity",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -248,7 +377,7 @@
     {
       "date": "2026-03-27",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Lesson",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -262,7 +391,7 @@
     {
       "date": "2026-03-27",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Questionnaire",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -276,7 +405,7 @@
     {
       "date": "2026-03-26",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Sacred Scrolls: Revenge",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -290,7 +419,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Entity",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -304,7 +433,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Que onda",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -318,7 +447,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "El Teteo",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -332,7 +461,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "El Pipo",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -346,7 +475,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Writing on the Wall",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -360,7 +489,7 @@
     {
       "date": "2026-03-25",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Getting Started",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -374,7 +503,7 @@
     {
       "date": "2026-03-24",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Space pirate: Retribution",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -388,7 +517,7 @@
     {
       "date": "2026-03-23",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Space pirate: Entrypoint",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -402,7 +531,7 @@
     {
       "date": "2026-03-23",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Space pirate: Going Deeper",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -416,7 +545,7 @@
     {
       "date": "2026-03-22",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Vault-breaker",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -430,7 +559,7 @@
     {
       "date": "2026-03-22",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "racecar",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
@@ -444,7 +573,7 @@
     {
       "date": "2026-02-28",
       "type": "challenge",
-      "solveType": "challenge",
+      "solveType": "own",
       "name": "Power Greed",
       "category": "Pwn",
       "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
