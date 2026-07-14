@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-07-14T03:39:07.239Z",
+  "generatedAt": "2026-07-14T08:30:09.152Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "CandyVault",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/624",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "SpookTastic",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/623",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-14",
       "type": "challenge",
