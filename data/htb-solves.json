@@ -1,7 +1,49 @@
 {
-  "generatedAt": "2026-07-14T08:30:09.152Z",
+  "generatedAt": "2026-07-14T14:16:42.999Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Cursed Secret Party",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/411",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Spookifier",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/413",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Juggling facts",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/412",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-14",
       "type": "challenge",
