@@ -1,7 +1,91 @@
 {
-  "generatedAt": "2026-07-14T14:16:42.999Z",
+  "generatedAt": "2026-07-14T19:46:18.285Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "WebVault Time Machine Investigation",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/974",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Follow The Money",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/976",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "The Suspicious Reviewer",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/972",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "The Suspicious Domain",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/973",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Social Media Investigation Hub",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/975",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "The Puppet Master",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/977",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-14",
       "type": "challenge",
