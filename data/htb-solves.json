@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-07-14T19:46:18.285Z",
+  "generatedAt": "2026-07-15T03:39:34.797Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "CDNio",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/828",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Infiltration",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/83",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-14",
       "type": "challenge",
