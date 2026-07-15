@@ -1,7 +1,21 @@
 {
-  "generatedAt": "2026-07-15T03:39:34.797Z",
+  "generatedAt": "2026-07-15T14:13:59.183Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Breaking Bank",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/856",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-15",
       "type": "challenge",
