@@ -1,7 +1,49 @@
 {
-  "generatedAt": "2026-07-15T14:13:59.183Z",
+  "generatedAt": "2026-07-16T03:42:14.629Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "NovaEnergy",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/966",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "emoji voting",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/539",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "HTBank",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/589",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-15",
       "type": "challenge",
