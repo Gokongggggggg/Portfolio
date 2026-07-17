@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-07-16T03:42:14.629Z",
+  "generatedAt": "2026-07-17T03:42:05.159Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-16",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Jailbreak",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/728",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-16",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "C.O.P",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/395",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-15",
       "type": "challenge",
