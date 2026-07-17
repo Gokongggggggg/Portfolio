@@ -140,6 +140,76 @@ function renderHtbTracker() {
   registerRevealTargets(log.querySelectorAll(".archive-entry"));
 }
 
+function renderWriteupActivity() {
+  const categoryList = document.querySelector("#writeup-category-share");
+  const recentList = document.querySelector("#writeup-recent-solves");
+  if (!categoryList || !recentList) return;
+
+  const sortedSolves = [...htbSolves].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const recentCutoff = new Date();
+  recentCutoff.setDate(recentCutoff.getDate() - 30);
+  recentCutoff.setHours(0, 0, 0, 0);
+
+  document.querySelectorAll('[data-writeup-activity-stat="total"]').forEach((node) => {
+    setStatValue(node, sortedSolves.length);
+  });
+  document.querySelectorAll('[data-writeup-activity-stat="recent"]').forEach((node) => {
+    setStatValue(node, sortedSolves.filter((solve) => new Date(solve.date) >= recentCutoff).length);
+  });
+
+  if (!sortedSolves.length) {
+    categoryList.innerHTML = "<li>No solved categories yet.</li>";
+    recentList.innerHTML = "<li>No recent solves yet.</li>";
+    return;
+  }
+
+  const categories = Object.entries(sortedSolves.reduce((counts, solve) => {
+    const category = solve.category || "Other";
+    counts[category] = (counts[category] || 0) + 1;
+    return counts;
+  }, {})).sort((a, b) => b[1] - a[1]);
+
+  categoryList.innerHTML = categories.map(([category, count], index) => {
+    const percentage = Math.round((count / sortedSolves.length) * 1000) / 10;
+    return `
+      <li style="--activity-delay: ${index * 60}ms">
+        <div>
+          <span>${escapeHtml(category)}</span>
+          <strong>${percentage}%</strong>
+        </div>
+        <span class="writeup-category-bar" aria-hidden="true"><i style="--category-share: ${percentage}%"></i></span>
+        <small>${count} ${count === 1 ? "solve" : "solves"}</small>
+      </li>
+    `;
+  }).join("");
+
+  recentList.innerHTML = sortedSolves
+    .filter((solve) => solve.type === "challenge")
+    .slice(0, 5)
+    .map((solve) => {
+      const content = `
+        <div>
+          <strong>${escapeHtml(solve.name)}</strong>
+          <time datetime="${escapeAttribute(solve.date)}">${formatArchiveDate(solve.date)}</time>
+        </div>
+        <span>${escapeHtml(solve.category)}</span>
+      `;
+      const tooltip = `Open ${solve.name} on Hack The Box`;
+
+      if (solve.link && solve.link !== "#") {
+        return `
+          <li>
+            <a class="recent-solve-link" href="${escapeAttribute(solve.link)}" target="_blank" rel="noopener noreferrer" data-tooltip="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}">
+              ${content}
+            </a>
+          </li>
+        `;
+      }
+
+      return `<li><div class="recent-solve-static">${content}</div></li>`;
+    }).join("");
+}
+
 function initHtbControls(searchInput, filterButtons) {
   if (htbControlsReady) return;
   htbControlsReady = true;
@@ -753,6 +823,7 @@ function escapeAttribute(value) {
 loadHtbSolves().then(() => {
   renderHtbTracker();
   renderWriteupLibrary();
+  renderWriteupActivity();
   initRevealMotion();
 });
 let revealObserver;

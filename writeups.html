@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=hacking-aligned">
   </head>
   <body class="writeup-body writeup-library-body">
     <a class="skip-link" href="#top">Skip to main content</a>
@@ -22,7 +22,6 @@
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="index.html">Showcase</a>
         <a href="writeups.html">Writeups</a>
-        <a href="solves.html">Activity</a>
         <a href="pentest.html">Field Notes</a>
         <a href="projects.html">Builds</a>
       </nav>
@@ -31,42 +30,64 @@
     <main id="top">
       <section class="writeup-cinematic-hero reveal-target" id="writeup-cinematic-hero" aria-live="polite"></section>
 
-      <section class="writeup-library-hero reveal-target" aria-labelledby="writeup-library-title">
-        <div class="writeup-library-intro torn-panel">
-          <p class="eyebrow">Curated Writeups</p>
-          <h1 id="writeup-library-title">Only the challenges worth unpacking.</h1>
-          <p>I log every solve as proof of active practice. This shelf is different: it only contains challenges with an interesting idea, unusual technique, or lesson worth sharing.</p>
-          <div class="hero-actions">
-            <a class="button primary" href="#featured-writeups">Browse writeups</a>
-            <a class="button secondary" href="solves.html">View activity log</a>
+      <div class="writeup-workspace">
+        <section class="writeup-library-hero reveal-target" aria-labelledby="writeup-library-title">
+          <div class="writeup-library-intro torn-panel">
+            <p class="eyebrow">Curated Writeups</p>
+            <h2 id="writeup-library-title">Only the challenges worth unpacking.</h2>
+            <p>I log every solve as proof of active practice. This shelf is different: it only contains challenges with an interesting idea, unusual technique, or lesson worth sharing.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#writeup-catalog">Browse writeups</a>
+              <a class="button secondary" href="#activity">Recent activity</a>
+            </div>
           </div>
-        </div>
 
-        <aside class="writeup-library-manifest torn-panel" aria-label="Writeup collection summary">
-          <p class="category">Published shelf</p>
-          <div>
-            <strong data-writeup-stat="total">0</strong>
-            <span>writeups available</span>
+          <aside class="writeup-library-manifest torn-panel" aria-label="Writeup collection summary">
+            <p class="category">Published shelf</p>
+            <div>
+              <strong data-writeup-stat="total">0</strong>
+              <span>writeups available</span>
+            </div>
+            <dl>
+              <div><dt>Categories</dt><dd data-writeup-stat="categories">0</dd></div>
+              <div><dt>Latest</dt><dd data-writeup-stat="latest">—</dd></div>
+            </dl>
+          </aside>
+        </section>
+
+        <aside class="writeup-activity-sidebar torn-panel reveal-target" id="activity" aria-labelledby="writeup-activity-title">
+        <header>
+          <p class="eyebrow">Activity</p>
+          <h2 id="writeup-activity-title">Hacking activity</h2>
+          <p>A compact snapshot of current practice.</p>
+        </header>
+
+        <dl class="writeup-activity-stats" aria-label="Activity summary">
+          <div><dt>Total solves</dt><dd data-count-up data-writeup-activity-stat="total">0</dd></div>
+          <div><dt>Last 30 days</dt><dd data-count-up data-writeup-activity-stat="recent">0</dd></div>
+        </dl>
+
+        <section class="writeup-category-share" aria-labelledby="writeup-category-title">
+          <div class="writeup-activity-heading">
+            <h3 id="writeup-category-title">Categories</h3>
+            <span>All solves</span>
           </div>
-          <dl>
-            <div><dt>Categories</dt><dd data-writeup-stat="categories">0</dd></div>
-            <div><dt>Latest</dt><dd data-writeup-stat="latest">—</dd></div>
-          </dl>
+          <ul id="writeup-category-share"></ul>
+        </section>
+
+        <section class="writeup-recent-solves" aria-labelledby="writeup-recent-solves-title">
+          <div class="writeup-activity-heading">
+            <h3 id="writeup-recent-solves-title">Recent solves</h3>
+            <span>Latest 5</span>
+          </div>
+          <ol id="writeup-recent-solves"></ol>
+        </section>
         </aside>
-      </section>
 
-      <section class="writeup-catalog reveal-target" id="writeup-catalog" aria-label="Writeup catalog">
-        <div id="writeup-rows" aria-live="polite"></div>
-      </section>
-
-      <section class="section library-activity-note reveal-target" aria-labelledby="activity-note-title" hidden>
-        <div>
-          <p class="eyebrow">Looking for everything?</p>
-          <h2 id="activity-note-title">The full grind lives in the activity log.</h2>
-        </div>
-        <p>Machines, challenges, practice sessions, and recent solves are tracked separately—even when they do not have a writeup.</p>
-        <a class="button secondary" href="solves.html">Open activity log</a>
-      </section>
+        <section class="writeup-catalog reveal-target" id="writeup-catalog" aria-label="Writeup catalog">
+          <div id="writeup-rows" aria-live="polite"></div>
+        </section>
+      </div>
     </main>
 
     <footer class="site-footer" hidden>
@@ -74,6 +95,6 @@
       <a href="#top">Back to top</a>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=hacking-motion"></script>
   </body>
 </html>
