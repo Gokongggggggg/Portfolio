@@ -53,6 +53,27 @@ let htbSolves = [
   }
 ];
 
+const upsolveTargets = [
+  {
+    name: "Enterprise",
+    event: "Wreckit 7.0",
+    completed: false,
+    status: "Coming soon",
+    cover: "public/images/events/wreckit-7-cover.webp",
+    coverAlt: "WRECK-IT 7.0 shield and circuit logo",
+    note: "Queued for a proper post-competition solve, review, and documented lesson."
+  },
+  {
+    name: "Tailgate",
+    event: "Wreckit 7.0",
+    completed: false,
+    status: "Coming soon",
+    cover: "public/images/events/wreckit-7-cover.webp",
+    coverAlt: "WRECK-IT 7.0 shield and circuit logo",
+    note: "Queued for a proper post-competition solve, review, and documented lesson."
+  }
+];
+
 let activeSolveFilter = "all";
 let activeSolvePage = 1;
 const solvesPerPage = 8;
@@ -149,12 +170,32 @@ function renderWriteupActivity() {
   const recentCutoff = new Date();
   recentCutoff.setDate(recentCutoff.getDate() - 30);
   recentCutoff.setHours(0, 0, 0, 0);
+  const completedUpsolves = upsolveTargets.filter((target) => target.completed).length;
+  const totalUpsolves = upsolveTargets.length;
+  const remainingUpsolves = totalUpsolves - completedUpsolves;
+  const upsolveProgress = totalUpsolves ? Math.round((completedUpsolves / totalUpsolves) * 100) : 0;
 
   document.querySelectorAll('[data-writeup-activity-stat="total"]').forEach((node) => {
     setStatValue(node, sortedSolves.length);
   });
   document.querySelectorAll('[data-writeup-activity-stat="recent"]').forEach((node) => {
     setStatValue(node, sortedSolves.filter((solve) => new Date(solve.date) >= recentCutoff).length);
+  });
+  document.querySelectorAll('[data-upsolve-stat="completed"]').forEach((node) => {
+    setStatValue(node, completedUpsolves);
+  });
+  document.querySelectorAll('[data-upsolve-stat="total"]').forEach((node) => {
+    node.textContent = totalUpsolves;
+  });
+  document.querySelectorAll('[data-upsolve-remaining]').forEach((node) => {
+    node.textContent = remainingUpsolves
+      ? `${remainingUpsolves} ${remainingUpsolves === 1 ? "challenge" : "challenges"} I still need to upsolve.`
+      : "All committed challenges have been upsolved.";
+  });
+  document.querySelectorAll('[data-upsolve-progress]').forEach((node) => {
+    node.style.setProperty("--upsolve-progress", `${upsolveProgress}%`);
+    node.setAttribute("aria-valuenow", String(completedUpsolves));
+    node.setAttribute("aria-valuemax", String(totalUpsolves));
   });
 
   if (!sortedSolves.length) {
@@ -357,6 +398,7 @@ function renderWriteupLibrary() {
       .filter((solve) => Boolean(solve.writeupUrl))
       .sort((a, b) => new Date(b.date) - new Date(a.date));
 
+    renderWriteupStats(writeups);
     renderWriteupHero(writeups);
     renderWriteupRows(catalog, writeups);
     return;
@@ -375,8 +417,7 @@ function renderWriteupLibrary() {
   renderWriteupShelf(writeups);
   initWriteupControls(searchInput, filterNode, writeups);
 
-  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
-  const latest = writeups[0];
+  renderWriteupStats(writeups);
   const query = normalizeSearch(searchInput?.value || "");
   const visibleWriteups = writeups.filter((writeup) => {
     const matchesCategory = activeWriteupCategory === "all" || writeup.category === activeWriteupCategory;
@@ -391,16 +432,6 @@ function renderWriteupLibrary() {
       writeup.lesson,
       ...(writeup.tags || [])
     ].map(normalizeSearch).join(" ").includes(query);
-  });
-
-  document.querySelectorAll('[data-writeup-stat="total"]').forEach((node) => {
-    node.textContent = writeups.length;
-  });
-  document.querySelectorAll('[data-writeup-stat="categories"]').forEach((node) => {
-    node.textContent = categories.length;
-  });
-  document.querySelectorAll('[data-writeup-stat="latest"]').forEach((node) => {
-    node.textContent = latest?.name || "—";
   });
 
   if (!visibleWriteups.length) {
@@ -432,10 +463,30 @@ function renderWriteupLibrary() {
   registerRevealTargets(library.querySelectorAll(".writeup-library-card"));
 }
 
+function renderWriteupStats(writeups) {
+  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
+  const latest = writeups[0];
+
+  document.querySelectorAll('[data-writeup-stat="total"]').forEach((node) => {
+    node.textContent = writeups.length;
+  });
+  document.querySelectorAll('[data-writeup-stat="categories"]').forEach((node) => {
+    node.textContent = categories.length;
+  });
+  document.querySelectorAll('[data-writeup-stat="latest"]').forEach((node) => {
+    node.textContent = latest?.name || "—";
+  });
+}
+
 function renderWriteupRows(catalog, writeups) {
   const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
   const rows = [
-    { id: "new", title: "New releases", items: writeups },
+    {
+      id: "upsolve",
+      title: "Coming soon",
+      items: upsolveTargets,
+      type: "upsolve"
+    },
     ...categories.map((category) => ({
       id: `category-${normalizeSearch(category).replace(/\s+/g, "-")}`,
       title: category,
@@ -457,12 +508,33 @@ function renderWriteupRows(catalog, writeups) {
         </div>
       </div>
       <div class="catalog-track" tabindex="0" aria-label="${escapeAttribute(row.title)} writeups">
-        ${row.items.map((writeup, index) => renderWriteupRowCard(writeup, index)).join("")}
+        ${row.items.map((writeup, index) => row.type === "upsolve" ? renderUpsolveCard(writeup, index) : renderWriteupRowCard(writeup, index)).join("")}
       </div>
     </section>
   `).join("");
 
   catalog.querySelectorAll(".catalog-row").forEach((row) => initCatalogRow(row));
+}
+
+function renderUpsolveCard(target, index) {
+  const descriptionId = `upsolve-${normalizeSearch(target.name).replace(/\s+/g, "-")}-description`;
+  const status = target.completed ? "Upsolved" : target.status;
+  const note = target.completed
+    ? "Upsolve completed and added to the public progress count."
+    : target.note;
+  return `
+    <article class="catalog-card catalog-card-upsolve${target.completed ? " is-complete" : ""}" tabindex="0" aria-describedby="${escapeAttribute(descriptionId)}">
+      <div class="catalog-card-media upsolve-card-media">
+        <img src="${escapeAttribute(target.cover)}" alt="${escapeAttribute(target.coverAlt)}" loading="${index === 0 ? "eager" : "lazy"}">
+        <span class="catalog-card-category upsolve-status">${escapeHtml(status)}</span>
+        <p class="upsolve-hover-note" id="${escapeAttribute(descriptionId)}">${escapeHtml(note)}</p>
+      </div>
+      <div class="catalog-card-copy">
+        <h3>${escapeHtml(target.name)}</h3>
+        <p><span>${escapeHtml(target.event)}</span><strong>Upsolve target</strong></p>
+      </div>
+    </article>
+  `;
 }
 
 function renderWriteupRowCard(writeup, index) {

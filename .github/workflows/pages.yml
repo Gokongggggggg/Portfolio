@@ -24,7 +24,7 @@ jobs:
         run: |
           rm -rf dist
           mkdir -p dist/data dist/public
-          cp index.html solves.html pentest.html projects.html script.js styles.css README.md dist/
+          cp index.html solves.html pentest.html projects.html writeups.html script.js styles.css README.md dist/
           cp data/htb-solves.json dist/data/htb-solves.json
           cp -R writeups dist/writeups
           cp -R public/images dist/public/images
