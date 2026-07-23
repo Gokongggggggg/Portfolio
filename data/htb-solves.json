@@ -1,7 +1,63 @@
 {
-  "generatedAt": "2026-07-22T03:51:25.693Z",
+  "generatedAt": "2026-07-23T03:48:48.603Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-22",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Diogenes' Rage",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/288",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-22",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Slippy",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/265",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-22",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Letter Dispair",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/373",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-22",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Debugger Unchained",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/372",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-22",
       "type": "challenge",
