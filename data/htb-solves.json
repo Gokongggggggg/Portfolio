@@ -1,7 +1,63 @@
 {
-  "generatedAt": "2026-07-23T03:48:48.603Z",
+  "generatedAt": "2026-07-24T03:48:15.620Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-23",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "BlinkerFluids",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/350",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-23",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Spiky Tamagotchi",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/324",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-23",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Amidst Us",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/325",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-23",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Kryptos Support",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/327",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-22",
       "type": "challenge",
