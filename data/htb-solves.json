@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-07-24T03:48:15.620Z",
+  "generatedAt": "2026-07-25T03:42:51.633Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-24",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Felonious Forums",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/375",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-24",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "EasterBunny",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/311",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-23",
       "type": "challenge",
