@@ -1,7 +1,119 @@
 {
-  "generatedAt": "2026-07-25T03:42:51.633Z",
+  "generatedAt": "2026-07-27T04:07:07.296Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-27",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Horror Feeds",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/414",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Passman",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/493",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "RenderQuest",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/537",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "ApacheBlaze",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/546",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "E.Tree",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/541",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "ProxyAsAService",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/549",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Neonify",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/303",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "PhishTale",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/374",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-24",
       "type": "challenge",
