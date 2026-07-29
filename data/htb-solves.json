@@ -1,7 +1,49 @@
 {
-  "generatedAt": "2026-07-27T04:07:07.296Z",
+  "generatedAt": "2026-07-29T03:44:34.014Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-29",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Lazy Ballot",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/533",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-29",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Missing in Action",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/118",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "The Magic Informer",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/441",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-27",
       "type": "challenge",
