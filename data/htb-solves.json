@@ -1,7 +1,35 @@
 {
-  "generatedAt": "2026-07-29T03:44:34.014Z",
+  "generatedAt": "2026-07-30T03:34:47.882Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-29",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "POP Restaurant",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/770",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-29",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Watersnake",
+      "category": "Web",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/531",
+      "writeupUrl": "",
+      "tags": [
+        "Web",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-29",
       "type": "challenge",
