@@ -1,7 +1,49 @@
 {
-  "generatedAt": "2026-07-30T03:34:47.882Z",
+  "generatedAt": "2026-07-31T03:54:38.898Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-07-30",
+      "type": "machine",
+      "solveType": "root",
+      "name": "Popcorn",
+      "category": "Machine",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/machines/4",
+      "writeupUrl": "",
+      "tags": [
+        "Machine",
+        "machine"
+      ]
+    },
+    {
+      "date": "2026-07-30",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Monstrosity",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/11",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
+    {
+      "date": "2026-07-30",
+      "type": "challenge",
+      "solveType": "own",
+      "name": "Easy Phish",
+      "category": "OSINT",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/challenges/79",
+      "writeupUrl": "",
+      "tags": [
+        "OSINT",
+        "challenge"
+      ]
+    },
     {
       "date": "2026-07-29",
       "type": "challenge",
