@@ -1,7 +1,21 @@
 {
-  "generatedAt": "2026-07-31T03:54:38.898Z",
+  "generatedAt": "2026-08-11T02:30:39.622Z",
   "source": "hackthebox-activity-api-v5",
   "items": [
+    {
+      "date": "2026-08-10",
+      "type": "machine",
+      "solveType": "root",
+      "name": "DanglingTree",
+      "category": "Machine",
+      "lesson": "Imported from Hack The Box activity. Add a short lesson after reviewing the solve.",
+      "link": "https://app.hackthebox.com/machines/936",
+      "writeupUrl": "",
+      "tags": [
+        "Machine",
+        "machine"
+      ]
+    },
     {
       "date": "2026-07-30",
       "type": "machine",
