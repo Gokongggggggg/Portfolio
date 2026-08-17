@@ -53,6 +53,94 @@ let htbSolves = [
   }
 ];
 
+const gaslightWriteups = [
+  {
+    date: "2026-08-17",
+    type: "challenge",
+    solveType: "ctf",
+    name: "JSON Warehouse",
+    category: "Web",
+    event: "GaslightCTF",
+    series: "GaslightCTF",
+    summary: "From this source code, we can see that the flag is stored inside the admin's warehouse.",
+    cover: "public/images/events/gaslightctf-logo.png",
+    coverAlt: "GaslightCTF flame logo",
+    coverStyle: "wide-logo",
+    lesson: "Prototype pollution in Elysia schema merging is used to reach the admin warehouse.",
+    link: "writeups/gaslightctf.html?challenge=json-warehouse",
+    writeupUrl: "writeups/gaslightctf.html?challenge=json-warehouse",
+    tags: ["Web", "GaslightCTF", "Elysia", "Prototype Pollution"]
+  },
+  {
+    date: "2026-08-17",
+    type: "challenge",
+    solveType: "ctf",
+    name: "MessageBoard",
+    category: "Web",
+    event: "GaslightCTF",
+    series: "GaslightCTF",
+    summary: "The ORDER BY primitive lets us compare the secret values of users who have published a story.",
+    cover: "public/images/events/gaslightctf-logo.png",
+    coverAlt: "GaslightCTF flame logo",
+    coverStyle: "wide-logo",
+    lesson: "A user-controlled ORDER BY column turns lexicographic sorting into a secret oracle.",
+    link: "writeups/gaslightctf.html?challenge=messageboard",
+    writeupUrl: "writeups/gaslightctf.html?challenge=messageboard",
+    tags: ["Web", "GaslightCTF", "SQL", "Binary Search"]
+  },
+  {
+    date: "2026-08-17",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Corridors",
+    category: "Web",
+    event: "GaslightCTF",
+    series: "GaslightCTF",
+    summary: "Since the corridor can go on for hundreds of steps, doing this manually would take too long, so we can automate the process with a simple script",
+    cover: "public/images/events/gaslightctf-logo.png",
+    coverAlt: "GaslightCTF flame logo",
+    coverStyle: "wide-logo",
+    lesson: "Automate the route, then reinterpret the left and right sequence as binary.",
+    link: "writeups/gaslightctf.html?challenge=corridors",
+    writeupUrl: "writeups/gaslightctf.html?challenge=corridors",
+    tags: ["Web", "GaslightCTF", "Automation", "Binary"]
+  },
+  {
+    date: "2026-08-16",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Biscuit",
+    category: "Web",
+    event: "GaslightCTF",
+    series: "GaslightCTF",
+    summary: "If we look at the given source code, we can see that mint() looks pretty sus because the username seems comes directly from user input and gets inserted into the Biscuit builder f-string",
+    cover: "public/images/events/gaslightctf-logo.png",
+    coverAlt: "GaslightCTF flame logo",
+    coverStyle: "wide-logo",
+    lesson: "Inject a valid role fact through an unsafe Biscuit builder string.",
+    link: "writeups/gaslightctf.html?challenge=biscuit",
+    writeupUrl: "writeups/gaslightctf.html?challenge=biscuit",
+    tags: ["Web", "GaslightCTF", "Biscuit", "Injection"]
+  },
+  {
+    date: "2026-08-16",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Crawl",
+    category: "Web",
+    event: "GaslightCTF",
+    series: "GaslightCTF",
+    summary: "From the challenge description, we already get a pretty strong hint to check robots.txt",
+    cover: "public/images/events/gaslightctf-logo.png",
+    coverAlt: "GaslightCTF flame logo",
+    coverStyle: "wide-logo",
+    lesson: "Follow the crawler hint to inspect paths hidden by robots.txt.",
+    link: "writeups/gaslightctf.html?challenge=crawl",
+    writeupUrl: "writeups/gaslightctf.html?challenge=crawl",
+    tags: ["Web", "GaslightCTF", "robots.txt", "Recon"]
+  }
+];
+
 const upsolveTargets = [
   {
     name: "Enterprise",
@@ -101,7 +189,7 @@ function renderHtbTracker() {
   const filteredSolves = filterSolves(sortedSolves, activeSolveFilter, query);
   const machineCount = sortedSolves.filter((solve) => solve.type === "machine").length;
   const challengeCount = sortedSolves.filter((solve) => solve.type === "challenge").length;
-  const writeupCount = sortedSolves.filter((solve) => Boolean(solve.writeupUrl)).length;
+  const writeupCount = sortedSolves.filter(isPublishedWriteup).length;
 
   renderHtbHeatmap(sortedSolves, heatmapGrid, heatmapMonths);
 
@@ -235,12 +323,14 @@ function renderWriteupActivity() {
         </div>
         <span>${escapeHtml(solve.category)}</span>
       `;
-      const tooltip = `Open ${solve.name} on Hack The Box`;
+      const linksToWriteup = Boolean(solve.writeupUrl && solve.link === solve.writeupUrl);
+      const tooltip = linksToWriteup ? `Read ${solve.name} writeup` : `Open ${solve.name} on Hack The Box`;
+      const externalAttributes = linksToWriteup ? "" : ' target="_blank" rel="noopener noreferrer"';
 
       if (solve.link && solve.link !== "#") {
         return `
           <li>
-            <a class="recent-solve-link" href="${escapeAttribute(solve.link)}" target="_blank" rel="noopener noreferrer" data-tooltip="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}">
+            <a class="recent-solve-link" href="${escapeAttribute(solve.link)}"${externalAttributes} data-tooltip="${escapeAttribute(tooltip)}" aria-label="${escapeAttribute(tooltip)}">
               ${content}
             </a>
           </li>
@@ -378,8 +468,16 @@ function renderSolveTags(solve) {
   return (solve.tags || []).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
 }
 
+function isPublishedWriteup(solve) {
+  return solve.series === "GaslightCTF" && Boolean(solve.writeupUrl);
+}
+
+function isVisibleWriteup(solve) {
+  return Boolean(solve.writeupUrl);
+}
+
 function renderWriteupBadge(solve) {
-  if (solve.writeupUrl) {
+  if (isPublishedWriteup(solve)) {
     return `<a class="writeup-badge has-writeup" href="${escapeAttribute(solve.writeupUrl)}" aria-label="Read ${escapeAttribute(solve.name)} writeup">Read WU</a>`;
   }
 
@@ -395,12 +493,25 @@ function renderWriteupLibrary() {
   const catalog = document.querySelector("#writeup-rows");
   if (catalog) {
     const writeups = [...htbSolves]
-      .filter((solve) => Boolean(solve.writeupUrl))
+      .filter(isVisibleWriteup)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const publishedWriteups = writeups.filter(isPublishedWriteup);
+    const seriesWriteup = publishedWriteups[0]
+      ? {
+          ...publishedWriteups[0],
+          name: "GaslightCTF",
+          event: "CTF Series",
+          summary: "Five web challenge writeups collected in one series.",
+          link: "writeups/gaslightctf.html",
+          writeupUrl: "writeups/gaslightctf.html",
+          tags: ["Web", "GaslightCTF", "CTF Series"]
+        }
+      : null;
+    const catalogWriteups = [seriesWriteup, ...writeups.filter((writeup) => !writeup.series)].filter(Boolean);
 
-    renderWriteupStats(writeups);
-    renderWriteupHero(writeups);
-    renderWriteupRows(catalog, writeups);
+    renderWriteupStats(publishedWriteups);
+    renderWriteupHero(seriesWriteup ? [seriesWriteup] : []);
+    renderWriteupRows(catalog, catalogWriteups);
     return;
   }
 
@@ -410,7 +521,7 @@ function renderWriteupLibrary() {
   const searchInput = document.querySelector("#writeup-search");
   const filterNode = document.querySelector("#writeup-category-filter");
   const writeups = [...htbSolves]
-    .filter((solve) => Boolean(solve.writeupUrl))
+    .filter(isPublishedWriteup)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   renderWriteupHero(writeups);
@@ -480,19 +591,11 @@ function renderWriteupStats(writeups) {
 
 function renderWriteupRows(catalog, writeups) {
   const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
-  const rows = [
-    {
-      id: "upsolve",
-      title: "Coming soon",
-      items: upsolveTargets,
-      type: "upsolve"
-    },
-    ...categories.map((category) => ({
+  const rows = categories.map((category) => ({
       id: `category-${normalizeSearch(category).replace(/\s+/g, "-")}`,
       title: category,
       items: writeups.filter((writeup) => writeup.category === category)
-    }))
-  ];
+    }));
 
   catalog.innerHTML = rows.map((row) => `
     <section class="catalog-row" aria-labelledby="${escapeAttribute(row.id)}-title">
@@ -538,20 +641,26 @@ function renderUpsolveCard(target, index) {
 }
 
 function renderWriteupRowCard(writeup, index) {
-  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
-  return `
-    <a class="catalog-card" href="${escapeAttribute(writeup.writeupUrl)}">
+  const isMaintenance = !isPublishedWriteup(writeup);
+  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+  const content = `
       <div class="catalog-card-media${mediaClass}">
         ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
         ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
-        <span class="catalog-card-category">${escapeHtml(writeup.category)}</span>
+        <span class="catalog-card-category">${isMaintenance ? "Under maintenance" : escapeHtml(writeup.category)}</span>
       </div>
       <div class="catalog-card-copy">
         <h3>${escapeHtml(writeup.name)}</h3>
         <p><span>${escapeHtml(writeup.event || "CTF")}</span><time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time></p>
+        ${isMaintenance ? '<strong class="catalog-maintenance-note">Temporarily unavailable</strong>' : ""}
       </div>
-    </a>
   `;
+
+  if (isMaintenance) {
+    return `<article class="catalog-card is-maintenance" aria-disabled="true" aria-label="${escapeAttribute(`${writeup.name} — under maintenance`)}">${content}</article>`;
+  }
+
+  return `<a class="catalog-card" href="${escapeAttribute(writeup.writeupUrl)}">${content}</a>`;
 }
 
 function initCatalogRow(row) {
@@ -593,7 +702,7 @@ function renderWriteupHero(writeups) {
 
   activeWriteupHero = Math.min(activeWriteupHero, writeups.length - 1);
   const writeup = writeups[activeWriteupHero];
-  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
 
   hero.innerHTML = `
     <div class="writeup-cinematic-media${mediaClass}" aria-hidden="true">
@@ -950,9 +1059,9 @@ async function loadHtbSolves() {
 
     const payload = await response.json();
     if (Array.isArray(payload?.items)) {
-      htbSolves = payload.items;
+      htbSolves = [...gaslightWriteups, ...payload.items];
     }
   } catch (error) {
-    // Keep the manual fallback data when the generated JSON is unavailable locally.
+    htbSolves = [...gaslightWriteups, ...htbSolves];
   }
 }

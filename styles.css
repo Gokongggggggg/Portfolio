@@ -4139,6 +4139,268 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   }
 }
 
+/* GaslightCTF series reader */
+.gaslight-series-page .writeup-layout {
+  grid-template-columns: 250px minmax(0, 860px);
+}
+
+.gaslight-series-nav {
+  gap: 6px;
+}
+
+.gaslight-series-nav a {
+  width: 100%;
+  min-height: 44px;
+  border-left: 2px solid transparent;
+  padding: 4px 10px;
+}
+
+.gaslight-series-nav a[aria-current="page"] {
+  border-left-color: var(--accent);
+  background: rgba(114, 214, 255, 0.08);
+  color: var(--text);
+}
+
+.gaslight-series-count {
+  display: block;
+  margin: -8px 0 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gaslight-series-index {
+  padding-top: 34px;
+}
+
+.gaslight-series-hero {
+  border-bottom: 1px solid var(--line);
+  padding: 34px 0 clamp(30px, 5vw, 54px);
+}
+
+.gaslight-series-logo {
+  display: block;
+  width: min(100%, 430px);
+  height: auto;
+  margin: 0 0 18px;
+  filter: drop-shadow(0 16px 30px rgba(255, 106, 30, 0.2));
+}
+
+.gaslight-series-hero h1 {
+  max-width: 12ch;
+  margin: 0 0 18px;
+  font-size: clamp(3rem, 8vw, 6.4rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.gaslight-series-hero > p:not(.eyebrow) {
+  max-width: 65ch;
+  color: var(--muted);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+.gaslight-series-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.gaslight-series-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: clamp(28px, 5vw, 52px) 0;
+}
+
+.gaslight-series-card {
+  display: grid;
+  min-height: 210px;
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgba(15, 31, 50, 0.88), rgba(3, 11, 22, 0.94));
+  padding: 22px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.gaslight-series-card:hover,
+.gaslight-series-card:focus-visible {
+  border-color: rgba(114, 214, 255, 0.66);
+  background: linear-gradient(145deg, rgba(20, 43, 67, 0.94), rgba(3, 11, 22, 0.98));
+  transform: translateY(-2px);
+}
+
+.gaslight-series-card span,
+.gaslight-series-card strong {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.gaslight-series-card span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.gaslight-series-card h2 {
+  align-self: end;
+  margin: 32px 0 10px;
+  font-size: clamp(1.65rem, 4vw, 2.5rem);
+}
+
+.gaslight-series-card p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.gaslight-series-card strong {
+  color: var(--text);
+  font-size: 0.76rem;
+}
+
+.gaslight-reader-status {
+  min-height: 220px;
+  border-bottom: 1px solid var(--line);
+  padding: 54px 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.gaslight-reader-status[hidden] {
+  display: none;
+}
+
+.gaslight-reader-status::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(114, 214, 255, 0.75);
+  content: "";
+}
+
+.gaslight-markdown {
+  padding-bottom: 20px;
+}
+
+.gaslight-markdown .writeup-section {
+  padding-top: clamp(24px, 4vw, 42px);
+}
+
+.gaslight-markdown p,
+.gaslight-markdown blockquote {
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 1.01rem;
+  line-height: 1.72;
+}
+
+.gaslight-markdown blockquote {
+  margin: 20px 0;
+  border-left: 3px solid var(--accent);
+  background: rgba(114, 214, 255, 0.055);
+  padding: 14px 18px;
+}
+
+.gaslight-markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(114, 214, 255, 0.26);
+  background: rgba(0, 5, 13, 0.88);
+  padding: 18px;
+  color: #dcecff;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  tab-size: 4;
+}
+
+.gaslight-markdown pre code {
+  color: #dce6f2;
+}
+
+.gaslight-markdown :not(pre) > code {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.94em;
+}
+
+.gaslight-markdown a {
+  color: #72d6ff;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.gaslight-markdown img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 820px;
+  object-fit: contain;
+  border: 1px solid rgba(169, 202, 255, 0.2);
+  background: #fff;
+}
+
+.gaslight-markdown figure {
+  margin: 24px 0;
+}
+
+.gaslight-all-divider {
+  border-top: 1px solid rgba(114, 214, 255, 0.34);
+  padding-top: 42px;
+}
+
+.gaslight-all-divider h2 {
+  margin-bottom: 0;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  text-transform: uppercase;
+}
+
+@media (max-width: 940px) {
+  .gaslight-series-page .writeup-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gaslight-series-nav {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 4px;
+  }
+
+  .gaslight-series-nav a {
+    width: auto;
+    flex: 0 0 auto;
+    border: 1px solid rgba(114, 214, 255, 0.22);
+  }
+}
+
+@media (max-width: 620px) {
+  .gaslight-series-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gaslight-series-card {
+    min-height: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gaslight-series-card {
+    transition: none;
+  }
+}
+
 /* Curated writeup library */
 .writeup-library-body main {
   padding-top: 34px;
@@ -4874,6 +5136,14 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   transform: rotate(3deg);
 }
 
+.writeup-cinematic-media.is-wide-logo img {
+  width: min(72%, 580px);
+  height: auto;
+  margin: 18% 0 0 20%;
+  filter: drop-shadow(0 28px 42px rgba(255, 104, 25, 0.3));
+  transform: none;
+}
+
 .writeup-cinematic-media .writeup-card-mark span {
   font-size: clamp(8rem, 18vw, 16rem);
 }
@@ -5232,6 +5502,13 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   padding: 7px;
 }
 
+.catalog-card-media.is-wide-logo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px 16px;
+}
+
 .catalog-card:hover .catalog-card-media > img,
 .catalog-card:focus-visible .catalog-card-media > img {
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.48)) saturate(1.08);
@@ -5287,6 +5564,44 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 
 .catalog-card-copy p span {
   color: var(--accent);
+}
+
+.catalog-card.is-maintenance {
+  position: relative;
+  border-style: dashed;
+  border-color: rgba(255, 181, 90, 0.3);
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
+.catalog-card.is-maintenance::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  border: 1px solid rgba(255, 181, 90, 0.12);
+  background: repeating-linear-gradient(-45deg, transparent 0 12px, rgba(255, 181, 90, 0.025) 12px 14px);
+  content: "";
+  pointer-events: none;
+}
+
+.catalog-card.is-maintenance .catalog-card-media > img,
+.catalog-card.is-maintenance .writeup-card-mark {
+  filter: grayscale(1) contrast(0.86);
+}
+
+.catalog-card.is-maintenance .catalog-card-category {
+  border-color: rgba(255, 181, 90, 0.55);
+  color: #ffcf91;
+}
+
+.catalog-maintenance-note {
+  display: block;
+  margin-top: 12px;
+  color: #ffcf91;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .catalog-card-upsolve {
@@ -5513,14 +5828,14 @@ html:has(.writeup-library-body) {
   z-index: 1;
 }
 
-/* Writeups remain primary; activity is a compact supporting rail. */
+/* Keep the catalog centered as the page's single primary workspace. */
 .writeup-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 270px;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto;
   align-items: start;
-  gap: 0 40px;
-  width: min(1480px, calc(100% - 40px));
+  gap: 0;
+  width: min(1240px, calc(100% - 40px));
   margin-inline: auto;
   padding: 34px 0 68px;
 }
@@ -5958,5 +6273,98 @@ html:has(.writeup-library-body) {
 
   .writeup-activity-sidebar {
     padding: 18px;
+  }
+}
+
+/* GaslightCTF compact series shelf */
+.gaslight-series-page {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.gaslight-series-page > main {
+  flex: 1 0 auto;
+}
+
+.gaslight-series-page .writeup-layout {
+  display: block;
+  width: min(860px, calc(100% - 40px));
+}
+
+.gaslight-series-page.gaslight-series-index-view .writeup-layout {
+  width: min(1500px, calc(100% - 40px));
+}
+
+.gaslight-series-index {
+  padding: clamp(28px, 5vw, 54px) 0;
+}
+
+.gaslight-series-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(210px, 1fr));
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 5px 4px 18px;
+  scroll-padding-inline: 4px;
+  scroll-snap-type: inline mandatory;
+  scrollbar-color: rgba(114, 214, 255, 0.34) transparent;
+  scrollbar-width: thin;
+}
+
+.gaslight-series-grid:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+
+.gaslight-series-card .catalog-card-copy h2 {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.gaslight-series-card .catalog-card-copy p strong {
+  color: var(--muted);
+  font: inherit;
+}
+
+.gaslight-markdown .syntax-comment {
+  color: #77879c;
+}
+
+.gaslight-markdown .syntax-string {
+  color: #a8dc76;
+}
+
+.gaslight-markdown .syntax-number {
+  color: #f2b86f;
+}
+
+.gaslight-markdown .syntax-keyword {
+  color: #d4a7ff;
+}
+
+.gaslight-markdown .syntax-literal {
+  color: #72d6ff;
+}
+
+@media (max-width: 940px) {
+  .gaslight-series-grid {
+    grid-template-columns: none;
+    grid-auto-columns: min(76vw, 280px);
+    grid-auto-flow: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .gaslight-series-page .writeup-layout,
+  .gaslight-series-page.gaslight-series-index-view .writeup-layout {
+    width: min(100% - 22px, 860px);
+  }
+
+  .gaslight-series-index {
+    padding-top: 22px;
   }
 }
