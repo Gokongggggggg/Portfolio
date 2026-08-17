@@ -5137,9 +5137,9 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 }
 
 .writeup-cinematic-media.is-wide-logo img {
-  width: min(72%, 580px);
+  width: min(82%, 760px);
   height: auto;
-  margin: 18% 0 0 20%;
+  margin: 14% 0 0 12%;
   filter: drop-shadow(0 28px 42px rgba(255, 104, 25, 0.3));
   transform: none;
 }
@@ -5191,9 +5191,9 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 }
 
 .writeup-cinematic-copy h1 {
-  max-width: 11ch;
+  max-width: 12ch;
   margin: 18px 0 14px;
-  font-size: clamp(3.4rem, 5.8vw, 5.4rem);
+  font-size: clamp(4rem, 7.2vw, 7.25rem);
   letter-spacing: -0.055em;
   line-height: 0.86;
   text-transform: uppercase;
