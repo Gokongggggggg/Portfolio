@@ -94,7 +94,7 @@ solve.py
 ``` python
 import requests
 
-base ="https://2b960fc7-91d2-4812-9e9f-b9f73b0db1ea.play.gaslightctf.cooking:1337/"
+base ="{TARGET_URL}"
 
 count = 0
 

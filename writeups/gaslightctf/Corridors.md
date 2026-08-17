@@ -15,7 +15,7 @@ script.py
 ``` python
 import requests
 
-base = "https://f47df1cf-310e-4bfc-b308-4a266cc916c4.play.gaslightctf.cooking:1337"
+base = "{TARGET_URL}"
 
 s = requests.Session()
 path = ""

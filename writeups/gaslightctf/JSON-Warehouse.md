@@ -430,7 +430,7 @@ Since `.guard()` runs before the `PUT /:key` route, every `PUT` request passes t
 
 ![[Pasted image 20260817124831.png]]
 
-Our final exploit path is : use PUT /storage/:key to pollute Object.prototype.value with "1000". Since the PUT request passes through the .guard() first, both schemas are involved, which triggers mergeDeep().
+Our final exploit path is simple: use `PUT /storage/:key` to pollute `Object.prototype.value` with `"1000"`, since the `PUT` request triggers the `.guard()` + route schema merge.
 
 Then send `GET /storage/flag` **without a cookie**. `cookie.user.value` is missing, so it falls back to the polluted prototype value `"1000"`, causing `getUser(1000)` to return the admin user.
 
