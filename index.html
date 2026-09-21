@@ -3,113 +3,63 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
-    <title>Wisely | Wisely</title>
+    <meta name="description" content="Technical CTF writeups and challenge breakdowns by Wisely, filterable by CTF event.">
+    <title>Wisely Writeups</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=catalog-fix">
   </head>
-  <body>
+  <body class="writeup-body writeup-library-body">
     <a class="skip-link" href="#top">Skip to main content</a>
-    <header class="site-header">
-      <a class="brand" href="index.html" aria-label="Wisely portfolio home">Wisely</a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="sr-only">Toggle navigation</span>
-        <span></span>
-        <span></span>
-      </button>
-      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-        <a href="index.html">Showcase</a>
-        <a href="writeups.html">Writeups</a>
-        <a href="pentest.html">Field Notes</a>
-        <a href="projects.html">Builds</a>
+    <header class="site-header blog-nav">
+      <span class="blog-status" aria-label="Online">
+        <span class="blog-status-dot" aria-hidden="true"></span>
+        <span>Online</span>
+      </span>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#top" aria-current="page">Featured</a>
+        <a href="#writeup-catalog">Writeups</a>
       </nav>
     </header>
     <main id="top">
-      <section class="wallpaper-hero reveal-target" aria-labelledby="wallpaper-title">
-        <div class="wallpaper-hero-content">
-          <p class="eyebrow">Lorem Ipsum</p>
-          <h1 id="wallpaper-title">Lorem Ipsum</h1>
-          <div class="hero-text-motion" aria-hidden="true">
-            <div class="hero-text-motion-track">
-              <span>VDP notes</span>
-              <span>AI tools</span>
-              <span>CTF archive</span>
+      <section class="writeup-cinematic-hero reveal-target" id="writeup-cinematic-hero" aria-live="polite"></section>
+
+      <div class="writeup-workspace">
+        <section class="writeup-library-hero reveal-target" aria-labelledby="writeup-library-title">
+          <div class="writeup-library-intro torn-panel">
+            <p class="eyebrow">Curated Writeups</p>
+            <h2 id="writeup-library-title">Only the challenges worth unpacking.</h2>
+            <p>I log every solve as proof of active practice. This shelf is different: it only contains challenges with an interesting idea, unusual technique, or lesson worth sharing.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#writeup-catalog">Browse writeups</a>
             </div>
           </div>
-          <p class="sr-only">VDP notes, AI tools, and CTF archive.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <a class="scroll-cue" href="#recent-work" aria-label="Scroll to recent work">
-          <span>Scroll down</span>
-          <i aria-hidden="true"></i>
-        </a>
-      </section>
 
-      <section class="showcase-hero recent-showcase reveal-target" id="recent-work" aria-labelledby="showcase-title">
-        <article class="showcase-primary showcase-feature torn-panel">
-          <p class="eyebrow">Lorem ipsum</p>
-          <span class="showcase-kind">Dolor / sit amet</span>
-          <h2 id="showcase-title">Lorem ipsum dolor sit amet.</h2>
-          <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <div class="hero-actions">
-            <a class="button primary" href="writeups.html">Lorem Ipsum</a>
-            <a class="button secondary" href="writeups.html#activity">Dolor Sit</a>
-          </div>
-        </article>
+          <aside class="writeup-library-manifest torn-panel" aria-label="Writeup collection summary">
+            <p class="category">Published shelf</p>
+            <div>
+              <strong data-writeup-stat="total">0</strong>
+              <span>writeups available</span>
+            </div>
+            <dl>
+              <div><dt>Categories</dt><dd data-writeup-stat="categories">0</dd></div>
+              <div><dt>Latest</dt><dd data-writeup-stat="latest">—</dd></div>
+            </dl>
+          </aside>
+        </section>
 
-        <div class="showcase-stack recent-stack" aria-label="Recent highlighted work">
-          <a class="showcase-tile recent-tile" href="writeups/bronco-qr-reconstruction.html">
-            <span>Lorem ipsum</span>
-            <strong>Dolor sit amet</strong>
-            <p>Consectetur adipiscing elit.</p>
-          </a>
-          <a class="showcase-tile recent-tile" href="writeups.html">
-            <span>Lorem ipsum</span>
-            <strong>Consectetur adipiscing</strong>
-            <p>Sed do eiusmod tempor incididunt.</p>
-          </a>
-          <a class="showcase-tile recent-tile" href="projects.html">
-            <span>Lorem ipsum</span>
-            <strong>Magna aliqua</strong>
-            <p>Ut enim ad minim veniam quis nostrud.</p>
-          </a>
-        </div>
-      </section>
-
-      <section class="section evidence-strip reveal-target" aria-label="Activity overview">
-        <article>
-          <span>Activity</span>
-          <strong>Lorem ipsum</strong>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </article>
-        <article>
-          <span>Current Build</span>
-          <strong>Dolor sit amet</strong>
-          <p>Sed do eiusmod tempor incididunt ut labore.</p>
-        </article>
-        <article>
-          <span>Latest Note</span>
-          <strong>Consectetur</strong>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
-        </article>
-      </section>
-
-      <section class="section about-panel reveal-target" id="about" aria-labelledby="about-title">
-        <div>
-          <p class="eyebrow">About</p>
-          <h2 id="about-title">Lorem ipsum dolor sit amet, consectetur adipiscing.</h2>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.</p>
-      </section>
+        <section class="writeup-catalog reveal-target" id="writeup-catalog" aria-label="Writeup catalog">
+          <div id="writeup-rows"></div>
+        </section>
+      </div>
     </main>
 
-    <footer class="site-footer">
-      <p>Wisely</p>
+    <footer class="site-footer" hidden>
+      <p>Wisely WU</p>
       <a href="#top">Back to top</a>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=catalog-fix"></script>
   </body>
 </html>

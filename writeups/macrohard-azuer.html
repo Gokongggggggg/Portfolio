@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="K17 CTF Macrohard Azuer web writeup.">
+    <title>Macrohard Azuer Writeup | Wisely</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body class="writeup-body">
+    <a class="skip-link" href="#top">Skip to main content</a>
+    <header class="site-header blog-nav">
+      <span class="blog-status" aria-label="Online">
+        <span class="blog-status-dot" aria-hidden="true"></span>
+        <span>Online</span>
+      </span>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#top">Featured</a>
+        <a href="../index.html#writeup-catalog">Writeups</a>
+      </nav>
+    </header>
+
+    <main id="top" class="writeup-page">
+      <div class="writeup-layout writeup-layout--single reveal-target">
+        <article class="writeup-article">
+          <header class="writeup-title-block">
+            <p class="eyebrow">K17 CTF / Web</p>
+            <h1>Macrohard Azuer</h1>
+            <div class="writeup-meta-row"><span>2026-09-18</span><span>Web</span><span>Whitebox</span><span>Local Docker</span></div>
+          </header>
+
+          <section class="writeup-section writeup-section--plain">
+            <blockquote><p>Note: I solved this challenge locally because the remote instance was already down when I wrote this writeup. So I cannot show the real remote flag, but the exploit chain was verified on the provided local Docker setup.</p></blockquote>
+
+            <p>I first did a quick look around the page to understand what the app was for. Since the only clickable and functional page was the organization console, I could already define the exploit scope around the features exposed there</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/01.png" alt="K17 CTF organization console"></figure>
+
+            <p>The two things that immediately stood out were the <code>not elevated</code> status in the permission/export section and the JSON import feature. At this point, my assumption was that the goal was probably to escalate my user state, either through the import feature or through the permission check flow</p>
+
+            <p>Since this was a whitebox challenge, there was no point in spending too much time guessing from the UI. I only used it to understand the app briefly, then moved straight to the source code</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/02.png" alt="K17 CTF source code" loading="lazy"></figure>
+
+            <p>The first routes were pretty straightforward. <code>/members</code> just creates a member with default editable fields and stores it in <code>MEMBER_SETTINGS</code>.</p>
+
+            <p>The settings route also only checks if the member exists, validates the input, and updates <code>vcpu</code>, <code>quota</code>, and <code>capacity</code>. Nothing looked suspicious yet, so I quickly moved on instead of going too deep into these routes.</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/03.png" alt="K17 CTF settings route source code" loading="lazy"></figure>
+
+            <p>The upload feature looked suspicious at first. I thought it might allow something like mass assignment, hidden field injection, or even accepting arbitrary file types.</p>
+
+            <p>After checking the code, the upload route only accepts files that contain a valid JSON object. Each record is staged temporarily, added to a pending list, and then passed to <code>apply_settings()</code></p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/04.png" alt="K17 CTF upload route source code" loading="lazy"></figure>
+
+            <p><code>apply_settings()</code> also only allows the predefined editable fields: <code>vcpu</code>, <code>quota</code>, and <code>capacity</code>. So even if I tried adding fields like <code>role</code> or <code>export_enabled</code>, they would not be used.</p>
+
+            <p>At this point, the upload feature looked more like a red herring, so I moved on.</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/05.png" alt="K17 CTF apply settings source code" loading="lazy"></figure>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/06.png" alt="K17 CTF editable fields source code" loading="lazy"></figure>
+
+            <p>Finally, the actual interesting part shows up in <code>/console/permissions</code></p>
+            <pre><code>base = urljoin(API_BASE, account)
+permissions = fetch(base, "permissions")</code></pre>
+
+            <p>First thing first, <code>account</code> is user-controlled. It comes from <code>/console/select</code>, and that endpoint basically just takes whatever we send and stores it in the session.</p>
+
+            <p>The second thing is <code>urljoin()</code>. At first it looks like it only appends the account to the internal API URL, but that is not always true. The behavior depends on what we put inside <code>account</code></p>
+
+            <p>Example:</p>
+            <pre><code>API_BASE = "https://accounts.internal/api/"
+
+urljoin(API_BASE, "alice")
+# https://accounts.internal/api/alice
+
+urljoin(API_BASE, "/alice")
+# https://accounts.internal/alice
+
+urljoin(API_BASE, "http://localtest:8000/")
+# http://localtest:8000/</code></pre>
+
+            <p>Source : <a href="https://docs.python.org/3.12/library/urllib.parse.html#urllib.parse.urljoin">https://docs.python.org/3.12/library/urllib.parse.html#urllib.parse.urljoin</a></p>
+
+            <p>So if we put a full URL as the account, <code>urljoin()</code> will just use our URL and ignore the original internal API base. That means the permission check can be redirected to our own server</p>
+
+            <p>Okay, at this point we already have a primitive to make the server send a request to our own server.</p>
+
+            <p>The next question is: what should we do when the server reaches our endpoint?</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/07.png" alt="K17 CTF permission check source code" loading="lazy"></figure>
+
+            <p>As highlighted in the red box, the app checks the value of <code>role</code> from <code>permissions.get("role")</code></p>
+
+            <p>This means the response from our server needs to be a JSON object, so <code>.get()</code> can read it properly. We can just return:</p>
+            <pre><code>{"role":"admin"}</code></pre>
+
+            <p>With that response, the condition becomes true and the app marks our session as elevated</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/08.png" alt="K17 CTF export route source code" loading="lazy"></figure>
+
+            <p>After getting <code>elevated = true</code>, the export route still does one more check before returning the flag.</p>
+
+            <p>As highlighted, it fetches:</p>
+            <pre><code>settings = fetch(base, "user/settings")</code></pre>
+
+            <p>Then it checks:</p>
+            <pre><code>settings.get("export_enabled")</code></pre>
+
+            <p>So we also need to prepare another route on our server for <code>/user/settings</code>, and make it return a JSON object like this:</p>
+            <pre><code>{"export_enabled": true}</code></pre>
+
+            <p>Based on that idea, I prepared a small server that would return the JSON values needed by both checks</p>
+            <pre><code>from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.get("/permissions")
+def permissions():
+    return jsonify(role="admin")
+
+@app.get("/user/settings")
+def user_settings():
+    return jsonify(export_enabled=True)
+
+app.run(host="0.0.0.0", port=8000)</code></pre>
+
+            <p>But when I tried it with a public tunnel, nothing ever hit my Cloudflare listener. This was weird because the payload looked right and the routes were already prepared</p>
+            <figure class="writeup-figure"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2l0ZndyMjYzbXlhc2R5eXFqNGVwbG4zN215NTN1aGVrcjhvcGZyZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lprIQG8Pl3T4gktKOZ/giphy.gif" alt="Confused reaction" loading="lazy"></figure>
+
+            <p>Since the challenge was running with Docker, I checked the Docker setup next to understand how the containers were networked</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/09.png" alt="K17 CTF Docker network setup" loading="lazy"></figure>
+
+            <p>Now we know why it did not work. The comment already says there is no external internet access, and the network is internal, so the app cannot access external services or resolve my Cloudflare domain</p>
+
+            <p>At this point, I tried to structure my finding by defining the confirmed primitive.</p>
+
+            <p>The confirmed primitive was that <code>urljoin()</code> lets me control the final URL, and after the URL is built, there is no filtering at all. So I started mapping possible targets from inside the app:</p>
+            <pre><code>http://accounts.internal/...   -&gt; internal service, reachable
+http://localhost/...           -&gt; same container
+http://127.0.0.1/...           -&gt; same container
+file:///...                    -&gt; local file read candidate</code></pre>
+
+            <p>for me the <code>file://</code> idea was the most interesting one, so I went back to the <code>/upload</code> route and tried to understand it better</p>
+
+            <p>I first uploaded a random file just to see how the multipart fields looked in Burp</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/10.png" alt="K17 CTF upload request in Burp" loading="lazy"></figure>
+
+            <p>After the random upload test, I still did not know exactly how to abuse it. So I went back to the source and looked at the upload logic again , and i find something....</p>
+
+            <p>This part tells us where the uploaded file will be written</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/11.png" alt="K17 CTF upload path source code" loading="lazy"></figure>
+
+            <p>The path is built from <code>account</code> and <code>name</code></p>
+            <pre><code>account -&gt; comes from the JSON body
+name    -&gt; comes from storage.filename, which is the uploaded filename</code></pre>
+
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/12.png" alt="K17 CTF staging root source code" loading="lazy"></figure>
+
+            <p>Since <code>STAGING_ROOT</code> is fixed to <code>/tmp/users</code>, we can predict the final file path</p>
+            <pre><code>/tmp/users/&lt;account&gt;/&lt;filename&gt;</code></pre>
+
+            <p>This made the <code>file://</code> idea make more sense</p>
+
+            <p>We know the exact file path, and as long as the upload is a valid JSON object, we can control both the filename and the JSON content inside it</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/13.png" alt="K17 CTF staged upload" loading="lazy"></figure>
+
+            <p>But there is still a problem</p>
+
+            <p>The uploaded file will be deleted either way, whether the upload succeeds or fails with <code>ValidationError</code></p>
+
+            <p>So we need to find a way to make it error after the file is written, but before the cleanup deletes it</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/14.png" alt="K17 CTF apply settings source code" loading="lazy"></figure>
+
+            <p>and ya the bug is on <code>apply_settings()</code></p>
+
+            <p>The idea is that we need a value that can pass this check first:</p>
+            <pre><code>if not isinstance(value, (int, float)):
+    raise ValidationError(f"{field} must be a number")</code></pre>
+
+            <p>If this check gets triggered, it will raise <code>ValidationError</code>, and the upload route will enter the cleanup block</p>
+
+            <p>That means our uploaded file will be removed before we can read it with <code>file://</code></p>
+
+            <p>So we need something that passes the <code>isinstance</code> check, but still errors out in a way that skips the cleanup</p>
+
+            <p>Remember, we cannot let the upload succeed either, because the final cleanup will delete the file to if succeed. That is why we need to trigger an error after the file is written</p>
+
+            <p>The trick is to use <code>NaN</code></p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/15.png" alt="Python NaN type check" loading="lazy"></figure>
+
+            <p>Small note about <code>NaN</code>: even though it means <strong>Not a Number</strong>, Python represents it as a <code>float</code></p>
+
+            <p>That is why it can pass the <code>isinstance(value, (int, float))</code> check</p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/16.png" alt="Python int NaN conversion" loading="lazy"></figure>
+
+            <p>But once the app reaches <code>int(value)</code>, it raises <code>ValueError</code>, not <code>ValidationError</code></p>
+            <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/17.png" alt="K17 CTF cleanup exception handling" loading="lazy"></figure>
+
+            <p>Since the cleanup only handles <code>ValidationError</code>, the route crashes and our uploaded file is not removed</p>
+
+            <p>You may ask two things here</p>
+
+            <p>First, do we really need to make it error?</p>
+
+            <p>Yes, because if the upload succeeds normally, the final cleanup will delete the file anyway. So we need an unhandled error to stop the cleanup from running</p>
+
+            <p>Second, why does <code>int(value)</code> error when the value is <code>NaN</code>?</p>
+
+            <p>Because <code>NaN</code> means Not a Number. In Python, it is still represented as a <code>float</code>, so it passes the <code>isinstance</code> check. But <code>NaN</code> has no valid integer representation, so <code>int(NaN)</code> raises <code>ValueError</code>, not <code>ValidationError</code></p>
+
+            <h2>So our final payload</h2>
+
+            <p><mark>Remember, the path is built as <code>/tmp/users/&lt;account&gt;/&lt;filename&gt;</code></mark></p>
+
+            <p>stage 1 ( elevate session )</p>
+
+            <p>Upload a file named <code>permissions</code> with this content:</p>
+            <pre><code>{"account":"gokong","role":"admin","vcpu":NaN}</code></pre>
+
+            <p>This will leave the file at -&gt; /tmp/users/gokong/permissions</p>
+
+            <p>stage 2 ( enable export )</p>
+
+            <p>Upload a file named <code>settings</code> with this content:</p>
+            <pre><code>{"account":"user","export_enabled":true,"vcpu":NaN}</code></pre>
+
+            <p>This will leave the file at -&gt; /tmp/users/user/settings</p>
+
+            <h2>Exploit Path</h2>
+
+            <ol class="writeup-steps">
+              <li><p>upload file named permissions that contain stage 1 payload</p><figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/18.png" alt="Upload stage 1 permissions payload" loading="lazy"></figure></li>
+              <li><p><code>POST /console/select</code>, because the value we send here will become the URL that the app fetches later</p><figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/19.png" alt="Select stage 1 file URL" loading="lazy"></figure></li>
+              <li><p><code>GET /console/permissions</code> will read our stage 1 file, which already contains role: admin</p><figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/20.png" alt="Elevate session with stage 1 file" loading="lazy"></figure></li>
+              <li><p>Upload the settings file, which contains our stage 2 payload</p><figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/21.png" alt="Upload stage 2 settings payload" loading="lazy"></figure></li>
+              <li>
+                <p><code>POST /console/select</code> again to set the next URL that will be fetched by the export route</p>
+                <p>For export, the app calls <code>fetch(base, "user/settings")</code>, so we set the base URL to <code>file:///tmp/users/</code></p>
+                <p>That way, when <code>user/settings</code> is appended, it will read our stage 2 file at: /tmp/users/user/settings</p>
+                <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/22.png" alt="Select stage 2 base URL" loading="lazy"></figure>
+              </li>
+              <li>
+                <p><code>GET /console/export</code> will fetch and read our stage 2 payload</p>
+                <p>Since the file contains <code>export_enabled: true</code>, the export check passes and we get the flag</p>
+                <figure class="writeup-figure"><img src="../public/images/writeups/macrohard-azuer/23.png" alt="Successful local flag export" loading="lazy"></figure>
+              </li>
+            </ol>
+
+            <blockquote><p>Again, this was tested on the local Docker setup since the remote instance was no longer available. The flag shown in local testing is only the example/local flag, not the original remote flag.</p></blockquote>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer"><p>Wisely WU</p><a href="#top">Back to top</a></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

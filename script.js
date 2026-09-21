@@ -1,6 +1,3 @@
-const navToggle = document.querySelector(".nav-toggle");
-const siteNav = document.querySelector(".site-nav");
-const currentPage = window.location.pathname.split("/").pop() || "index.html";
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
@@ -17,28 +14,6 @@ if (wallpaperHero) {
     }
   }, 3000);
 }
-if (navToggle && siteNav) {
-  siteNav.querySelectorAll("a").forEach((link) => {
-    const linkPage = link.getAttribute("href");
-
-    if (linkPage === currentPage) {
-      link.setAttribute("aria-current", "page");
-    }
-  });
-
-  navToggle.addEventListener("click", () => {
-    const isOpen = siteNav.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  siteNav.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      siteNav.classList.remove("is-open");
-      navToggle.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
 let htbSolves = [
   {
     date: "2026-07-04",
@@ -53,7 +28,7 @@ let htbSolves = [
   }
 ];
 
-const gaslightWriteups = [
+const standaloneWriteups = [
   {
     date: "2026-08-17",
     type: "challenge",
@@ -61,7 +36,8 @@ const gaslightWriteups = [
     name: "JSON Warehouse",
     category: "Web",
     event: "GaslightCTF",
-    series: "GaslightCTF",
+    published: true,
+    award: "Best Writeup Award",
     summary: "From this source code, we can see that the flag is stored inside the admin's warehouse.",
     cover: "public/images/events/gaslightctf-logo.png",
     coverAlt: "GaslightCTF flame logo",
@@ -78,7 +54,7 @@ const gaslightWriteups = [
     name: "MessageBoard",
     category: "Web",
     event: "GaslightCTF",
-    series: "GaslightCTF",
+    published: true,
     summary: "The ORDER BY primitive lets us compare the secret values of users who have published a story.",
     cover: "public/images/events/gaslightctf-logo.png",
     coverAlt: "GaslightCTF flame logo",
@@ -95,7 +71,7 @@ const gaslightWriteups = [
     name: "Corridors",
     category: "Web",
     event: "GaslightCTF",
-    series: "GaslightCTF",
+    published: true,
     summary: "Since the corridor can go on for hundreds of steps, doing this manually would take too long, so we can automate the process with a simple script",
     cover: "public/images/events/gaslightctf-logo.png",
     coverAlt: "GaslightCTF flame logo",
@@ -112,7 +88,7 @@ const gaslightWriteups = [
     name: "Biscuit",
     category: "Web",
     event: "GaslightCTF",
-    series: "GaslightCTF",
+    published: true,
     summary: "If we look at the given source code, we can see that mint() looks pretty sus because the username seems comes directly from user input and gets inserted into the Biscuit builder f-string",
     cover: "public/images/events/gaslightctf-logo.png",
     coverAlt: "GaslightCTF flame logo",
@@ -129,7 +105,7 @@ const gaslightWriteups = [
     name: "Crawl",
     category: "Web",
     event: "GaslightCTF",
-    series: "GaslightCTF",
+    published: true,
     summary: "From the challenge description, we already get a pretty strong hint to check robots.txt",
     cover: "public/images/events/gaslightctf-logo.png",
     coverAlt: "GaslightCTF flame logo",
@@ -138,6 +114,74 @@ const gaslightWriteups = [
     link: "writeups/gaslightctf.html?challenge=crawl",
     writeupUrl: "writeups/gaslightctf.html?challenge=crawl",
     tags: ["Web", "GaslightCTF", "robots.txt", "Recon"]
+  },
+  {
+    date: "2026-09-18",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Macrohard Azuer",
+    category: "Web",
+    event: "K17 CTF",
+    published: true,
+    summary: "The confirmed primitive was that urljoin() lets me control the final URL, and after the URL is built, there is no filtering at all.",
+    cover: "public/images/events/k17-ctf-logo.png",
+    coverAlt: "K17 CTF logo",
+    coverStyle: "logo",
+    lesson: "The trick is to use NaN.",
+    link: "writeups/macrohard-azuer.html",
+    writeupUrl: "writeups/macrohard-azuer.html",
+    tags: ["Web", "K17 CTF", "urljoin", "file://", "NaN"]
+  },
+  {
+    date: "2026-07-06",
+    type: "challenge",
+    solveType: "ctf",
+    name: "HVL",
+    category: "Web",
+    event: "V1T 2026",
+    published: true,
+    summary: "The page source and rendered output display completely different text. The actual trick was a custom font disguised as NotoSans-Regular.ttf with custom glyph mapping.",
+    cover: "public/images/events/v1t-duck-logo.png",
+    coverAlt: "V1T Duck logo",
+    coverStyle: "logo",
+    lesson: "Inspect embedded font glyph mapping when text in the DOM differs from what is visually rendered.",
+    link: "writeups/hvl.html",
+    writeupUrl: "writeups/hvl.html",
+    tags: ["Web", "V1T 2026", "Custom Font", "Glyph Mapping"]
+  },
+  {
+    date: "2026-07-13",
+    type: "challenge",
+    solveType: "ctf",
+    name: "QR Reconstruction",
+    category: "Misc",
+    event: "BroncoCTF",
+    published: true,
+    summary: "A short writeup on rebuilding a fragmented QR code by recognizing the spatial clue that automated recovery tools missed.",
+    cover: "public/images/events/broncoctf-mascot.png",
+    coverAlt: "BroncoCTF mascot",
+    coverStyle: "mascot",
+    lesson: "Manual visual inspection beats automated solvers when image fragments preserve physical alignment clues.",
+    link: "writeups/bronco-qr-reconstruction.html",
+    writeupUrl: "writeups/bronco-qr-reconstruction.html",
+    tags: ["Misc", "BroncoCTF", "QR Code", "Reconstruction"]
+  },
+  {
+    date: "2026-07-06",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Admin Fury",
+    category: "OSINT",
+    event: "FIT Competition",
+    published: true,
+    summary: "Visual clues pointed to Comifuro 22; the official venue map was used to locate the RGB Team booth and derive the row range required by the flag.",
+    coverStyle: "mark",
+    coverMark: "FIT",
+    coverLabel: "Competition",
+    lesson: "Use event floor plans and visual landmark clues to pinpoint exact booth coordinates.",
+    link: "writeups/admin-fury.html",
+    writeupUrl: "writeups/admin-fury.html",
+    tags: ["OSINT", "FIT Competition", "Geolocation", "Map Analysis"]
   }
 ];
 
@@ -166,10 +210,8 @@ let activeSolveFilter = "all";
 let activeSolvePage = 1;
 const solvesPerPage = 8;
 let htbControlsReady = false;
-let activeWriteupCategory = "all";
-let writeupControlsReady = false;
-let writeupShelfReady = false;
-let activeWriteupHero = 0;
+let activeCtfFilter = "all";
+let activeCategoryFilter = "all";
 const counterAnimations = new WeakMap();
 
 function renderHtbTracker() {
@@ -469,11 +511,7 @@ function renderSolveTags(solve) {
 }
 
 function isPublishedWriteup(solve) {
-  return solve.series === "GaslightCTF" && Boolean(solve.writeupUrl);
-}
-
-function isVisibleWriteup(solve) {
-  return Boolean(solve.writeupUrl);
+  return Boolean(solve.writeupUrl) && solve.published === true;
 }
 
 function renderWriteupBadge(solve) {
@@ -491,87 +529,26 @@ function renderSolveSource(solve) {
 
 function renderWriteupLibrary() {
   const catalog = document.querySelector("#writeup-rows");
-  if (catalog) {
-    const writeups = [...htbSolves]
-      .filter(isVisibleWriteup)
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-    const publishedWriteups = writeups.filter(isPublishedWriteup);
-    const seriesWriteup = publishedWriteups[0]
-      ? {
-          ...publishedWriteups[0],
-          name: "GaslightCTF",
-          event: "CTF Series",
-          summary: "Five web challenge writeups collected in one series.",
-          link: "writeups/gaslightctf.html",
-          writeupUrl: "writeups/gaslightctf.html",
-          tags: ["Web", "GaslightCTF", "CTF Series"]
-        }
-      : null;
-    const catalogWriteups = [seriesWriteup, ...writeups.filter((writeup) => !writeup.series)].filter(Boolean);
+  if (!catalog) return;
 
-    renderWriteupStats(publishedWriteups);
-    renderWriteupHero(seriesWriteup ? [seriesWriteup] : []);
-    renderWriteupRows(catalog, catalogWriteups);
-    return;
+  const seen = new Set();
+  const publishedWriteups = [];
+  for (const item of [...htbSolves]) {
+    if (!isPublishedWriteup(item)) continue;
+    const key = item.writeupUrl || item.name;
+    if (!seen.has(key)) {
+      seen.add(key);
+      publishedWriteups.push(item);
+    }
   }
+  publishedWriteups.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const library = document.querySelector("#writeup-library");
-  if (!library) return;
+  // Hero = only the writeup marked as award winner
+  const awardWriteup = publishedWriteups.find((w) => w.award) || null;
+  renderWriteupHero(awardWriteup);
 
-  const searchInput = document.querySelector("#writeup-search");
-  const filterNode = document.querySelector("#writeup-category-filter");
-  const writeups = [...htbSolves]
-    .filter(isPublishedWriteup)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  renderWriteupHero(writeups);
-  renderWriteupShelf(writeups);
-  initWriteupControls(searchInput, filterNode, writeups);
-
-  renderWriteupStats(writeups);
-  const query = normalizeSearch(searchInput?.value || "");
-  const visibleWriteups = writeups.filter((writeup) => {
-    const matchesCategory = activeWriteupCategory === "all" || writeup.category === activeWriteupCategory;
-    if (!matchesCategory) return false;
-    if (!query) return true;
-
-    return [
-      writeup.name,
-      writeup.event,
-      writeup.category,
-      writeup.summary,
-      writeup.lesson,
-      ...(writeup.tags || [])
-    ].map(normalizeSearch).join(" ").includes(query);
-  });
-
-  if (!visibleWriteups.length) {
-    library.innerHTML = `<article class="writeup-library-empty torn-panel"><p class="category">No match</p><h3>No writeups found.</h3><p>Try another title, event, category, or technique.</p></article>`;
-    return;
-  }
-
-  library.innerHTML = visibleWriteups.map((writeup, index) => `
-    <a class="writeup-library-card torn-panel${index === 0 && !query && activeWriteupCategory === "all" ? " is-featured" : ""}" href="${escapeAttribute(writeup.writeupUrl)}">
-      <div class="writeup-card-media${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}">
-        ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
-        ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
-        <span>${index === 0 && !query && activeWriteupCategory === "all" ? "Latest release" : "Published writeup"}</span>
-      </div>
-      <div class="writeup-card-copy">
-        <div class="writeup-card-meta">
-          <span>${escapeHtml(writeup.event || "CTF")}</span>
-          <span>${escapeHtml(writeup.category)}</span>
-          <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
-        </div>
-        <h3>${escapeHtml(writeup.name)}</h3>
-        <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
-        <div class="writeup-card-tags">${(writeup.tags || []).slice(0, 4).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
-        <strong>Read writeup <span aria-hidden="true">→</span></strong>
-      </div>
-    </a>
-  `).join("");
-
-  registerRevealTargets(library.querySelectorAll(".writeup-library-card"));
+  renderWriteupStats(publishedWriteups);
+  renderWriteupCatalog(catalog, publishedWriteups);
 }
 
 function renderWriteupStats(writeups) {
@@ -589,119 +566,152 @@ function renderWriteupStats(writeups) {
   });
 }
 
-function renderWriteupRows(catalog, writeups) {
-  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
-  const rows = categories.map((category) => ({
-      id: `category-${normalizeSearch(category).replace(/\s+/g, "-")}`,
-      title: category,
-      items: writeups.filter((writeup) => writeup.category === category)
-    }));
+function renderWriteupCatalog(catalog, writeups) {
+  const latestByEvent = new Map();
+  writeups.forEach((writeup) => {
+    if (writeup.event && !latestByEvent.has(writeup.event)) latestByEvent.set(writeup.event, writeup);
+  });
+  const events = [...latestByEvent.values()].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const preferredOrder = ["Web", "Misc", "OSINT"];
+  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))]
+    .sort((a, b) => {
+      const idxA = preferredOrder.indexOf(a);
+      const idxB = preferredOrder.indexOf(b);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.localeCompare(b);
+    });
 
-  catalog.innerHTML = rows.map((row) => `
-    <section class="catalog-row" aria-labelledby="${escapeAttribute(row.id)}-title">
-      <div class="catalog-row-heading">
-        <h2 id="${escapeAttribute(row.id)}-title">${escapeHtml(row.title)}</h2>
-        <div class="catalog-row-controls" aria-label="${escapeAttribute(`${row.title} controls`)}">
-          <button type="button" data-catalog-direction="-1" aria-label="Scroll ${escapeAttribute(row.title)} left">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-          <button type="button" data-catalog-direction="1" aria-label="Scroll ${escapeAttribute(row.title)} right">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
+  catalog.innerHTML = `
+    <div class="catalog-toolbar">
+      <div class="catalog-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="solve-search" type="search" placeholder="Search by title, CTF, or technique..." aria-label="Search writeups" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="catalog-filter-wrap">
+        <span class="catalog-filter-label">CTF</span>
+        <div class="catalog-filter-bar" role="group" aria-label="Filter writeups by CTF">
+          ${["all", ...events.map((writeup) => writeup.event)].map((event) => `
+            <button type="button" data-ctf-filter="${escapeAttribute(event)}" aria-pressed="false">
+              ${event === "all" ? "All" : escapeHtml(event)}<small>0</small>
+            </button>
+          `).join("")}
         </div>
       </div>
-      <div class="catalog-track" tabindex="0" aria-label="${escapeAttribute(row.title)} writeups">
-        ${row.items.map((writeup, index) => row.type === "upsolve" ? renderUpsolveCard(writeup, index) : renderWriteupRowCard(writeup, index)).join("")}
+      <div class="catalog-filter-wrap">
+        <span class="catalog-filter-label">Category</span>
+        <div class="catalog-filter-bar" role="group" aria-label="Filter writeups by category">
+          ${["all", ...categories].map((category) => `
+            <button type="button" data-category-filter="${escapeAttribute(category)}" aria-pressed="false">
+              ${category === "all" ? "All" : escapeHtml(category)}<small>0</small>
+            </button>
+          `).join("")}
+        </div>
       </div>
-    </section>
-  `).join("");
-
-  catalog.querySelectorAll(".catalog-row").forEach((row) => initCatalogRow(row));
-}
-
-function renderUpsolveCard(target, index) {
-  const descriptionId = `upsolve-${normalizeSearch(target.name).replace(/\s+/g, "-")}-description`;
-  const status = target.completed ? "Upsolved" : target.status;
-  const note = target.completed
-    ? "Upsolve completed and added to the public progress count."
-    : target.note;
-  return `
-    <article class="catalog-card catalog-card-upsolve${target.completed ? " is-complete" : ""}" tabindex="0" aria-describedby="${escapeAttribute(descriptionId)}">
-      <div class="catalog-card-media upsolve-card-media">
-        <img src="${escapeAttribute(target.cover)}" alt="${escapeAttribute(target.coverAlt)}" loading="${index === 0 ? "eager" : "lazy"}">
-        <span class="catalog-card-category upsolve-status">${escapeHtml(status)}</span>
-        <p class="upsolve-hover-note" id="${escapeAttribute(descriptionId)}">${escapeHtml(note)}</p>
-      </div>
-      <div class="catalog-card-copy">
-        <h3>${escapeHtml(target.name)}</h3>
-        <p><span>${escapeHtml(target.event)}</span><strong>Upsolve target</strong></p>
-      </div>
-    </article>
+    </div>
+    <p class="catalog-result-count" aria-live="polite"></p>
+    <div class="catalog-grid"></div>
   `;
+
+  const searchInput = catalog.querySelector(".catalog-search input");
+  const gridNode = catalog.querySelector(".catalog-grid");
+  const countNode = catalog.querySelector(".catalog-result-count");
+
+  const matchesSearch = (writeup, query) => !query || [
+    writeup.name,
+    writeup.event,
+    writeup.category,
+    writeup.summary,
+    writeup.lesson,
+    ...(writeup.tags || [])
+  ].map(normalizeSearch).join(" ").includes(query);
+
+  const setChipState = (button, value, active, count) => {
+    button.querySelector("small").textContent = count;
+    button.classList.toggle("is-zero", count === 0);
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  };
+
+  const refreshCatalog = () => {
+    const query = normalizeSearch(searchInput.value);
+
+    catalog.querySelectorAll("[data-ctf-filter]").forEach((button) => {
+      const event = button.dataset.ctfFilter || "all";
+      const count = writeups.filter((writeup) =>
+        (event === "all" || writeup.event === event) &&
+        (activeCategoryFilter === "all" || writeup.category === activeCategoryFilter) &&
+        matchesSearch(writeup, query)
+      ).length;
+      setChipState(button, event, event === activeCtfFilter, count);
+    });
+
+    catalog.querySelectorAll("[data-category-filter]").forEach((button) => {
+      const category = button.dataset.categoryFilter || "all";
+      const count = writeups.filter((writeup) =>
+        (category === "all" || writeup.category === category) &&
+        (activeCtfFilter === "all" || writeup.event === activeCtfFilter) &&
+        matchesSearch(writeup, query)
+      ).length;
+      setChipState(button, category, category === activeCategoryFilter, count);
+    });
+
+    const filtered = writeups.filter((writeup) =>
+      (activeCtfFilter === "all" || writeup.event === activeCtfFilter) &&
+      (activeCategoryFilter === "all" || writeup.category === activeCategoryFilter) &&
+      matchesSearch(writeup, query)
+    );
+
+    countNode.textContent = filtered.length === writeups.length
+      ? `${writeups.length} writeups`
+      : `Showing ${filtered.length} of ${writeups.length} writeups`;
+
+    gridNode.innerHTML = filtered.length
+      ? filtered.map((writeup, index) => renderWriteupCard(writeup, index)).join("")
+      : `<p class="catalog-empty">No writeups match this CTF, category, or keyword.</p>`;
+  };
+
+  searchInput.addEventListener("input", refreshCatalog);
+  catalog.querySelectorAll("[data-ctf-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeCtfFilter = button.dataset.ctfFilter || "all";
+      refreshCatalog();
+    });
+  });
+  catalog.querySelectorAll("[data-category-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      activeCategoryFilter = button.dataset.categoryFilter || "all";
+      refreshCatalog();
+    });
+  });
+
+  refreshCatalog();
 }
 
-function renderWriteupRowCard(writeup, index) {
-  const isMaintenance = !isPublishedWriteup(writeup);
+function renderWriteupCard(writeup, index) {
   const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
-  const content = `
+
+  return `
+    <a class="catalog-card" href="${escapeAttribute(writeup.writeupUrl)}">
       <div class="catalog-card-media${mediaClass}">
         ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
         ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
-        <span class="catalog-card-category">${isMaintenance ? "Under maintenance" : escapeHtml(writeup.category)}</span>
+        <span class="catalog-card-category">${escapeHtml(writeup.category)}</span>
       </div>
       <div class="catalog-card-copy">
+        ${writeup.award ? `<span class="catalog-card-award">🏆 ${escapeHtml(writeup.award)}</span>` : ""}
         <h3>${escapeHtml(writeup.name)}</h3>
         <p><span>${escapeHtml(writeup.event || "CTF")}</span><time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time></p>
-        ${isMaintenance ? '<strong class="catalog-maintenance-note">Temporarily unavailable</strong>' : ""}
       </div>
+    </a>
   `;
-
-  if (isMaintenance) {
-    return `<article class="catalog-card is-maintenance" aria-disabled="true" aria-label="${escapeAttribute(`${writeup.name} — under maintenance`)}">${content}</article>`;
-  }
-
-  return `<a class="catalog-card" href="${escapeAttribute(writeup.writeupUrl)}">${content}</a>`;
 }
 
-function initCatalogRow(row) {
-  const track = row.querySelector(".catalog-track");
-  const buttons = row.querySelectorAll("[data-catalog-direction]");
-  if (!track) return;
-
-  const updateButtons = () => {
-    const atStart = track.scrollLeft <= 4;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
-    buttons.forEach((button) => {
-      button.disabled = Number(button.dataset.catalogDirection) < 0 ? atStart : atEnd;
-    });
-  };
-
-  const scrollTrack = (direction) => {
-    track.scrollBy({
-      left: direction * Math.max(track.clientWidth * 0.82, 280),
-      behavior: reducedMotionQuery.matches ? "auto" : "smooth"
-    });
-  };
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => scrollTrack(Number(button.dataset.catalogDirection) || 1));
-  });
-  track.addEventListener("keydown", (event) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    event.preventDefault();
-    scrollTrack(event.key === "ArrowLeft" ? -1 : 1);
-  });
-  track.addEventListener("scroll", updateButtons, { passive: true });
-  window.addEventListener("resize", updateButtons);
-  updateButtons();
-}
-
-function renderWriteupHero(writeups) {
+function renderWriteupHero(writeup) {
   const hero = document.querySelector("#writeup-cinematic-hero");
-  if (!hero || !writeups.length) return;
+  if (!hero || !writeup) return;
 
-  activeWriteupHero = Math.min(activeWriteupHero, writeups.length - 1);
-  const writeup = writeups[activeWriteupHero];
   const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
 
   hero.innerHTML = `
@@ -712,7 +722,7 @@ function renderWriteupHero(writeups) {
     <div class="writeup-cinematic-shade"></div>
     <div class="writeup-cinematic-copy">
       <div class="writeup-cinematic-kicker">
-        <span>Featured writeup</span>
+        ${writeup.award ? `<span class="award-tag">🏆 ${escapeHtml(writeup.award)}</span>` : ""}
         <span>${escapeHtml(writeup.event || "CTF")}</span>
       </div>
       <h1>${String(writeup.name || "Writeup").split(/\s+/).map((word) => `<span>${escapeHtml(word)}</span>`).join("")}</h1>
@@ -724,108 +734,9 @@ function renderWriteupHero(writeups) {
       <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
       <div class="hero-actions">
         <a class="button primary" href="${escapeAttribute(writeup.writeupUrl)}">Read writeup</a>
-        <a class="button secondary" href="#writeup-catalog">Browse catalog</a>
-      </div>
-      <div class="writeup-cinematic-dots" role="group" aria-label="Choose featured writeup">
-        ${writeups.map((item, index) => `<button type="button" class="${index === activeWriteupHero ? "is-active" : ""}" data-writeup-hero="${index}" aria-label="Show ${escapeAttribute(item.name)}" aria-pressed="${index === activeWriteupHero}"></button>`).join("")}
       </div>
     </div>
   `;
-
-  hero.querySelectorAll("[data-writeup-hero]").forEach((button) => {
-    button.addEventListener("click", () => {
-      activeWriteupHero = Number(button.dataset.writeupHero) || 0;
-      renderWriteupHero(writeups);
-    });
-  });
-}
-
-function renderWriteupShelf(writeups) {
-  const shelf = document.querySelector("#writeup-featured-shelf");
-  if (!shelf) return;
-
-  shelf.innerHTML = writeups.map((writeup, index) => `
-    <a class="writeup-shelf-card torn-panel" href="${escapeAttribute(writeup.writeupUrl)}">
-      <div class="writeup-card-media${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}">
-        ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="${escapeAttribute(writeup.coverAlt || "")}" loading="${index === 0 ? "eager" : "lazy"}">` : ""}
-        ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark" role="img" aria-label="${escapeAttribute(`${writeup.event || "FIT Competition"} event mark`)}"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
-        <span>${index === 0 ? "Latest release" : "Featured"}</span>
-      </div>
-      <div class="writeup-shelf-copy">
-        <div class="writeup-card-meta">
-          <span>${escapeHtml(writeup.event || "CTF")}</span>
-          <span>${escapeHtml(writeup.category)}</span>
-          <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
-        </div>
-        <h3>${escapeHtml(writeup.name)}</h3>
-        <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
-        <strong>Read writeup <span aria-hidden="true">&rarr;</span></strong>
-      </div>
-    </a>
-  `).join("");
-
-  initWriteupShelfControls(shelf);
-  updateWriteupShelfControls(shelf);
-}
-
-function initWriteupShelfControls(shelf) {
-  if (writeupShelfReady) return;
-  writeupShelfReady = true;
-
-  const scrollShelf = (direction) => {
-    const distance = Math.max(shelf.clientWidth * 0.78, 280);
-    shelf.scrollBy({
-      left: direction * distance,
-      behavior: reducedMotionQuery.matches ? "auto" : "smooth"
-    });
-  };
-
-  document.querySelectorAll("[data-shelf-scroll]").forEach((button) => {
-    button.addEventListener("click", () => scrollShelf(Number(button.dataset.shelfScroll) || 1));
-  });
-
-  shelf.addEventListener("keydown", (event) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    event.preventDefault();
-    scrollShelf(event.key === "ArrowLeft" ? -1 : 1);
-  });
-  shelf.addEventListener("scroll", () => updateWriteupShelfControls(shelf), { passive: true });
-  window.addEventListener("resize", () => updateWriteupShelfControls(shelf));
-}
-
-function updateWriteupShelfControls(shelf) {
-  const atStart = shelf.scrollLeft <= 4;
-  const atEnd = shelf.scrollLeft + shelf.clientWidth >= shelf.scrollWidth - 4;
-  document.querySelectorAll("[data-shelf-scroll]").forEach((button) => {
-    const direction = Number(button.dataset.shelfScroll);
-    button.disabled = direction < 0 ? atStart : atEnd;
-  });
-}
-
-function initWriteupControls(searchInput, filterNode, writeups) {
-  if (writeupControlsReady) return;
-  writeupControlsReady = true;
-
-  const categories = [...new Set(writeups.map((writeup) => writeup.category).filter(Boolean))];
-  if (filterNode) {
-    filterNode.innerHTML = ["all", ...categories].map((category) => `
-      <button type="button" class="${category === "all" ? "is-active" : ""}" data-writeup-category="${escapeAttribute(category)}">
-        ${category === "all" ? "All" : escapeHtml(category)}
-      </button>
-    `).join("");
-
-    filterNode.querySelectorAll("[data-writeup-category]").forEach((button) => {
-      button.addEventListener("click", () => {
-        activeWriteupCategory = button.dataset.writeupCategory || "all";
-        filterNode.querySelectorAll("[data-writeup-category]").forEach((item) => {
-          item.classList.toggle("is-active", item === button);
-        });
-        renderWriteupLibrary();
-      });
-    });
-  }
-
-  searchInput?.addEventListener("input", renderWriteupLibrary);
 }
 
 function renderHtbHeatmap(solves, grid, months) {
@@ -1059,9 +970,9 @@ async function loadHtbSolves() {
 
     const payload = await response.json();
     if (Array.isArray(payload?.items)) {
-      htbSolves = [...gaslightWriteups, ...payload.items];
+      htbSolves = [...standaloneWriteups, ...payload.items];
     }
   } catch (error) {
-    htbSolves = [...gaslightWriteups, ...htbSolves];
+    htbSolves = [...standaloneWriteups, ...htbSolves];
   }
 }
