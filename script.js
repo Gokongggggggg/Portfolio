@@ -123,6 +123,7 @@ const standaloneWriteups = [
     category: "Web",
     event: "K17 CTF",
     published: true,
+    award: "Best Writeup Award",
     summary: "The confirmed primitive was that urljoin() lets me control the final URL, and after the URL is built, there is no filtering at all.",
     cover: "public/images/events/k17-ctf-logo.png",
     coverAlt: "K17 CTF logo",
