@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../styles.css?v=hero-best-only">
   </head>
   <body class="writeup-body">
     <a class="skip-link" href="#top">Skip to main content</a>
@@ -22,108 +22,34 @@
         <a href="../index.html#writeup-catalog">Writeups</a>
       </nav>
     </header>
-
     <main id="top" class="writeup-page">
       <div class="writeup-layout writeup-layout--single reveal-target">
         <article class="writeup-article">
-          <header class="writeup-title-block">
-            <p class="eyebrow">V1T 2026 / Web</p>
-            <h1>HVL</h1>
-            <p>A short writeup of a web challenge where the flag is hidden using a custom font. Although the HTML only contains emoji, the browser renders them as flag characters through custom glyph mapping.</p>
-            <div class="writeup-meta-row">
-              <span>2026-07-06</span>
-              <span>Web</span>
-              <span>Custom Font</span>
-            </div>
-          </header>
-
-          <section id="summary" class="writeup-section writeup-section--plain">
-            <h2>Summary</h2>
-            <p>The page source and the rendered output display completely different text. After inspecting the JavaScript, there was no decoding logic involved. The actual trick was a custom font disguised as <code>NotoSans-Regular.ttf</code>, whose internal metadata revealed its real name: <code>Emoji To AZ Regular</code>.</p>
-            <ul class="writeup-facts">
-              <li><span>Vector</span><strong>Custom font</strong></li>
-              <li><span>Table</span><strong>CMAP</strong></li>
-              <li><span>Payload</span><strong>Emoji</strong></li>
-              <li><span>Result</span><strong>Glyph mapping</strong></li>
-            </ul>
-          </section>
-
-          <section id="source" class="writeup-section">
-            <h2>Reading The Source</h2>
-            <p>The first step was inspecting the page source and opening DevTools. The challenge uses a lyric visualizer, with the entire lyric already embedded in the client as a string. Since the payload was already available, the focus shifted from retrieving data to understanding how the browser rendered it.</p>
-            <div class="writeup-grid-images">
-              <figure class="writeup-figure">
-                <img src="../public/images/writeups/hvl/source-entry.png" alt="Initial source view for the HVL challenge" loading="lazy">
-                <figcaption>Started by inspecting the page source and loaded assets.</figcaption>
-              </figure>
-              <figure class="writeup-figure">
-                <img src="../public/images/writeups/hvl/sources-panel.png" alt="Browser Sources panel showing challenge resources" loading="lazy">
-                <figcaption>The Sources panel helped identify the relevant scripts and assets.</figcaption>
-              </figure>
-            </div>
-          </section>
-
-          <section id="dynamic" class="writeup-section">
-            <h2>Dynamic Analysis</h2>
-            <p>While inspecting the DOM, I noticed that the HTML content did not match the text rendered on the page. At first, I expected the JavaScript to contain some sort of decoding routine. After tracing the relevant functions, however, nothing modified the original string. That shifted my attention away from JavaScript and toward the browser's rendering layer, specifically CSS and custom fonts.</p>
-            <figure class="writeup-figure">
-              <img src="../public/images/writeups/hvl/dynamic-analysis.png" alt="Inspector showing a mismatch between HTML text and rendered user view" loading="lazy">
-              <figcaption>The HTML and rendered output do not match, pointing to the rendering layer rather than the source itself.</figcaption>
-            </figure>
-          </section>
-
-          <section id="payload" class="writeup-section">
-            <h2>Finding The Payload</h2>
-            <p>The complete lyric could be extracted directly from the client-side data. The interesting part appeared near the end, where several cues consisted entirely of emoji. Once rendered, those emoji began to resemble a typical CTF flag format.</p>
-            <figure class="writeup-figure">
-              <img src="../public/images/writeups/hvl/lyric-search.png" alt="Searching the page source for the embedded lyric data" loading="lazy">
-              <figcaption>The full lyric was already available in the client-side data.</figcaption>
-            </figure>
-            <figure class="writeup-figure">
-              <img src="../public/images/writeups/hvl/emoji-render.png" alt="Rendered emoji lyric looking like a flag fragment" loading="lazy">
-              <figcaption>The emoji sequence became the primary payload once its rendered output resembled a flag.</figcaption>
-            </figure>
-          </section>
-
-          <section id="font" class="writeup-section">
-            <h2>Custom Font</h2>
-            <p>The stylesheet loads a local font named <code>NotoSans-Regular.ttf</code>. The filename is intentionally misleading: its internal metadata identifies it as <code>Emoji To AZ Regular</code>. Inspecting the font's CMAP table reveals that emoji code points are mapped to readable glyph names such as <code>v</code>, <code>one</code>, <code>braceleft</code>, and <code>underscore</code>.</p>
-            <figure class="writeup-figure">
-              <img src="../public/images/writeups/hvl/font-face.png" alt="CSS font-face rule loading NotoSans-Regular.ttf" loading="lazy">
-              <figcaption>The <code>@font-face</code> rule provides the key clue: extract the custom font and inspect its mapping.</figcaption>
-            </figure>
-            <p>Example glyph mappings:</p>
-            <ul class="writeup-facts">
-              <li><span>U+1F600</span><strong>v</strong></li>
-              <li><span>U+1F603</span><strong>one</strong></li>
-              <li><span>U+1F601</span><strong>braceleft</strong></li>
-              <li><span>U+1F60D</span><strong>braceright</strong></li>
-            </ul>
-          </section>
-
-          <section id="tooling" class="writeup-section">
-            <h2>Tooling</h2>
-            <p>Since this technique is fairly repetitive, I built a small utility that lets me upload a font, paste the encoded text, and immediately inspect both the rendered output and the CMAP mapping. It is useful for CTF challenges that hide messages through custom font glyph substitution.</p>
-            <p>Simple web tool: <a href="https://gokongggggggg.github.io/ctf-font-decode/" rel="noreferrer">ctf-font-decode</a>.</p>
-            <figure class="writeup-figure">
-              <img src="../public/images/writeups/hvl/final-flag.png" alt="CTF font decode result showing the final flag" loading="lazy">
-              <figcaption>Combining the custom font with the emoji payload reveals the flag through glyph-name mapping.</figcaption>
-            </figure>
-          </section>
-
-          <section id="flag" class="writeup-section writeup-flag">
-            <p class="eyebrow">Flag</p>
-            <code>v1t{g04t_mck_hvl}</code>
-          </section>
+          <div class="gaslight-reader-status" id="writeup-reader-status" role="status">Loading writeup…</div>
+          <div id="writeup-reader-content"></div>
         </article>
       </div>
     </main>
-
     <footer class="site-footer">
       <p>Wisely WU</p>
       <a href="#top">Back to top</a>
     </footer>
-
-    <script src="../script.js"></script>
+    <noscript>
+      <p class="gaslight-reader-status">JavaScript is required to load this writeup.</p>
+    </noscript>
+    <script>
+      window.WRITEUP_PAGE = {
+        eyebrow: "V1T 2026 / Web",
+        title: "HVL",
+        description: "A short writeup of a web challenge where the flag is hidden using a custom font. Although the HTML only contains emoji, the browser renders them as flag characters through custom glyph mapping.",
+        date: "2026-07-06",
+        topic: "Web",
+        tags: ["Custom Font"],
+        file: "hvl.md",
+        imageFolder: "hvl"
+      };
+    </script>
+    <script src="../script.js?v=hero-best-only"></script>
+    <script src="writeup-reader.js?v=hero-best-only"></script>
   </body>
 </html>

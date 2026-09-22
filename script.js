@@ -213,6 +213,8 @@ const solvesPerPage = 8;
 let htbControlsReady = false;
 let activeCtfFilter = "all";
 let activeCategoryFilter = "all";
+let activeWriteupHero = 0;
+let catalogOutsideClickWired = false;
 const counterAnimations = new WeakMap();
 
 function renderHtbTracker() {
@@ -544,9 +546,9 @@ function renderWriteupLibrary() {
   }
   publishedWriteups.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  // Hero = only the writeup marked as award winner
-  const awardWriteup = publishedWriteups.find((w) => w.award) || null;
-  renderWriteupHero(awardWriteup);
+  // Hero = carousel of best writeups only (award winners)
+  const bestWriteups = publishedWriteups.filter((writeup) => writeup.award);
+  renderWriteupHero(bestWriteups.length ? bestWriteups : publishedWriteups.slice(0, 1));
 
   renderWriteupStats(publishedWriteups);
   renderWriteupCatalog(catalog, publishedWriteups);
@@ -584,32 +586,32 @@ function renderWriteupCatalog(catalog, writeups) {
       return a.localeCompare(b);
     });
 
+  const dropdownHtml = (name, label, options, filterAttr) => `
+    <div class="catalog-dropdown">
+      <button type="button" class="catalog-dropdown-toggle" data-dropdown-toggle="${name}" aria-expanded="false" aria-haspopup="true">
+        <span>${escapeHtml(label)}</span>
+        <strong data-dropdown-value="${name}">All</strong>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="catalog-dropdown-panel" data-dropdown-panel="${name}" hidden>
+        ${options.map((value) => `
+          <button type="button" data-${filterAttr}="${escapeAttribute(value)}">
+            <span>${value === "all" ? "All" : escapeHtml(value)}</span>
+            <small>0</small>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
   catalog.innerHTML = `
     <div class="catalog-toolbar">
       <div class="catalog-search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input class="solve-search" type="search" placeholder="Search by title, CTF, or technique..." aria-label="Search writeups" autocomplete="off" spellcheck="false">
       </div>
-      <div class="catalog-filter-wrap">
-        <span class="catalog-filter-label">CTF</span>
-        <div class="catalog-filter-bar" role="group" aria-label="Filter writeups by CTF">
-          ${["all", ...events.map((writeup) => writeup.event)].map((event) => `
-            <button type="button" data-ctf-filter="${escapeAttribute(event)}" aria-pressed="false">
-              ${event === "all" ? "All" : escapeHtml(event)}<small>0</small>
-            </button>
-          `).join("")}
-        </div>
-      </div>
-      <div class="catalog-filter-wrap">
-        <span class="catalog-filter-label">Category</span>
-        <div class="catalog-filter-bar" role="group" aria-label="Filter writeups by category">
-          ${["all", ...categories].map((category) => `
-            <button type="button" data-category-filter="${escapeAttribute(category)}" aria-pressed="false">
-              ${category === "all" ? "All" : escapeHtml(category)}<small>0</small>
-            </button>
-          `).join("")}
-        </div>
-      </div>
+      ${dropdownHtml("ctf", "CTF", ["all", ...events.map((writeup) => writeup.event)], "ctf-filter")}
+      ${dropdownHtml("category", "Category", ["all", ...categories], "category-filter")}
     </div>
     <p class="catalog-result-count" aria-live="polite"></p>
     <div class="catalog-grid"></div>
@@ -628,13 +630,6 @@ function renderWriteupCatalog(catalog, writeups) {
     ...(writeup.tags || [])
   ].map(normalizeSearch).join(" ").includes(query);
 
-  const setChipState = (button, value, active, count) => {
-    button.querySelector("small").textContent = count;
-    button.classList.toggle("is-zero", count === 0);
-    button.classList.toggle("is-active", active);
-    button.setAttribute("aria-pressed", active ? "true" : "false");
-  };
-
   const refreshCatalog = () => {
     const query = normalizeSearch(searchInput.value);
 
@@ -645,7 +640,9 @@ function renderWriteupCatalog(catalog, writeups) {
         (activeCategoryFilter === "all" || writeup.category === activeCategoryFilter) &&
         matchesSearch(writeup, query)
       ).length;
-      setChipState(button, event, event === activeCtfFilter, count);
+      button.querySelector("small").textContent = count;
+      button.classList.toggle("is-zero", count === 0);
+      button.classList.toggle("is-active", event === activeCtfFilter);
     });
 
     catalog.querySelectorAll("[data-category-filter]").forEach((button) => {
@@ -655,7 +652,9 @@ function renderWriteupCatalog(catalog, writeups) {
         (activeCtfFilter === "all" || writeup.event === activeCtfFilter) &&
         matchesSearch(writeup, query)
       ).length;
-      setChipState(button, category, category === activeCategoryFilter, count);
+      button.querySelector("small").textContent = count;
+      button.classList.toggle("is-zero", count === 0);
+      button.classList.toggle("is-active", category === activeCategoryFilter);
     });
 
     const filtered = writeups.filter((writeup) =>
@@ -671,23 +670,65 @@ function renderWriteupCatalog(catalog, writeups) {
     gridNode.innerHTML = filtered.length
       ? filtered.map((writeup, index) => renderWriteupCard(writeup, index)).join("")
       : `<p class="catalog-empty">No writeups match this CTF, category, or keyword.</p>`;
+
+    catalog.querySelector('[data-dropdown-value="ctf"]').textContent = activeCtfFilter === "all" ? "All" : activeCtfFilter;
+    catalog.querySelector('[data-dropdown-value="category"]').textContent = activeCategoryFilter === "all" ? "All" : activeCategoryFilter;
+    catalog.querySelector('[data-dropdown-toggle="ctf"]').classList.toggle("has-filter", activeCtfFilter !== "all");
+    catalog.querySelector('[data-dropdown-toggle="category"]').classList.toggle("has-filter", activeCategoryFilter !== "all");
+  };
+
+  const closeDropdowns = () => {
+    catalog.querySelectorAll(".catalog-dropdown").forEach((wrapper) => {
+      wrapper.querySelector(".catalog-dropdown-toggle").setAttribute("aria-expanded", "false");
+      wrapper.querySelector(".catalog-dropdown-panel").hidden = true;
+    });
   };
 
   searchInput.addEventListener("input", refreshCatalog);
+  catalog.querySelectorAll(".catalog-dropdown-toggle").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const panel = toggle.closest(".catalog-dropdown").querySelector(".catalog-dropdown-panel");
+      const willOpen = panel.hidden;
+      closeDropdowns();
+      panel.hidden = !willOpen;
+      toggle.setAttribute("aria-expanded", String(willOpen));
+    });
+  });
   catalog.querySelectorAll("[data-ctf-filter]").forEach((button) => {
     button.addEventListener("click", () => {
       activeCtfFilter = button.dataset.ctfFilter || "all";
       refreshCatalog();
+      closeDropdowns();
     });
   });
   catalog.querySelectorAll("[data-category-filter]").forEach((button) => {
     button.addEventListener("click", () => {
       activeCategoryFilter = button.dataset.categoryFilter || "all";
       refreshCatalog();
+      closeDropdowns();
     });
   });
 
   refreshCatalog();
+
+  if (!catalogOutsideClickWired) {
+    catalogOutsideClickWired = true;
+    const closeAllDropdowns = () => {
+      document.querySelectorAll(".catalog-dropdown-panel").forEach((panel) => {
+        panel.hidden = true;
+      });
+      document.querySelectorAll(".catalog-dropdown-toggle").forEach((toggle) => {
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    };
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest(".catalog-dropdown")) return;
+      closeAllDropdowns();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeAllDropdowns();
+    });
+  }
 }
 
 function renderWriteupCard(writeup, index) {
@@ -709,35 +750,115 @@ function renderWriteupCard(writeup, index) {
   `;
 }
 
-function renderWriteupHero(writeup) {
+function renderWriteupHero(writeups) {
   const hero = document.querySelector("#writeup-cinematic-hero");
-  if (!hero || !writeup) return;
+  if (!hero || !writeups.length) return;
 
-  const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+  const slideHtml = (writeup) => {
+    const mediaClass = `${writeup.coverStyle === "mascot" ? " is-mascot" : ""}${writeup.coverStyle === "logo" ? " is-logo" : ""}${writeup.coverStyle === "wide-logo" ? " is-wide-logo" : ""}${writeup.coverStyle === "mark" ? " is-event-mark" : ""}`;
+    return `
+      <div class="writeup-hero-slide" aria-roledescription="slide" aria-label="${escapeAttribute(writeup.name)}">
+        <div class="writeup-cinematic-media${mediaClass}" aria-hidden="true">
+          ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="">` : ""}
+          ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
+        </div>
+        <div class="writeup-cinematic-shade"></div>
+        <div class="writeup-cinematic-copy">
+          <div class="writeup-cinematic-kicker">
+            ${writeup.award ? `<span class="award-tag">🏆 ${escapeHtml(writeup.award)}</span>` : ""}
+            <span>${escapeHtml(writeup.event || "CTF")}</span>
+          </div>
+          <h1>${String(writeup.name || "Writeup").split(/\s+/).map((word) => `<span>${escapeHtml(word)}</span>`).join("")}</h1>
+          <div class="writeup-cinematic-meta">
+            <strong>${escapeHtml(writeup.category)}</strong>
+            <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
+            ${(writeup.tags || []).slice(0, 2).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
+          </div>
+          <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
+          <div class="hero-actions">
+            <a class="button primary" href="${escapeAttribute(writeup.writeupUrl)}">Read writeup</a>
+          </div>
+        </div>
+      </div>
+    `;
+  };
 
   hero.innerHTML = `
-    <div class="writeup-cinematic-media${mediaClass}" aria-hidden="true">
-      ${writeup.cover ? `<img src="${escapeAttribute(writeup.cover)}" alt="">` : ""}
-      ${writeup.coverStyle === "mark" ? `<div class="writeup-card-mark"><span>${escapeHtml(writeup.coverMark || "FIT")}</span><small>${escapeHtml(writeup.coverLabel || writeup.event || "Competition")}</small></div>` : ""}
-    </div>
-    <div class="writeup-cinematic-shade"></div>
-    <div class="writeup-cinematic-copy">
-      <div class="writeup-cinematic-kicker">
-        ${writeup.award ? `<span class="award-tag">🏆 ${escapeHtml(writeup.award)}</span>` : ""}
-        <span>${escapeHtml(writeup.event || "CTF")}</span>
+    <div class="writeup-hero-track">${writeups.map(slideHtml).join("")}</div>
+    ${writeups.length > 1 ? `
+      <button type="button" class="writeup-hero-arrow is-prev" data-hero-direction="-1" aria-label="Previous best writeup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="writeup-hero-arrow is-next" data-hero-direction="1" aria-label="Next best writeup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <div class="writeup-hero-dots" aria-label="Choose best writeup">
+        ${writeups.map((writeup, index) => `<button type="button" data-hero-slide="${index}" aria-label="${escapeAttribute(writeup.name)}"></button>`).join("")}
       </div>
-      <h1>${String(writeup.name || "Writeup").split(/\s+/).map((word) => `<span>${escapeHtml(word)}</span>`).join("")}</h1>
-      <div class="writeup-cinematic-meta">
-        <strong>${escapeHtml(writeup.category)}</strong>
-        <time datetime="${escapeAttribute(writeup.date)}">${formatArchiveDate(writeup.date)}</time>
-        ${(writeup.tags || []).slice(0, 2).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
-      </div>
-      <p>${escapeHtml(writeup.summary || writeup.lesson)}</p>
-      <div class="hero-actions">
-        <a class="button primary" href="${escapeAttribute(writeup.writeupUrl)}">Read writeup</a>
-      </div>
-    </div>
+    ` : ""}
   `;
+
+  const track = hero.querySelector(".writeup-hero-track");
+  const dots = [...hero.querySelectorAll("[data-hero-slide]")];
+  activeWriteupHero = Math.min(activeWriteupHero, writeups.length - 1);
+
+  const applyTransform = (offsetPx = 0) => {
+    track.style.transform = `translateX(calc(${-activeWriteupHero * 100}% + ${offsetPx}px))`;
+  };
+
+  const goTo = (index) => {
+    activeWriteupHero = (index + writeups.length) % writeups.length;
+    applyTransform();
+    dots.forEach((dot, dotIndex) => {
+      dot.toggleAttribute("aria-current", dotIndex === activeWriteupHero);
+    });
+  };
+
+  hero.querySelectorAll("[data-hero-direction]").forEach((button) => {
+    button.addEventListener("click", () => {
+      goTo(activeWriteupHero + Number(button.dataset.heroDirection));
+    });
+  });
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => goTo(Number(dot.dataset.heroSlide)));
+  });
+  hero.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goTo(activeWriteupHero - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goTo(activeWriteupHero + 1);
+    }
+  });
+
+  let dragStartX = null;
+  let dragOffset = 0;
+  hero.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    dragStartX = event.clientX;
+    dragOffset = 0;
+    track.style.transition = "none";
+  });
+  hero.addEventListener("pointermove", (event) => {
+    if (dragStartX === null) return;
+    dragOffset = event.clientX - dragStartX;
+    applyTransform(dragOffset);
+  });
+  const endDrag = () => {
+    if (dragStartX === null) return;
+    const threshold = Math.max(56, hero.clientWidth * 0.08);
+    const jumped = Math.abs(dragOffset) > threshold ? Math.sign(dragOffset) * -1 : 0;
+    dragStartX = null;
+    dragOffset = 0;
+    track.style.transition = "";
+    goTo(activeWriteupHero + jumped);
+  };
+  hero.addEventListener("pointerup", endDrag);
+  hero.addEventListener("pointercancel", endDrag);
+  hero.addEventListener("pointerleave", endDrag);
+
+  goTo(activeWriteupHero);
 }
 
 function renderHtbHeatmap(solves, grid, months) {
