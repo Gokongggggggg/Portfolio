@@ -1,46 +1,27 @@
-## Preface
-
-Well, this challenge was really interesting to me. It looked easy, yet it ended up as the second-least-solved challenge in the event. I think the reason is that it is almost an anti-LLM problem: the winning move was not a clever prompt or a sophisticated reconstruction algorithm, but simply looking at the image carefully and moving the pieces by hand.
+ez chall for humans tbh, but ended up 2nd least solved during the event - simply because this problem can't be slopped & everyone's a slopper nowadays 💀
 
 ## Summary
 
-The QR code had been split into fragments and pulled apart. The pieces were not randomly shuffled: neighboring regions still remained close to one another. Once that detail became clear, the challenge stopped being an algorithmic reconstruction problem and became a straightforward visual alignment task.
-
-- **Event:** BroncoCTF
-- **Category:** Misc
-- **Failed path:** Automation
-- **Solution:** Manual alignment
-
-## Dead Ends
-
-My first instinct was to automate the recovery. I tried several online QR repair tools, but none of them could read the image. I also brainstormed with an LLM and experimented with multiple reconstruction algorithms. Those attempts produced no usable QR code because they treated the fragments as a general puzzle instead of paying attention to how the challenge image had been arranged.
+At first, I tried several online QR recovery tools, but none of them worked. I brainstormed with an LLM and experimented with a few reconstruction algorithms - still failed. After examining the image more carefully, I realized the fragments weren't randomly shuffled; they had simply been pulled apart, with neighboring pieces staying close to each other. Based on that observation, I just manually aligned the fragments in Microsoft Paint until the QR code became readable.
 
 ![[fragmented-qr.png]]
-The original challenge image. The highlighted regions show pieces that still preserve their local neighborhood.
 
-## The Key Observation
-
-Looking at the image more carefully revealed the actual rule: the fragments had been pulled away from their original locations, not randomly permuted. Their relative positions were largely preserved. Finder-pattern corners, continuous black modules, and nearby fragment boundaries therefore provided enough information to restore the layout visually.
-
-This was the turning point. Instead of trying to infer a complex global arrangement, I only needed to move each local group back toward the center and align obvious neighboring edges.
-
-## Manual Reconstruction
-
-I opened the image in Microsoft Paint and moved the fragments into place. I used the three QR finder patterns as anchors, then adjusted the remaining pieces until the module grid became continuous enough for a scanner to recognize it. The result did not need to be pixel-perfect; QR error correction handled the small gaps and overlaps.
-
-![[manual-reconstruction.png]]
-The reconstructed QR code in Microsoft Paint. Careful alignment was enough to make it readable.
-
-## Scanning The Result
-
-After the manual reconstruction, an online QR scanner successfully decoded the image and returned a Canva link. Opening the recovered page and inspecting the rendered content revealed the flag.
+see the parts i circled in red? any human can tell right away that those aren't randomly shuffled - they're literally just pulled apart. so from there it's obvious you just need to drag them back together in ms paint
 
 ![[qr-scan-result.png]]
-The same type of online tool that failed on the fragmented input worked immediately after manual alignment.
+
+and here's the result after dragging everything back. honestly tho, you don't even need to fully restore it - a QR code only really needs the corner parts (the three finder patterns) to scan
+
+![[manual-reconstruction.png]]
+
+qr's recovered, and scanning it gives us a canva link
 
 ![[recovered-flag.png]]
-The recovered page contained the final flag in its rendered text.
 
-## Flag
+once we're inside the canva, there's a fully recovered qr - and obviously my first instinct was to scan it again, but it just loops back to the same canva link lol
+
+so i started thinking like the probset: since a qr really only needs the corners to be scannable, and the full recovered version shows "bronco{}" in the middle - that part was probably intentionally recovered by the author for us, right after we fix the 3 corners ourselves
+
+but since an area that small can't be scanned, i went for the low-cost approach: inspect element, in case there's hidden text somewhere 👀
 
 > `bronco{th3_h1dd3n_cu3}`
