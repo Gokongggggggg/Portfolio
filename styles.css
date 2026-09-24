@@ -5270,8 +5270,8 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   z-index: -1;
   inset: 0;
   background:
-    linear-gradient(90deg, #020712 4%, rgba(2, 7, 18, 0.96) 28%, rgba(2, 7, 18, 0.28) 70%, rgba(2, 7, 18, 0.42)),
-    linear-gradient(0deg, #020712 0%, transparent 36%);
+    linear-gradient(90deg, #020712 4%, rgba(2, 7, 18, 0.92) 24%, rgba(2, 7, 18, 0.16) 70%, rgba(2, 7, 18, 0.28)),
+    linear-gradient(0deg, #020712 0%, transparent 22%);
 }
 
 .writeup-cinematic-copy {
@@ -5483,14 +5483,14 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
   padding: 4px;
 }
 
 .catalog-card {
   display: grid;
-  grid-template-rows: 174px auto;
+  grid-template-rows: 208px auto;
   min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(169, 202, 255, 0.2);
@@ -5591,7 +5591,7 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 }
 
 .catalog-card-copy {
-  padding: 16px;
+  padding: 18px;
 }
 
 .catalog-card-award {
@@ -5613,7 +5613,7 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 
 .catalog-card-copy h3 {
   margin: 0;
-  font-size: clamp(0.98rem, 1.3vw, 1.15rem);
+  font-size: clamp(1.02rem, 1.4vw, 1.28rem);
   line-height: 1.25;
   text-transform: uppercase;
 }
@@ -5743,12 +5743,12 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   }
 
   .catalog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 12px;
   }
 
   .catalog-card {
-    grid-template-rows: 158px auto;
+    grid-template-rows: 178px auto;
   }
 }
 
@@ -6427,7 +6427,7 @@ html:has(.writeup-library-body) {
 /* Netflix-style writeup landing: copy left, artwork right */
 .writeup-library-body .writeup-cinematic-hero {
   display: grid;
-  min-height: clamp(650px, 84vh, 840px);
+  min-height: clamp(560px, 72vh, 740px);
   grid-template-columns: minmax(0, 0.92fr) minmax(480px, 1.08fr);
   align-items: stretch;
 }
@@ -6494,7 +6494,7 @@ html:has(.writeup-library-body) {
 
 @media (max-width: 860px) {
   .writeup-library-body .writeup-cinematic-hero {
-    min-height: 760px;
+    min-height: 690px;
     grid-template-columns: 1fr;
     grid-template-rows: minmax(300px, 44vh) auto;
   }
@@ -6532,7 +6532,7 @@ html:has(.writeup-library-body) {
 
 @media (max-width: 460px) {
   .writeup-library-body .writeup-cinematic-hero {
-    min-height: 740px;
+    min-height: 690px;
     grid-template-rows: minmax(260px, 38vh) auto;
   }
 
