@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="GaslightCTF writeup series covering five web challenges.">
-    <title>GaslightCTF Series | Wisely</title>
+    <meta name="description" content="BroncoCTF AOSINT writeup about geolocating four Arcane Odyssey screenshots to their islands.">
+    <title>AOSINT Writeup | Wisely</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?v=wu-new2">
   </head>
-  <body class="writeup-body gaslight-series-page">
+  <body class="writeup-body">
     <a class="skip-link" href="#top">Skip to main content</a>
     <header class="site-header blog-nav">
       <span class="blog-status" aria-label="Online">
@@ -23,23 +23,33 @@
       </nav>
     </header>
     <main id="top" class="writeup-page">
-      <div class="writeup-layout reveal-target">
-        <article class="writeup-article" id="gaslight-reader">
-          <div class="gaslight-reader-status" id="gaslight-reader-status" role="status">Loading writeup…</div>
-          <div id="gaslight-reader-content"></div>
+      <div class="writeup-layout writeup-layout--single reveal-target">
+        <article class="writeup-article">
+          <div class="gaslight-reader-status" id="writeup-reader-status" role="status">Loading writeup…</div>
+          <div id="writeup-reader-content"></div>
         </article>
       </div>
     </main>
-
     <footer class="site-footer">
       <p>Wisely WU</p>
       <a href="#top">Back to top</a>
     </footer>
-
     <noscript>
-      <p class="gaslight-reader-status">JavaScript is required to load this writeup series.</p>
+      <p class="gaslight-reader-status">JavaScript is required to load this writeup.</p>
     </noscript>
+    <script>
+      window.WRITEUP_PAGE = {
+        eyebrow: "BroncoCTF / OSINT",
+        title: "AOSINT",
+        description: "A BroncoCTF OSINT writeup on pinpointing the islands behind four Arcane Odyssey screenshots using the community wiki maps, scenery clues, and faction symbols.",
+        date: "2026-09-24",
+        topic: "OSINT",
+        tags: ["Geolocation", "Arcane Odyssey"],
+        file: "bronco-aosint.md",
+        imageFolder: "bronco-aosint"
+      };
+    </script>
     <script src="../script.js?v=wu-new2"></script>
-    <script src="gaslightctf.js?v=series-reader"></script>
+    <script src="writeup-reader.js?v=wu-new2"></script>
   </body>
 </html>

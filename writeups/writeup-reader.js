@@ -106,7 +106,10 @@ function peekCaption(lines, index) {
 }
 
 function renderMarkdown(markdown, imageFolder) {
-  const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
+  const lines = markdown
+    .replace(/\r\n?/g, "\n")
+    .replace(/\t/g, "  ")
+    .split("\n");
   const blocks = [];
   let paragraph = [];
   let code = [];

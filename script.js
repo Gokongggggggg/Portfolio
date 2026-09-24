@@ -30,6 +30,40 @@ let htbSolves = [
 
 const standaloneWriteups = [
   {
+    date: "2026-09-24",
+    type: "challenge",
+    solveType: "ctf",
+    name: "AOSINT",
+    category: "OSINT",
+    event: "BroncoCTF",
+    published: true,
+    summary: "Four Arcane Odyssey screenshots had to be pinned to their islands, using the community wiki maps, scenery details, and faction symbols as anchors.",
+    cover: "public/images/events/broncoctf-mascot.png",
+    coverAlt: "BroncoCTF mascot",
+    coverStyle: "mascot",
+    lesson: "Cross-reference in-game scenery against community wiki maps, and let contextual clues like filenames and faction symbols narrow down ambiguous locations.",
+    link: "writeups/bronco-aosint.html",
+    writeupUrl: "writeups/bronco-aosint.html",
+    tags: ["OSINT", "BroncoCTF", "Geolocation", "Arcane Odyssey"]
+  },
+  {
+    date: "2026-09-24",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Strongest Beaver",
+    category: "OSINT",
+    event: "Beavers CTF",
+    published: true,
+    summary: "The team roster dead-ended, so the pivot was to the TryHackMe Belarus all-time leaderboard, which led to a LinkedIn profile and the current employer.",
+    cover: "public/images/events/beavers-ctf-logo.png",
+    coverAlt: "Beavers CTF shield logo",
+    coverStyle: "logo",
+    lesson: "When a direct roster search grinds to a halt, re-read the challenge description and pivot to the hinted platforms - rankings and professional profiles often link the real identity.",
+    link: "writeups/junior-crypt.html",
+    writeupUrl: "writeups/junior-crypt.html",
+    tags: ["OSINT", "Beavers CTF", "THM Leaderboard", "LinkedIn"]
+  },
+  {
     date: "2026-08-17",
     type: "challenge",
     solveType: "ctf",
