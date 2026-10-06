@@ -220,24 +220,22 @@ const standaloneWriteups = [
   }
 ];
 
-const upsolveTargets = [
+const pendingWriteups = [
   {
-    name: "Enterprise",
-    event: "Wreckit 7.0",
-    completed: false,
-    status: "Coming soon",
-    cover: "public/images/events/wreckit-7-cover.webp",
-    coverAlt: "WRECK-IT 7.0 shield and circuit logo",
-    note: "Queued for a proper post-competition solve, review, and documented lesson."
+    name: "Migurimental",
+    event: "SEKAI CTF",
+    status: "On progress",
+    cover: "public/images/events/sekai-ctf-logo.png",
+    coverAlt: "SEKAI CTF flag logo",
+    note: "Writeup for this challenge is being written - check back soon."
   },
   {
-    name: "Tailgate",
-    event: "Wreckit 7.0",
-    completed: false,
-    status: "Coming soon",
-    cover: "public/images/events/wreckit-7-cover.webp",
-    coverAlt: "WRECK-IT 7.0 shield and circuit logo",
-    note: "Queued for a proper post-competition solve, review, and documented lesson."
+    name: "<\\w+",
+    event: "SEKAI CTF",
+    status: "On progress",
+    cover: "public/images/events/sekai-ctf-logo.png",
+    coverAlt: "SEKAI CTF flag logo",
+    note: "Writeup for this challenge is being written - check back soon."
   }
 ];
 
@@ -337,32 +335,12 @@ function renderWriteupActivity() {
   const recentCutoff = new Date();
   recentCutoff.setDate(recentCutoff.getDate() - 30);
   recentCutoff.setHours(0, 0, 0, 0);
-  const completedUpsolves = upsolveTargets.filter((target) => target.completed).length;
-  const totalUpsolves = upsolveTargets.length;
-  const remainingUpsolves = totalUpsolves - completedUpsolves;
-  const upsolveProgress = totalUpsolves ? Math.round((completedUpsolves / totalUpsolves) * 100) : 0;
 
   document.querySelectorAll('[data-writeup-activity-stat="total"]').forEach((node) => {
     setStatValue(node, sortedSolves.length);
   });
   document.querySelectorAll('[data-writeup-activity-stat="recent"]').forEach((node) => {
     setStatValue(node, sortedSolves.filter((solve) => new Date(solve.date) >= recentCutoff).length);
-  });
-  document.querySelectorAll('[data-upsolve-stat="completed"]').forEach((node) => {
-    setStatValue(node, completedUpsolves);
-  });
-  document.querySelectorAll('[data-upsolve-stat="total"]').forEach((node) => {
-    node.textContent = totalUpsolves;
-  });
-  document.querySelectorAll('[data-upsolve-remaining]').forEach((node) => {
-    node.textContent = remainingUpsolves
-      ? `${remainingUpsolves} ${remainingUpsolves === 1 ? "challenge" : "challenges"} I still need to upsolve.`
-      : "All committed challenges have been upsolved.";
-  });
-  document.querySelectorAll('[data-upsolve-progress]').forEach((node) => {
-    node.style.setProperty("--upsolve-progress", `${upsolveProgress}%`);
-    node.setAttribute("aria-valuenow", String(completedUpsolves));
-    node.setAttribute("aria-valuemax", String(totalUpsolves));
   });
 
   if (!sortedSolves.length) {
@@ -701,9 +679,11 @@ function renderWriteupCatalog(catalog, writeups) {
       ? `${writeups.length} writeups`
       : `Showing ${filtered.length} of ${writeups.length} writeups`;
 
-    gridNode.innerHTML = filtered.length
+    const showPending = !query && activeCtfFilter === "all" && activeCategoryFilter === "all";
+    gridNode.innerHTML = (filtered.length
       ? filtered.map((writeup, index) => renderWriteupCard(writeup, index)).join("")
-      : `<p class="catalog-empty">No writeups match this CTF, category, or keyword.</p>`;
+      : `<p class="catalog-empty">No writeups match this CTF, category, or keyword.</p>`)
+      + (showPending ? pendingWriteups.map(renderPendingCard).join("") : "");
 
     catalog.querySelector('[data-dropdown-value="ctf"]').textContent = activeCtfFilter === "all" ? "All" : activeCtfFilter;
     catalog.querySelector('[data-dropdown-value="category"]').textContent = activeCategoryFilter === "all" ? "All" : activeCategoryFilter;
@@ -763,6 +743,22 @@ function renderWriteupCatalog(catalog, writeups) {
       if (event.key === "Escape") closeAllDropdowns();
     });
   }
+}
+
+function renderPendingCard(target) {
+  return `
+    <article class="catalog-card catalog-card-upsolve" tabindex="0">
+      <div class="catalog-card-media upsolve-card-media">
+        <img src="${escapeAttribute(target.cover)}" alt="${escapeAttribute(target.coverAlt)}" loading="lazy">
+        <span class="catalog-card-category upsolve-status">${escapeHtml(target.status)}</span>
+        <p class="upsolve-hover-note">${escapeHtml(target.note)}</p>
+      </div>
+      <div class="catalog-card-copy">
+        <h3>${escapeHtml(target.name)}</h3>
+        <p><span>${escapeHtml(target.event)}</span><strong>Writeup soon</strong></p>
+      </div>
+    </article>
+  `;
 }
 
 function renderWriteupCard(writeup, index) {

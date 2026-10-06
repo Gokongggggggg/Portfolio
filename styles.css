@@ -5684,13 +5684,16 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 }
 
 .upsolve-card-media {
-  background: #090a0c;
+  display: grid;
+  place-items: center;
 }
 
 .upsolve-card-media > img {
+  width: 56%;
+  height: auto;
   padding: 0;
-  object-fit: cover;
-  filter: saturate(0.45) brightness(0.7) contrast(1.04);
+  object-fit: contain;
+  filter: none;
 }
 
 .upsolve-status {
@@ -5729,7 +5732,7 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
 
 .catalog-card-upsolve:hover .upsolve-card-media > img,
 .catalog-card-upsolve:focus-visible .upsolve-card-media > img {
-  filter: saturate(0.62) brightness(0.78) contrast(1.04);
+  transform: scale(1.04);
 }
 
 @media (max-width: 760px) {
