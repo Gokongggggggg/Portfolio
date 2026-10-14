@@ -30,6 +30,23 @@ let htbSolves = [
 
 const standaloneWriteups = [
   {
+    date: "2026-10-14",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Migurimental",
+    category: "Web",
+    event: "SEKAI CTF",
+    published: true,
+    summary: "Auditing Next.js Edge vs Node runtime parsing divergences to exploit query param normalization and bypass middleware via internal data route assetPrefix stripping.",
+    cover: "public/images/events/sekai-ctf-logo.png",
+    coverAlt: "SEKAI CTF flag logo",
+    coverStyle: "logo",
+    lesson: "Asymmetry between Edge and Node runtime parsing logic enables middleware bypass and cookie/parameter desync.",
+    link: "writeups/migurimental.html",
+    writeupUrl: "writeups/migurimental.html",
+    tags: ["Web", "SEKAI CTF", "Next.js", "Edge Runtime", "Bypass"]
+  },
+  {
     date: "2026-09-24",
     type: "challenge",
     solveType: "ctf",
@@ -221,14 +238,6 @@ const standaloneWriteups = [
 ];
 
 const pendingWriteups = [
-  {
-    name: "Migurimental",
-    event: "SEKAI CTF",
-    status: "On progress",
-    cover: "public/images/events/sekai-ctf-logo.png",
-    coverAlt: "SEKAI CTF flag logo",
-    note: "Writeup for this challenge is being written - check back soon."
-  },
   {
     name: "<\\w+",
     event: "SEKAI CTF",

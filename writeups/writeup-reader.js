@@ -78,7 +78,7 @@ function highlightCode(value) {
 }
 
 function isBlockStart(line) {
-  return /^(!\[\[|```|#{1,3}\s|>|\s*[-*]\s|\s*\d+[.)]\s)/.test(line);
+  return /^(!\[\[|!\[|```|#{1,3}\s|>|\s*[-*]\s|\s*\d+[.)]\s|\|)/.test(line);
 }
 
 function figureHtml(source, caption, imageFolder) {
@@ -161,17 +161,49 @@ function renderMarkdown(markdown, imageFolder) {
       continue;
     }
 
-    const image = line.match(/^\s*!\[\[([^\]]+)\]\]\s*$/);
-    if (image) {
+    const wikiImage = line.match(/^\s*!\[\[([^\]]+)\]\]\s*$/);
+    const standardImage = line.match(/^\s*!\[([^\]]*)\]\((https?:\/\/[^\s)]+)\)\s*$/);
+    if (wikiImage || standardImage) {
       flushParagraph();
+      const source = wikiImage ? wikiImage[1].trim() : standardImage[2].trim();
+      const fallbackAlt = standardImage ? standardImage[1].trim() : "";
       const { caption, next } = peekCaption(lines, index);
-      const figure = figureHtml(image[1].trim(), caption, imageFolder);
+      const figure = figureHtml(source, caption || fallbackAlt, imageFolder);
       if (list && list.items.length) {
         list.items[list.items.length - 1].figures.push(figure);
       } else {
         blocks.push(figure);
       }
       index = next;
+      continue;
+    }
+
+    const tableRow = line.match(/^\s*\|(.+)\|\s*$/);
+    if (tableRow && index + 1 < lines.length && /^\s*\|(\s*[-:]+[-|\s:]*)\|\s*$/.test(lines[index + 1])) {
+      flushParagraph();
+      flushList();
+      const headerCells = tableRow[1].split("|").map((cell) => cell.trim());
+      index++; // advance past separator row
+      const bodyRows = [];
+      while (index + 1 < lines.length) {
+        const nextRow = lines[index + 1].match(/^\s*\|(.+)\|\s*$/);
+        if (!nextRow) break;
+        const cells = nextRow[1].split("|").map((cell) => cell.trim());
+        bodyRows.push(cells);
+        index++;
+      }
+      blocks.push(`
+        <div class="writeup-table-wrap">
+          <table class="writeup-table">
+            <thead>
+              <tr>${headerCells.map((h) => `<th>${renderInlineMarkdown(h)}</th>`).join("")}</tr>
+            </thead>
+            <tbody>
+              ${bodyRows.map((row) => `<tr>${row.map((c) => `<td>${renderInlineMarkdown(c)}</td>`).join("")}</tr>`).join("\n")}
+            </tbody>
+          </table>
+        </div>
+      `);
       continue;
     }
 
@@ -190,10 +222,46 @@ function renderMarkdown(markdown, imageFolder) {
       flushList();
       const quoted = [quote[1]];
       while (index + 1 < lines.length) {
-        const continuation = lines[index + 1].match(/^>\s?(.*)$/);
-        if (!continuation) break;
-        quoted.push(continuation[1]);
-        index++;
+        const nextLine = lines[index + 1];
+        const quoteContinuation = nextLine.match(/^\s*>\s?(.*)$/);
+        if (quoteContinuation) {
+          quoted.push(quoteContinuation[1]);
+          index++;
+          continue;
+        }
+        const indentContinuation = nextLine.match(/^\s{2,}(.*)$/);
+        if (indentContinuation) {
+          quoted.push(indentContinuation[1]);
+          index++;
+          continue;
+        }
+        break;
+      }
+      const calloutMatch = quoted[0].match(/^\[!([a-zA-Z_-]+)\]([+-]?)(?:\s+(.*))?$/);
+      if (calloutMatch) {
+        const type = calloutMatch[1].toLowerCase();
+        const collapsed = calloutMatch[2] === "-";
+        const title = (calloutMatch[3] || type).trim();
+        const innerMarkdown = quoted.slice(1).join("\n");
+        blocks.push(`
+          <details class="writeup-callout writeup-callout--${escapeText(type)}"${collapsed ? "" : " open"}>
+            <summary class="writeup-callout-title">
+              <span class="writeup-callout-left">
+                <span class="writeup-callout-badge">${escapeText(type.toUpperCase())}</span>
+                <span class="writeup-callout-label">${renderInlineMarkdown(title)}</span>
+              </span>
+              <span class="writeup-callout-hint" aria-hidden="true">
+                <span class="hint-closed">Expand</span>
+                <span class="hint-open">Collapse</span>
+                <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </summary>
+            <div class="writeup-callout-body">
+              ${renderMarkdown(innerMarkdown, imageFolder)}
+            </div>
+          </details>
+        `);
+        continue;
       }
       const content = quoted.join("\n").trim();
       const flag = content.match(/^`([^`]+)`$/);
@@ -205,7 +273,7 @@ function renderMarkdown(markdown, imageFolder) {
           </section>
         `);
       } else {
-        blocks.push(`<blockquote>${renderInlineMarkdown(content)}</blockquote>`);
+        blocks.push(`<blockquote>${renderMarkdown(quoted.join("\n"), imageFolder)}</blockquote>`);
       }
       continue;
     }
