@@ -61,9 +61,22 @@ So now we know the mechanic: `normalizeNextQueryParam` ->  strips the `nxtP` pre
 
 But before we exploit this, let’s answer the question: **Why does Next.js even have params like `nxtP`?**
 
-In Next.js, there is a mechanism called SPA (Single Page Application). We won't explain this fully, but basically it stops the browser from reloading when users navigate between pages. To make this work, Next.js uses internal system requests, and `nxtP` is how it marks them.
+In Next.js, there is a mechanism to load pages faster. To do this, Next.js uses internal system requests, and `nxtP` is one of the markers used to identify them.
 
-At this point we know how the normalizeNextQueryParam() works. The next question is where it gets called from because if this is really exploitable, we need to know where the gate in is.
+For example, imagine a marketplace app. When you hover over a product link, Next.js can prefetch that page in the background. So if you later click it, the page loads much faster. This prefetch is done via a system request, and again, `nxtP` is used as the marker.
+
+Let’s say you hover over **Product A**, which has `id=1`. The destination link for the user is something like:
+
+```
+https://target/product/1
+```
+But the prefetch request will look like this:
+```
+https://target/product/1?nxtPid=1
+```
+This is basically Next.js telling the server: "Hey, prefetch product with id=1." But it cannot simply use id=1, because id is meant for user-controlled requests. So Next.js uses the nxtP prefix as an internal marker to distinguish its own system requests from normal user traffic
+
+At this point we know how the `normalizeNextQueryParam()` works. The next question is where it gets called from because if this is really exploitable, we need to know where the gate in is.
 
 ![[Pasted image 20261014114811.png]]
 
