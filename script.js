@@ -30,6 +30,23 @@ let htbSolves = [
 
 const standaloneWriteups = [
   {
+    date: "2026-11-07",
+    type: "challenge",
+    solveType: "ctf",
+    name: "Golf Jail",
+    category: "Web",
+    event: "SEKAI CTF",
+    published: true,
+    summary: "Bypassing a 30-character XSS constraint using baseURI, and exfiltrating the flag through WebRTC STUN UDP packets past default-src 'none' CSP.",
+    cover: "public/images/events/sekai-ctf-logo.png",
+    coverAlt: "SEKAI CTF flag logo",
+    coverStyle: "logo",
+    lesson: "Bypass strict character limits via baseURI and exfiltrate through WebRTC STUN UDP requests to defeat default-src 'none' CSP.",
+    link: "writeups/golf-jail.html",
+    writeupUrl: "writeups/golf-jail.html",
+    tags: ["Web", "SEKAI CTF", "XSS", "CSP Bypass", "WebRTC"]
+  },
+  {
     date: "2026-10-14",
     type: "challenge",
     solveType: "ctf",
