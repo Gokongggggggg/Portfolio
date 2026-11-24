@@ -4917,10 +4917,10 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   inset: 50% auto auto 50%;
   width: clamp(112px, 32%, 150px);
   height: auto;
-  padding: 10px;
-  border: 1px solid rgba(114, 214, 255, 0.34);
-  background: #fff;
-  box-shadow: 0 0 0 10px rgba(114, 214, 255, 0.055), 0 22px 44px rgba(0, 0, 0, 0.38);
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
   transform: translate(-50%, -50%);
 }
 
@@ -5242,10 +5242,10 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   width: 44%;
   height: auto;
   margin: 18% 0 0 38%;
-  border: 1px solid rgba(114, 214, 255, 0.38);
-  background: #fff;
-  padding: 22px;
-  box-shadow: 0 0 0 16px rgba(114, 214, 255, 0.055), 0 34px 70px rgba(0, 0, 0, 0.48);
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
   transform: rotate(3deg);
 }
 
@@ -5541,9 +5541,9 @@ body.is-scroll-nudge .wallpaper-hero-content::after {
   width: 96px;
   height: 96px;
   margin: 38px auto 0;
-  border: 1px solid rgba(114, 214, 255, 0.34);
-  background: #fff;
-  padding: 7px;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
 .catalog-card-media.is-wide-logo > img {

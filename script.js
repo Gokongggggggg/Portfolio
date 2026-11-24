@@ -30,6 +30,23 @@ let htbSolves = [
 
 const standaloneWriteups = [
   {
+    date: "2026-11-24",
+    type: "challenge",
+    solveType: "ctf",
+    name: "1126 - whatevidc",
+    category: "Web",
+    event: "Intigriti",
+    published: true,
+    summary: "Reversing a custom binary server to bypass SHA-256 signature verification via length logic flaws and exfiltrate memory using unconstrained Brainfuck pointer arithmetic.",
+    cover: "public/images/events/intigriti-logo.png",
+    coverAlt: "Intigriti shield logo",
+    coverStyle: "logo",
+    lesson: "Bypass signature validation using length summation logic faults, then leverage an unconstrained Brainfuck interpreter to read flag memory via pointer offsets.",
+    link: "writeups/intigriti-1126-whatevidc.html",
+    writeupUrl: "writeups/intigriti-1126-whatevidc.html",
+    tags: ["Web", "Rev", "Intigriti", "Brainfuck", "Custom Protocol", "Logic Bug"]
+  },
+  {
     date: "2026-11-07",
     type: "challenge",
     solveType: "ctf",
