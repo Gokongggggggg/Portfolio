@@ -75,7 +75,8 @@ If you try reading that example from top to bottom, you’ll definitely be confu
 
 > [!note]- How we know that decimal is representing char - for those who don't know
 >
->When you see a case that's a big number like `1347175752`, even though it only reads 4 bytes from user input, most likely that's a 4-byte string represented as a number. Computers only store numbers (bits), and the decompiler just picks a human-readable way to show them here it chose decimal. It could look different in another tool because each tool has its own default format for the same bits: some show hex (`0x504C4548`), some even show the string (`'HELP'`). Same value, just different display.
+>When you see a case with a big number like 1347175752, even though the program only reads 4 bytes of input, that's usually a 4-character string packed into an integer. Computers store everything as bits, and the decompiler just picks how to display them - here it chose decimal. Another tool might show hex (0x504C4548) or even the string ('HELP'). Same bits, different display.
+>To read it: convert to hex, then reverse the byte order. It's packed little-endian, that just means the lowest byte is stored first, so the bytes sit backwards compared to how you'd read the string. Reversing puts them in the right order, and you get HELP.
 >
 >Let's prove what we just said
 >
