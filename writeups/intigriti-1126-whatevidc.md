@@ -120,7 +120,7 @@ let's verify our thesis
 
 ![[Pasted image 20261124081704.png]]
 
-Inside `sub_405a00` it calls another function, `sub_4055d0`, and that one just initializes a bunch of fields: 1779033703, 3144134277, 1013904242, `0xa54ff53a`, and so on. For those who don't know crypto, those 8 numbers are the starting state that SHA-256 always uses & fixed, every implementation loads the exact same values. So this is confirmed SHA-256. And no, we're not going to crack it, because if you've been paying attention there's already a logic fault right before this function gets called.
+Inside `sub_405a00` it calls another function, `sub_4055d0`, and that one just initializes a bunch of fields: 1779033703, 3144134277, 1013904242, 0xa54ff53a, and so on. For those who don't know crypto, those 8 numbers are the starting state that SHA-256 always uses & fixed, every implementation loads the exact same values. So this is confirmed SHA-256. And no, we're not going to crack it, because if you've been paying attention there's already a logic fault right before this function gets called.
 
 so where?
 
