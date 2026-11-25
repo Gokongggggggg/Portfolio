@@ -54,11 +54,12 @@ First thing I do is find where `/the_real.flag` is used why? Because that's our 
 
 Scroll down a bit from the flag code .we find the super secret auth code. This is one of the interesting parts  if you remember the changelog, version 2.0.0 said the custom protocol is "protected by a very good secret to allow execution of RSA-2048 signed code." Most likely this is the secret the docs refer to  or yeah, it could just be a red herring. Let's follow where it's used to prove our hypothesis.
 
+![[Pasted image 20261122181415.png]]
+
+
 ![[Pasted image 20261122175751.png]]
 
 So basically from the code above, we can see the app inits the super secret into v21-v27, preps an empty buffer at v14-v20, then recv reads the client's input into that buffer. After that it compares the user input against the secret
-
-![[Pasted image 20261122181415.png]]
 
 This confirms our earlier hypothesis: the super secret is indeed the secret gating the RSA-2048 signed code execution. And there's still a bunch of logic below the auth check, so knowing the secret doesn't instantly get us the flag it just gets us pass the first check.
 
