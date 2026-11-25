@@ -125,7 +125,7 @@ Inside `sub_405a00` it calls another function, `sub_4055d0`, and that one just i
 so where?
 
 The fault is on `sub_405a00(&v29[v36], v35 + v33, v9)`. 
-Let's trace it with a simple example: say code len = 10 and data len = 10.
+Let's trace it with a simple example: say code len = 10 and data len = 10. `remember v35 is code length , v33 is data length`
 
 ![[Pasted image 20261124085428.png]]
 
