@@ -109,7 +109,7 @@ So to move forward, let's think about our options. Can we upload our own code, o
 
 So our goal now is to figure out how the signature gets checked
 
-In the EXEC block there's an interesting function call: `sub_405a00(&v29[v36], v35 + v33, v9)`. If we pass the checks above it, `v35` is the CODE length and `v33` the DATA length, so it's using the total of code len + data len. We don't know what this function is yet, but it looks like the signature is being verified over the whole code + data.
+In the EXEC block there's an interesting function call: `sub_405a00(&v29[v36], v35 + v33, v9)`. If we pass the checks above it, `v35` is the CODE length and `v33` the DATA length, so it's using the total of code len + data len. We don't know what this function is yet, `but it looks like the signature is being verified over the whole code + data.`
 
 >[!note]- How we know v35 is CODE length and v33 is DATA length - for those who don't know
 >You can trace it yourself. In the CODE block, v35 gets set from v40. And remember, every command (CODE, DATA, HELP, EXEC) first reads the input length, and that length lands in v40. Same story for v33 in the DATA block, it's also set from v40. So v35 ends up holding the CODE length and v33 the DATA length.
