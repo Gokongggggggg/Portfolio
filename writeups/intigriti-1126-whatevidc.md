@@ -67,7 +67,7 @@ Alright, let's understand the logic that runs after we pass the first check hope
 
 ![[Pasted image 20261123204900.png]]
 
-In rev-eng, you don't have to understand everything top-down. The better move is usually just finding the part that looks _interesting_, then tracing backwards to see how the flow even got there. 
+In rev-eng, you don't have to understand everything top-down. The better move is usually just finding the part that looks interesting, then tracing backwards to see how the flow even got there. 
 for example, like the one I took a screenshot of above. 
 
 If you try reading that example from top to bottom, you’ll definitely be confused about what it’s actually trying to do. It suddenly asks for 1 byte which must be 'w' then asks for 4 bytes which must be less than 0x400 and so on; it’s strange, isn’t it? (We’re lacking some context here.)
@@ -88,28 +88,31 @@ If you try reading that example from top to bottom, you’ll definitely be confu
 >
 >
 
-So yeah, like I said  find the interesting part. Scroll down and boom, there's a `HELP` case. It `memcpy`s 1112 bytes from `&g_4089d0` into a local buffer, then `send`the whole thing straight to us , we still have no clue what &g_4089d0 even holds. But since it's the HELP case, it's almost certainly a hint the author left on purpose,
+So yeah, like I said  find the interesting part. Scroll down and boom, there's a `HELP` case. It `memcpy`s 1112 bytes from `&g_4089d0` into a local buffer, then `send`the whole thing straight to us , we still have no clue what &g_4089d0 even holds. But since it's the `HELP` case, it's almost certainly a `hint` the author left on purpose,
 
 Now we backtrack: what do we need to send to actually trigger HELP? Turns out it's just those 4 blocks up top that confused us when reading top-down directly the mystery `'w'` byte, the length capped at `0x400`, the extra 4 bytes. They're not random checks, they're the door: open with `'w'`, send a length (HELP has no payload, so `0`), then the 4-byte tag. And read the whole thing again with that context so it becomes clear.
 
 ![[Pasted image 20261123215311.png]]
-And boom, we were right HELP leaks the juicy stuff. Look at what I underlined in the output: CODE, DATA, SIGN, EXEC. And if you look at the bytes _between_ those tags (CODE to DATA, DATA to SIGN, and so on), they aren't just noise they're actualy example inputs. 
+And boom, we were right HELP leaks the juicy stuff. Look at what I underlined in the output: CODE, DATA, SIGN, EXEC. And if you look at the bytes between those tags (CODE to DATA, DATA to SIGN, and so on), they aren't just noise they're actualy example inputs. 
 
 So HELP didn't just give us the command names, it showed us exactly what each one expects. From this we get two things at once: the flow (CODE loads the interpreter, DATA feeds the program, SIGN attaches the signature, EXEC runs it) and a working sample payload for every command.
 
-Let's try the HELP payload & see what we got
+Let's try the payload from `HELP` & see what we got
 
 ![[Pasted image 20261124074359.png]]
 
-Interesting the output we got is "I hope you like this so far keep going." This shows that what we’ve been doing is on the right track.
+Interesting the output we got is `"I hope you like this so far keep going."` This shows that what we’ve been doing is on the right track.
 
-So to move forward, let's think about our options. Can we upload our own code, our own data? Maybe. But before that, there's one thing we gotta check: how does the signature actually work? If it verifies everything we send, then we'd have to beat it first either find a logic fault in how it's checked, or crack the crypto itself.
+So to move forward, let's think about our options. Can we upload our own code, our own data? Maybe. But before that, there's one thing we gotta check: `how does the signature actually work?` If it verifies everything we send, then we'd have to beat it first either find a logic fault in how it's checked, or crack the crypto itself.
 
 ![[Pasted image 20261124080124.png]]
 
 So our goal now is to figure out how the signature gets checked
 
 In the EXEC block there's an interesting function call: `sub_405a00(&v29[v36], v35 + v33, v9)`. If we pass the checks above it, `v35` is the CODE length and `v33` the DATA length, so it's using the total of code len + data len. We don't know what this function is yet, but it looks like the signature is being verified over the whole code + data.
+
+>[!note]- How we know v35 is CODE length and v33 is DATA length - for those who don't know
+>You can trace it yourself. In the CODE block, v35 gets set from v40. And remember, every command (CODE, DATA, HELP, EXEC) first reads the input length, and that length lands in v40. Same story for v33 in the DATA block, it's also set from v40. So v35 ends up holding the CODE length and v33 the DATA length.
 
 let's verify our thesis
 
