@@ -135,7 +135,7 @@ So what do we put in the malicious payload? Remember the example data looked lik
 
 ![[Pasted image 20261124092140.png]]
 
-Look at the decompiled BF interpreter we pulled from HELP. It does run like a normal interpreter the `0x3e` (`>`) case just moves the cell pointer by one, and the other commands do their thing too. But the problem is there's no bounds check anywhere, so the pointer can wander wherever we want nothing stops it going too far forward or too far back. That's what lets us access any memory, read it with `.` or even write it with `+`/`-`
+Look at the decompiled BF interpreter we pulled from HELP. It does run like a normal interpreter the `0x3e` ( `>` ) case just moves the cell pointer by one, and the other commands do their thing too. `But the problem is there's no bounds check anywhere`, so the pointer can wander wherever we want nothing stops it going too far forward or too far back. That's what lets us access any memory, read it with `.` or even write it with `+`/`-`
 
 ![[Pasted image 20261124093437.png]]
 
